@@ -5,7 +5,7 @@
 ## Members
 * U'REN, Donald (s3686963)
 * LEE, Ge (s3776409)
-* SURNAME, GivenName (sXXXX)
+* KHOSRAVI, Ali (s3788120)
 * SURNAME, GivenName (sXXXX)
 * SURNAME, GivenName (sXXXX)
 
