@@ -4,7 +4,7 @@
 
 ## Members
 * U'REN, Donald (s3686963)
-* SURNAME, GivenName (sXXXX)
+* LEE, Ge (s3776409)
 * SURNAME, GivenName (sXXXX)
 * SURNAME, GivenName (sXXXX)
 * SURNAME, GivenName (sXXXX)
