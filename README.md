@@ -1,6 +1,6 @@
 # RMIT SEPT 2020 Major Project
 
-# Group 00
+# Group 2
 
 ## Members
 * U'REN, Donald (s3686963)
