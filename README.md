@@ -11,7 +11,7 @@
 ## Records
 
 * Github repository : https://github.com/RMIT-SEPT/majorproject-2-thurs-18-30-5
-* ClickUp Workspace : https://app.clickup.com/xxxx/yyyy
+* ClickUp Workspace : https://app.clickup.com/6916505/v/l/s/6940247
 
 
 ## Code documentation
