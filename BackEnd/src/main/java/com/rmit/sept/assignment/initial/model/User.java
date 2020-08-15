@@ -1,5 +1,7 @@
 package com.rmit.sept.assignment.initial.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
@@ -7,12 +9,13 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-public class Customer {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Size(min = 6, max = 15, message = "Username must be between 6 and 15 characters")
     @NotBlank(message = "Username may not be blank")
+    @Column(unique = true)
     private String username;
     @NotBlank(message = "Password may not be blank")
     private String password;
@@ -20,13 +23,22 @@ public class Customer {
     private String lastName;
     private String address;
 //    TODO: phone number (area code + number?), separate address into fields?
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
     private Date createdAt;
+    @UpdateTimestamp
     @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
     private Date updatedAt;
 
-    public Customer() {
+    public User() {
 
+    }
+
+    public User(Long id, String username, String password) {
+        this.id = id;
+        this.setUsername(username);
+        this.setPassword(password);
     }
 
     public Long getId() {
@@ -81,17 +93,25 @@ public class Customer {
         return createdAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = new Date();
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = new Date();
-    }
+//
+//    @PrePersist
+//    protected void onCreate() {
+//        this.createdAt = new Date();
+//    }
+//
+//    @PreUpdate
+//    protected void onUpdate() {
+//        this.updatedAt = new Date();
+//    }
 }
