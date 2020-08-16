@@ -17,3 +17,6 @@
 ## Code documentation
 
 [Quick Start](/docs/README.md) in `docs` folder
+
+## Project documentation
+[Wiki](https://github.com/RMIT-SEPT/majorproject-2-thurs-18-30-5/wiki) via `Wiki` tab
