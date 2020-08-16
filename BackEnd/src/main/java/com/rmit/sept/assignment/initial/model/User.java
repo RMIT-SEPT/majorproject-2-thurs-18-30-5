@@ -24,7 +24,6 @@ public class User {
     private String address;
 //    TODO: phone number (area code + number?), separate address into fields?
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
     @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
     private Date createdAt;
     @UpdateTimestamp
@@ -93,25 +92,18 @@ public class User {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = new java.util.Date();
+        this.updatedAt = this.createdAt;
     }
 
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    @PreUpdate
+    public void setUpdatedAt() {
+        this.updatedAt = new java.util.Date();
     }
-//
-//    @PrePersist
-//    protected void onCreate() {
-//        this.createdAt = new Date();
-//    }
-//
-//    @PreUpdate
-//    protected void onUpdate() {
-//        this.updatedAt = new Date();
-//    }
 }
