@@ -8,6 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+/**
+ * User entity is used to house core user data, such as username, password, name, address.
+ */
 @Entity
 public class User {
     @Id

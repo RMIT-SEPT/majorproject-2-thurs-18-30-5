@@ -20,9 +20,15 @@ public class WorkerService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Service method to update or create a worker.
+     * This requires a valid user to exist (worker.id references user.id)
+     * @param worker Worker object to create or update
+     * @return Worker object, or null if invalid (no id)
+     */
     public Worker saveOrUpdateWorker(Worker worker) {
         Long workerId = worker.getId();
-        if (workerId != null) {
+        if (workerId != null) {  // workerId cannot be null
             Optional<Worker> worker1 = workerRepository.findById(workerId);
             if (worker1.isPresent()) {  // UPDATE WORKER
                 worker.setUser(worker1.get().getUser());
@@ -59,12 +65,21 @@ public class WorkerService {
 //        }
 //    }
 
+    /**
+     * Returns all workers
+     * @return an ArrayList of Worker objects
+     */
     public Collection<Worker> findAll() {
         List<Worker> workers = new ArrayList<>();
         workerRepository.findAll().forEach(workers::add);
         return workers;
     }
 
+    /**
+     * Returns a Worker object based on id value
+     * @param id id of Worker to fetch
+     * @return Worker object if found, otherwise null
+     */
     public Worker findById(Long id) {
         Optional<Worker> worker = workerRepository.findById(id);
         return worker.orElse(null);

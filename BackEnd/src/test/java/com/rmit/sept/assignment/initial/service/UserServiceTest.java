@@ -54,7 +54,7 @@ class UserServiceTest {
         User u1 = new User(1L, "dondon94", "123Qwe!");
         doReturn(Optional.of(u1)).when(repo).findById(1L);
 
-        User u2 = service.findById(null);
+        User u2 = service.findById(null);  // pass null value as ID
 
         assertNull(u2);
     }
@@ -95,7 +95,7 @@ class UserServiceTest {
         User u1 = new User();
         doReturn(u1).when(repo).save(any());
 
-        User u2 = service.saveOrUpdateUser(u1);
+        User u2 = service.saveOrUpdateUser(u1);  // user has null ID
 
         assertNull(u2);
     }
@@ -161,7 +161,7 @@ class UserServiceTest {
         u1.setId(null);
 //        doReturn(Optional.of(c1)).when(repo).findById(any());
 
-        User c3 = service.saveOrUpdateUser(u1);
+        User c3 = service.saveOrUpdateUser(u1);  // user has a null id - should not update
 
         assertNull(c3);
     }

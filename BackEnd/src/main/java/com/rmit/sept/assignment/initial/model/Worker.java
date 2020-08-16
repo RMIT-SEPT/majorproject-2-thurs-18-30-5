@@ -5,11 +5,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * Worker entities are used to track users who are workers. Additionally, a worker may also be an admin user.
+ */
 @Entity
 public class Worker {
     @Id
+    @NotNull(message = "Worker ID must be provided")
     private Long id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     @MapsId

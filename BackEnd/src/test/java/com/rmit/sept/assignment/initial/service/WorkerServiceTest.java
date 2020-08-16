@@ -45,7 +45,7 @@ class WorkerServiceTest {
         Worker w1 = new Worker(new User(1L, "dondon94", "123Qwe!"));
         doReturn(Optional.of(w1)).when(repo).findById(1L);
 
-        Worker w2 = service.findById(2L);
+        Worker w2 = service.findById(2L);  // worker id not in system
 
         assertNull(w2);
     }
@@ -110,7 +110,7 @@ class WorkerServiceTest {
     @Test
     @DisplayName("Test saveOrUpdateWorker Create Null")
     void testCreateWorkerNull() {
-        User u1 = new User(null, "dondon94", "123Qwe!");
+        User u1 = new User(null, "dondon94", "123Qwe!");  // should not create with null id
         Worker w1 = new Worker(u1);
         doReturn(w1).when(repo).save(any());
         doReturn(Optional.of(u1)).when(userRepo).findById(any());
