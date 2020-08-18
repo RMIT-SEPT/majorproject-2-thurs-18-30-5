@@ -1,0 +1,72 @@
+.img {
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(to left, rgba(169, 243, 248, 0.4), rgba(113, 15, 138, 0.9)),
+  url(https://images.unsplash.com/photo-1498550744921-75f79806b8a7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b0f6908fa5e81286213c7211276e6b3d&auto=format&fit=crop&w=1500&q=80);
+  background-position: center top;
+  background-size:cover;
+}
+
+.about-title {
+  position: absolute;
+  width: 171px;
+  height: 75px;
+  left: 163px;
+  top: 206px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 64px;
+  line-height: 75px;
+
+  color: #ffffff;
+}
+
+.about-content {
+  position: absolute;
+  width: 700px;
+  height: 190px;
+  left: 163px;
+  top: 296px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 37px;
+
+  color: #ffffff;
+}
+
+.contact-title {
+  position: absolute;
+  width: 308px;
+  height: 75px;
+  left: 163px;
+  top: 542px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 64px;
+  line-height: 75px;
+
+  color: #ffffff;
+}
+
+.contact-content {
+  position: absolute;
+  width: 700px;
+  height: 190px;
+  left: 163px;
+  top: 632px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 37px;
+
+  color: #ffffff;
+}

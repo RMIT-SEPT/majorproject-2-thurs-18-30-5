@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Dashboard from './components/Dashboard';
+import LandingPage from './components/LandingPage';
 
 function App() {
   return (
     <div>
-      <Dashboard/>
+      <LandingPage/>
     </div>
   );
 }
