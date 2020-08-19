@@ -36,11 +36,27 @@ public class HoursService {
         return hoursRepository.save(hours);
     }
 
+    public boolean deleteHours(Hours hours) {
+        if (hours.getId() == null) return false;
+        Optional<Hours> h1 = hoursRepository.findById(hours.getId());
+        if (h1.isPresent()) {
+            hoursRepository.deleteById(hours.getId());
+            return !hoursRepository.findById(hours.getId()).isPresent();  // return true if hours have been removed
+        }
+        return false;
+    }
+
+    public Hours findById(Hours.HoursPK hoursPK) {
+        return (hoursPK != null) ? hoursRepository.findById(hoursPK).orElse(null) : null;
+    }
+
     public Hours findById(Worker worker, Long dayOfWeek) {
+        if (worker == null || dayOfWeek == null) return null;
         return hoursRepository.findById(new Hours.HoursPK(worker, dayOfWeek)).orElse(null);
     }
 
     public List<Hours> findByWorker(Worker worker) {
+        if (worker == null) return null;
         return hoursRepository.findById_Worker(worker);
     }
 //

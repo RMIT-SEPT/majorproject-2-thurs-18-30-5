@@ -4,17 +4,20 @@ import com.rmit.sept.assignment.initial.Repositories.HoursRepository;
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit testing for HoursService
+ */
 @SpringBootTest
 class HoursServiceTest {
     @Autowired
@@ -27,15 +30,39 @@ class HoursServiceTest {
 //    @MockBean
     private HoursRepository repo;
 
-    private Calendar cal = Calendar.getInstance();
+    private final Calendar cal = Calendar.getInstance();
+
+    private Hours h1;
+    private Worker w1;
+    private User u1;
+
+    @BeforeEach
+    void setUpTest() {
+        u1 = new User(1L, "dondon94", "123Qwe!");
+        w1 = new Worker(u1);
+        User temp1 = userService.saveOrUpdateUser(u1);
+        Worker temp2 = workerService.saveOrUpdateWorker(w1);
+        System.out.println("*****************" +
+                "ADDING USERS"+
+                "*****************" +
+                "\nuser and worker created = " + (temp1 != null && temp2 != null) + "\n");
+    }
+
+    @AfterEach
+    void removeHours() {
+        service.deleteHours(h1);
+        Hours temp = service.findById(h1.getId());
+        System.out.println("*****************" +
+                "CLEAN UP"+
+                "*****************" +
+                "\nhours removed = "  + (temp == null) + "\n");
+    }
 
     @Test
     @DisplayName("Test createHours Success")
     void testCreateHours() {
-        User u1 = new User(1L, "dondon94", "123Qwe!");
-        Worker w1 = new Worker(u1);
         Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
-        Hours h1 = new Hours();
+        h1 = new Hours();
         h1.setId(hoursPK);
 
         userService.saveOrUpdateUser(u1);
@@ -49,10 +76,8 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test createHours Invalid Hours")
     void testCreateHoursInvalidHours() {
-        User u1 = new User(1L, "dondon94", "123Qwe!");
-        Worker w1 = new Worker(u1);
         Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
-        Hours h1 = new Hours();
+        h1 = new Hours();
         h1.setId(hoursPK);
 
         cal.set(2020, Calendar.FEBRUARY, 1);
@@ -68,10 +93,8 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test findByWorker Success")
     void testFindByWorker() {
-        User u1 = new User(1L, "dondon94", "123Qwe!");
-        Worker w1 = new Worker(u1);
         Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
-        Hours h1 = new Hours();
+        h1 = new Hours();
         h1.setId(hoursPK);
 
         Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
@@ -85,10 +108,8 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test findById Success")
     void testFindById() {
-        User u1 = new User(1L, "dondon94", "123Qwe!");
-        Worker w1 = new Worker(u1);
         Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
-        Hours h1 = new Hours();
+        h1 = new Hours();
         h1.setId(hoursPK);
 
         Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
@@ -102,25 +123,26 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test updateHours Success")
     void testUpdateHours() {
-        User u1 = new User(1L, "dondon94", "123Qwe!");
-        Worker w1 = new Worker(u1);
         Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
-        Hours h1 = new Hours();
-        cal.set(2020, Calendar.FEBRUARY, 1);
+        h1 = new Hours();
+        cal.set(2020, Calendar.FEBRUARY, 1, 10, 0);
         h1.setStart(cal.getTime());
-        cal.set(2020, Calendar.FEBRUARY, 2);
+        cal.set(2020, Calendar.FEBRUARY, 1, 11, 0);
         h1.setEnd(cal.getTime());
         h1.setId(hoursPK);
 
         Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
+
         assertNotNull(h2);
-        cal.set(2020, Calendar.JANUARY, 1);
+        cal.set(2020, Calendar.JANUARY, 2, 10, 0);
         Date d1 = cal.getTime();
         h2.setStart(d1);
-        cal.set(2020, Calendar.JANUARY, 2);
+        cal.set(2020, Calendar.JANUARY, 2, 11, 0);
         Date d2 = cal.getTime();
         h2.setEnd(d2);
-        Hours h4 = service.saveOrUpdateHours(h2);
+
+        Hours h4 = service.saveOrUpdateHours(h2);  // update existing hours
+
         assertNotNull(h4);
         assertEquals(d1, h4.getStart());
         assertEquals(d2, h4.getEnd());
@@ -128,9 +150,30 @@ class HoursServiceTest {
         assertNotEquals(h1.getEnd(), h4.getEnd());
     }
 
+    @Test
+    void testDeleteHours() {
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        h1 = new Hours();
+        cal.set(2020, Calendar.FEBRUARY, 1, 10, 0);
+        h1.setStart(cal.getTime());
+        cal.set(2020, Calendar.FEBRUARY, 1, 11, 0);
+        h1.setEnd(cal.getTime());
+        h1.setId(hoursPK);
+
+        Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
+
+        assertNotNull(h2);
+        assertEquals(h1, h2);
+
+        assertTrue(service.deleteHours(h2));  // test delete hours - service method calls findById to confirm removal
+
+        Hours h3 = service.findById(h2.getId());
+        assertNull(h3);  // double check that have been removed
+    }
+
 //    @Test
 //    void testFindById() {
-//        Hours h1 = new Hours(new HoursPK(w1.getId(), 0), new Date(), new Date());
+//        h1 = new Hours(new HoursPK(w1.getId(), 0), new Date(), new Date());
 //        doReturn(Optional.of(h1)).when(repo).findByWorkerAndDayOfWeek(w1, 0);
 //        Hours h2 = service.findById(w1, 0);
 //        assertNotNull(h2);
@@ -138,7 +181,7 @@ class HoursServiceTest {
 //
 //    @Test
 //    void testFindByIdTwo() {
-//        Hours h1 = new Hours(new HoursPK(w1.getId(), 0), new Date(), new Date());
+//        h1 = new Hours(new HoursPK(w1.getId(), 0), new Date(), new Date());
 //        service.createHours(h1);
 ////        doReturn(Optional.of(h1)).when(repo).findByWorkerAndDayOfWeek(w1, 0);
 //        List<Hours> h2 = service.findByWorker(w1);
@@ -158,7 +201,7 @@ class HoursServiceTest {
 //    @DisplayName("Test createHours success")
 //    void testCreateHours() {
 //        Worker w1 = new Worker(new User(1L, "dondon94", "123Qwe!"));
-//        Hours h1 = new Hours(w1, 0, new Date(), new Date());
+//        h1 = new Hours(w1, 0, new Date(), new Date());
 //        System.out.println(h1.getId());
 //        doReturn(Optional.of(w1)).when(workerRepo).findById(any());
 //
@@ -174,7 +217,7 @@ class HoursServiceTest {
 //    @DisplayName("Test getHours success")
 //    void testGetHours() {
 //        Worker w1 = new Worker(new User(1L, "dondon94", "123Qwe!"));
-//        Hours h1 = new Hours(w1, 0, new Date(), new Date());
+//        h1 = new Hours(w1, 0, new Date(), new Date());
 //        doReturn(Optional.of(h1)).when(repo).findById(any());
 //
 //        Hours h2 = service.findById(1L);
@@ -185,7 +228,7 @@ class HoursServiceTest {
 //    @Test
 //    void testGetHoursByWorkerAndDOW() {
 //        Worker w1 = new Worker(new User(1L, "dondon94", "123Qwe!"));
-//        Hours h1 = new Hours(w1, 0, new Date(), new Date());
+//        h1 = new Hours(w1, 0, new Date(), new Date());
 ////        doReturn(Optional.of(h1)).when(repo).findByWorkerAndDayOfWeek(w1, 0);
 //
 //        Hours h2 = service.findByWorkerDOW(w1, 0);
