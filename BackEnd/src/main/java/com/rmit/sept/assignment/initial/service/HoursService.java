@@ -8,6 +8,8 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +20,19 @@ public class HoursService {
     @Autowired
     HoursRepository hoursRepository;
 
-    public Hours saveHours(Hours hours) {
+    public Hours saveOrUpdateHours(Hours hours) {
+        if (hours.getId() == null) return null;
+        Date start = hours.getStart();
+        Date end = hours.getEnd();
+        if (!(start == null || end == null)) {
+            Calendar calStart = Calendar.getInstance();
+            Calendar calEnd = Calendar.getInstance();
+            calStart.setTime(start);
+            calEnd.setTime(end);
+            boolean sameDay = (calEnd.get(Calendar.DAY_OF_YEAR) == calStart.get(Calendar.DAY_OF_YEAR)) &&
+                    (calEnd.get(Calendar.YEAR) == calStart.get(Calendar.YEAR));
+            if (!sameDay || calStart.after(calEnd)) return null;
+        }
         return hoursRepository.save(hours);
     }
 

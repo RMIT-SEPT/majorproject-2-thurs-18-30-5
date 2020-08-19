@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +27,8 @@ class HoursServiceTest {
 //    @MockBean
     private HoursRepository repo;
 
+    private Calendar cal = Calendar.getInstance();
+
     @Test
     @DisplayName("Test createHours Success")
     void testCreateHours() {
@@ -37,9 +41,28 @@ class HoursServiceTest {
         userService.saveOrUpdateUser(u1);
         workerService.saveOrUpdateWorker(w1);
 
-        Hours h2 = service.saveHours(h1);  // we are testing this bit
+        Hours h2 = service.saveOrUpdateHours(h1);  // we are testing this bit
         assertNotNull(h2);
         assertEquals(h1, h2);
+    }
+
+    @Test
+    @DisplayName("Test createHours Invalid Hours")
+    void testCreateHoursInvalidHours() {
+        User u1 = new User(1L, "dondon94", "123Qwe!");
+        Worker w1 = new Worker(u1);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        Hours h1 = new Hours();
+        h1.setId(hoursPK);
+
+        cal.set(2020, Calendar.FEBRUARY, 1);
+        h1.setStart(cal.getTime());
+        cal.set(2020, Calendar.FEBRUARY, 2);
+        h1.setEnd(cal.getTime());
+
+        Hours h2 = service.saveOrUpdateHours(h1);
+
+        assertNull(h2);
     }
 
     @Test
@@ -51,7 +74,7 @@ class HoursServiceTest {
         Hours h1 = new Hours();
         h1.setId(hoursPK);
 
-        Hours h2 = service.saveHours(h1);  // add hours to db
+        Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
 
         List<Hours> hours = service.findByWorker(w1);  // we are testing this bit - if search works
 
@@ -68,12 +91,41 @@ class HoursServiceTest {
         Hours h1 = new Hours();
         h1.setId(hoursPK);
 
-        Hours h2 = service.saveHours(h1);  // add hours to db
+        Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
 
         Hours h3 = service.findById(w1, hoursPK.getDayOfWeek());
 
         assertNotNull(h3);
         assertEquals(h1, h3);
+    }
+
+    @Test
+    @DisplayName("Test updateHours Success")
+    void testUpdateHours() {
+        User u1 = new User(1L, "dondon94", "123Qwe!");
+        Worker w1 = new Worker(u1);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        Hours h1 = new Hours();
+        cal.set(2020, Calendar.FEBRUARY, 1);
+        h1.setStart(cal.getTime());
+        cal.set(2020, Calendar.FEBRUARY, 2);
+        h1.setEnd(cal.getTime());
+        h1.setId(hoursPK);
+
+        Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
+        assertNotNull(h2);
+        cal.set(2020, Calendar.JANUARY, 1);
+        Date d1 = cal.getTime();
+        h2.setStart(d1);
+        cal.set(2020, Calendar.JANUARY, 2);
+        Date d2 = cal.getTime();
+        h2.setEnd(d2);
+        Hours h4 = service.saveOrUpdateHours(h2);
+        assertNotNull(h4);
+        assertEquals(d1, h4.getStart());
+        assertEquals(d2, h4.getEnd());
+        assertNotEquals(h1.getStart(), h4.getStart());
+        assertNotEquals(h1.getEnd(), h4.getEnd());
     }
 
 //    @Test
