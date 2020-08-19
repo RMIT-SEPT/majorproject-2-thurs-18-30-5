@@ -32,8 +32,10 @@ html {
   position: absolute;
   left: 50px;
   float: left;
+  color: #000000;
 }
 
 .aboutcontact:hover {
+  text-decoration-line: none;
   color: #6600ff;
 }
