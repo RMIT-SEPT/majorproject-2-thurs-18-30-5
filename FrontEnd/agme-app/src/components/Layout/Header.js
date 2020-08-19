@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './Header.css'
-import Login from "./components/login";
-import SignUp from "./components/signup";
+import Login from '../Login';
+import SignUp from '../Signup';
+import LandingPage from '../LandingPage';
 
 export default class Header extends Component {
   render() {
@@ -29,7 +30,7 @@ export default class Header extends Component {
             <div className="auth-wrapper">
               <div className="auth-inner">
                 <Switch>
-                  <Route exact path='/' component={Login} />
+                  <Route exact path='/' component={LandingPage} />
                   <Route path="/sign-in" component={Login} />
                   <Route path="/sign-up" component={SignUp} />
                 </Switch>
