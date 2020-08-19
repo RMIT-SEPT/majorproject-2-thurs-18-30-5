@@ -8,7 +8,7 @@ export default class LandingPage extends Component {
     return (
       <div>
         <Header/>
-        <div className="img">
+          <div className="img">
             <div className="about-title">About</div>
             <div className="about-content">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
@@ -19,9 +19,9 @@ export default class LandingPage extends Component {
             <div className="contact-content">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. o
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </div>
-        </div>
+          </div>
         <Footer/>
       </div>
     )
