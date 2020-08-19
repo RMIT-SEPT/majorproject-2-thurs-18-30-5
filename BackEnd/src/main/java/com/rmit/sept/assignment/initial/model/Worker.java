@@ -5,25 +5,32 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Worker entities are used to track users who are workers. Additionally, a worker may also be an admin user.
  */
-@Entity
+@Entity(name = "Worker")
+@Table(name = "worker")
 public class Worker {
     @Id
     @NotNull(message = "Worker ID must be provided")
+    @Column(name = "user_id", nullable = false, updatable = false)
     private Long id;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     @MapsId
+    @PrimaryKeyJoinColumn
     private User user;
+
     private Boolean isAdmin = false;
+
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
     private Date createdAt;
+
     @UpdateTimestamp
     @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
     private Date updatedAt;
@@ -76,5 +83,25 @@ public class Worker {
     @PreUpdate
     public void setUpdatedAt() {
         this.updatedAt = new java.util.Date();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Worker that = (Worker) o;
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "id=" + id +
+                ", user=" + user +
+                ", isAdmin=" + isAdmin +
+//                ", hours=" + hours +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

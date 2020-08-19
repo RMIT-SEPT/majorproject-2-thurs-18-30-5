@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InitialApplication {
 
     public static void main(String[] args) {
+//        Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
         SpringApplication.run(InitialApplication.class, args);
     }
-
 }

@@ -15,6 +15,7 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     @Size(min = 6, max = 15, message = "Username must be between 6 and 15 characters")
     @NotBlank(message = "Username may not be blank")
