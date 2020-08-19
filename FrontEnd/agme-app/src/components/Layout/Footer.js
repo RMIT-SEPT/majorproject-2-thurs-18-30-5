@@ -6,7 +6,7 @@ export default class Footer extends Component {
   render() {
     return (
       <div>
-        <Router>
+        
           <footer className="footer">
             <Link className="aboutcontact" to={"/"}>About & contact us</Link>
             
@@ -15,7 +15,7 @@ export default class Footer extends Component {
             </div>
 
           </footer>
-        </Router>
+        
       </div>
     )
   }
