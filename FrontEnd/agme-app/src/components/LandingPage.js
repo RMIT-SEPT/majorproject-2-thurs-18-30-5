@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import Footer from './Layout/Footer'
+import Header from './Layout/Header'
 import './LandingPage.css'
 
 export default class LandingPage extends Component {
   render() {
     return (
       <div>
+        <Header/>
         <div className="img">
             <div className="about-title">About</div>
             <div className="about-content">
