@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
 .img {
   width: 100%;
   height: 100vh;
-  background-image: linear-gradient(to left, rgba(169, 243, 248, 0.4), rgba(113, 15, 138, 0.9)),
-  url(https://images.unsplash.com/photo-1498550744921-75f79806b8a7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b0f6908fa5e81286213c7211276e6b3d&auto=format&fit=crop&w=1500&q=80);
+  background-image: linear-gradient(to left, rgba(111, 209, 255, 0.171), rgba(113, 15, 138, 0.2)),
+  url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-036.jpg);
   background-position: center top;
   background-size:cover;
 }
@@ -12,13 +15,13 @@
   width: 171px;
   height: 75px;
   left: 163px;
-  top: 206px;
+  top: 216px;
 
-  font-family: Roboto;
   font-style: normal;
-  font-weight: normal;
   font-size: 64px;
   line-height: 75px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
 
   color: #ffffff;
 }
@@ -28,29 +31,31 @@
   width: 700px;
   height: 190px;
   left: 163px;
-  top: 296px;
+  top: 306px;
 
-  font-family: Roboto;
+  
   font-style: normal;
-  font-weight: normal;
   font-size: 32px;
   line-height: 37px;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  text-align: justify;
 
   color: #ffffff;
 }
 
 .contact-title {
   position: absolute;
-  width: 308px;
+  width: 408px;
   height: 75px;
   left: 163px;
-  top: 542px;
+  top: 632px;
 
-  font-family: Roboto;
   font-style: normal;
-  font-weight: normal;
   font-size: 64px;
   line-height: 75px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
 
   color: #ffffff;
 }
@@ -60,13 +65,14 @@
   width: 700px;
   height: 190px;
   left: 163px;
-  top: 632px;
+  top: 722px;
 
-  font-family: Roboto;
   font-style: normal;
-  font-weight: normal;
   font-size: 32px;
   line-height: 37px;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  text-align: justify;
 
   color: #ffffff;
 }

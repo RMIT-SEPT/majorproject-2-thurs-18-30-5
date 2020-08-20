@@ -6,16 +6,10 @@ export default class Footer extends Component {
   render() {
     return (
       <div>
-        
-          <footer className="footer">
-            <Link className="aboutcontact" to={"/"}>About & contact us</Link>
-            
-            <div className="copyright">
-              <span>&copy; 2020 AGME</span>
-            </div>
-
-          </footer>
-        
+        <footer className="footer">
+          <Link className="aboutcontact" to={"/"}>About & contact us</Link>
+          <div className="copyright">&copy; 2020 AGME</div>
+        </footer>
       </div>
     )
   }

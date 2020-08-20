@@ -1,19 +1,30 @@
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400&display=swap');
 
 * {
   box-sizing: border-box;
 }
 body {
-  background: #1C8EF9 !important;
+  background: #ffffff !important;
   min-height: 100vh;
   display: flex;
   font-weight: 400;
   font-family: 'Fira Sans', sans-serif;
 }
 
-h1,h2,h3,h4,h5,h6,label,span {
-  font-weight: 500;
-  font-family: 'Fira Sans', sans-serif;
+.img-bg {
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(to left, transparent, rgba(136, 62, 155, 0.267)),
+  url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-036.jpg);
+  background-position: center top;
+  background-size: cover;
+}
+
+h3, label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
 }
 
 body, html, .App, #root, .auth-wrapper {
@@ -22,7 +33,7 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .navbar-light {
-  background-color: #ffffff;
+  background-color:transparent;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
 }
 
@@ -36,15 +47,20 @@ body, html, .App, #root, .auth-wrapper {
 .auth-inner {
   width: 450px;
   margin: auto;
-  background: #ffffff;
+  background: #ffffff71;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
   transition: all .3s;
 }
 
+.form-control {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+}
+
 .auth-wrapper .form-control:focus {
-  border-color: #167bff;
+  border-color: #c090ff;
   box-shadow: none;
 }
 
@@ -59,15 +75,14 @@ body, html, .App, #root, .auth-wrapper {
   font-weight: 400;
 }
 
-.forgot-password,
-.forgot-password a {
-  text-align: right;
-  font-size: 13px;
-  padding-top: 10px;
-  color: #7f7d7d;
-  margin: 0;
+.btn {
+  background-color: #a058ff;
+  border-color: #a058ff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
 }
 
-.forgot-password a {
-  color: #167bff;
+.btn:hover {
+  background-color: #c090ff;
+  border-color: #c090ff;
 }

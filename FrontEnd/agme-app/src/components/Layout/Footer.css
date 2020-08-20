@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400&display=swap');
+
 html {
   height: 100%;
   box-sizing: border-box;
@@ -18,7 +20,7 @@ html {
   bottom: 0;
   left: 0;
   padding: 0.9rem;
-  background-color: #e4dede;
+  background-color: #e4e4e462;
   text-align: center;
 }
 
@@ -26,16 +28,21 @@ html {
   position: absolute;
   right: 50px;
   float: right;
+  color: #7c7c7c;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
 }
 
 .aboutcontact {
   position: absolute;
   left: 50px;
   float: left;
-  color: #000000;
+  color: #464646;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
 }
 
 .aboutcontact:hover {
   text-decoration-line: none;
-  color: #6600ff;
+  color: #9558f7;
 }
