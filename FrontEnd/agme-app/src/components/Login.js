@@ -2,6 +2,7 @@ import './Login-signup.css';
 import React, { Component } from "react";
 import Header from './Layout/Header';
 import Footer from './Layout/Footer';
+import { BrowserRouter as Router, Link } from "react-router-dom"
 
 class Login extends Component {
   render() {
@@ -13,10 +14,11 @@ class Login extends Component {
 
             <form>
               <h3>Login</h3>
+              <br/>
 
               <div className="form-group">
-                <label>Email address</label>
-                <input type="email" className="form-control" placeholder="Enter email" />
+                <label>Email address / Username</label>
+                <input type="email" className="form-control" placeholder="Enter email / username" />
               </div>
 
               <div className="form-group">
@@ -24,14 +26,9 @@ class Login extends Component {
                 <input type="password" className="form-control" placeholder="Enter password" />
               </div>
 
-              <div className="form-group">
-                <div className="custom-control custom-checkbox">
-                    <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                    <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-                </div>
-              </div>
-
               <button type="submit" className="btn btn-primary btn-block">Submit</button> 
+
+              <Link className="nav-link" to={"/sign-in"}>Forgot password?</Link>
             </form>
 
           </div>
