@@ -2,12 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from './components/Login';
+import SignUp from './components/Signup';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+       <Switch>
+        <Route exact path="/" component={App} />
+        <Route path="/sign-up" component={SignUp} />
+        <Route path="/sign-in" component={Login} />
+      </Switch>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
