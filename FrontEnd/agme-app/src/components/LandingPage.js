@@ -12,17 +12,21 @@ export default class LandingPage extends Component {
 
             <div className="about-title">About</div>
             <div className="about-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+              Welcome to AGME company's Online Appointment Booking System. 
+              This is a web application booking system that can be used by any service provider, 
+              allowing customers to book 24/7 a time slot for an appointment for a specific service with an assigned service provider. 
+              You can use the application for any business, e.g., a hairdresser, a gym, a dentist and so on.  
             </div>
 
             <div className="contact-title">Contact us</div>
             <div className="contact-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              You can contact us via our email address or phone number.
+              <br/>
+              Email-address: agme@agmecompany.com
+              <br/>
+              Phone-number: +61-123456789
             </div>
-            
+            <br/>
           </div>
         <Footer/>
       </div>
