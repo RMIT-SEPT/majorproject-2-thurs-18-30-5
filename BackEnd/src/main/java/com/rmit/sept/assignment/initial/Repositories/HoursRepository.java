@@ -13,4 +13,5 @@ public interface HoursRepository extends CrudRepository<Hours, Hours.HoursPK> {
     List<Hours> findById_Worker(Worker worker);
     List<Hours> findAll(Example<Hours> hours);
     void deleteById(Hours.HoursPK hoursPK);
+    void deleteById(Worker worker, Long dayOfWeek);
 }

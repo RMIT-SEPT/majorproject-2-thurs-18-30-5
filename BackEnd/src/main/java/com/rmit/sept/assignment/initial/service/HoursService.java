@@ -8,6 +8,7 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +22,14 @@ public class HoursService {
     HoursRepository hoursRepository;
 
     public Hours saveOrUpdateHours(Hours hours) {
-        if (hours.getId() == null) return null;
+        Hours.HoursPK hoursId = hours.getId();
+        if (hoursId == null) return null;  // must have a valid id
+        Worker worker = hoursId.getWorker();
+        if (worker == null) return null;  // worker object must exist (at least need id)
+        Long workerId = worker.getId();
+        if (workerId == null) return null;  // must have an id value
+        Optional<Worker> existingWorker = workerRepository.findById(workerId);
+        if (!existingWorker.isPresent()) return null;  // worker must already exist in the system
         Date start = hours.getStart();
         Date end = hours.getEnd();
         if (!(start == null || end == null)) {
@@ -42,6 +50,19 @@ public class HoursService {
         if (h1.isPresent()) {
             hoursRepository.deleteById(hours.getId());
             return !hoursRepository.findById(hours.getId()).isPresent();  // return true if hours have been removed
+        }
+        return false;
+    }
+
+    public boolean deleteHours(Long workerId, Long dayOfWeek) {
+        Optional<Worker> worker = workerRepository.findById(workerId);
+        if (worker.isPresent()) {
+            Hours.HoursPK hoursPK = new Hours.HoursPK(worker.get(), dayOfWeek);
+            Optional<Hours> hours = hoursRepository.findById(hoursPK);
+            if (hours.isPresent()) {
+                hoursRepository.deleteById(hoursPK);
+                return !hoursRepository.findById(hoursPK).isPresent();  // return true if hours have been removed
+            }
         }
         return false;
     }

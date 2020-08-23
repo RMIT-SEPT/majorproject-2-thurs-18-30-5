@@ -23,7 +23,7 @@ public class WorkerController {
      * Endpoint to return all workers
      * @return a Collection of Worker objects
      */
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<Collection<Worker>> getWorkers() {
         return new ResponseEntity<>(workerService.findAll(), HttpStatus.OK);
     }

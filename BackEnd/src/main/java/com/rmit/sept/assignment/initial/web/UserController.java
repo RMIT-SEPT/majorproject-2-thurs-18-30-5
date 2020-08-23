@@ -23,7 +23,7 @@ public class UserController {
      * Returns a list of users
      * @return list of all User objects
      */
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<Collection<User>> getUsers() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
