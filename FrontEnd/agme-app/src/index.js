@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login';
 import SignUp from './components/Signup';
+import ForgotPassword from './components/ForgotPassword';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -14,6 +15,7 @@ ReactDOM.render(
         <Route exact path="/" component={App} />
         <Route path="/sign-up" component={SignUp} />
         <Route path="/sign-in" component={Login} />
+        <Route path="/forgotPassword" component={ForgotPassword} />
       </Switch>
   </BrowserRouter>,
   document.getElementById('root')
