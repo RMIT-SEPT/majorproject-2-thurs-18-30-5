@@ -28,7 +28,7 @@ class Login extends Component {
 
               <button type="submit" className="btn btn-primary btn-block">Submit</button> 
 
-              <Link className="nav-link" to={"/sign-in"}>Forgot password?</Link>
+              <Link className="nav-link" to={"/forgotPassword"}>Forgot password?</Link>
             </form>
 
           </div>
