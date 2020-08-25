@@ -75,14 +75,14 @@ body, html, .App, #root, .auth-wrapper {
   font-weight: 400;
 }
 
-.btn {
+.submit {
   background-color: #a058ff;
   border-color: #a058ff;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
 }
 
-.btn:hover {
+.submit:hover {
   background-color: #c090ff;
   border-color: #c090ff;
 }

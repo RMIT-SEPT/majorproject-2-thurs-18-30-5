@@ -38,7 +38,7 @@ class SignUp extends Component {
                 <input type="password" className="form-control" placeholder="Enter password again" />
               </div>
 
-              <button type="submit" className="btn btn-primary btn-block">Submit</button>
+              <button type="submit" className="btn btn-primary btn-block submit">Submit</button>
                 
             </form>
           </div>

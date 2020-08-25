@@ -26,7 +26,7 @@ class Login extends Component {
                 <input type="password" className="form-control" placeholder="Enter password" />
               </div>
 
-              <button type="submit" className="btn btn-primary btn-block">Submit</button> 
+              <button type="submit" className="btn btn-primary btn-block submit">Submit</button> 
 
               <Link className="nav-link" to={"/forgotPassword"}>Forgot password?</Link>
             </form>
