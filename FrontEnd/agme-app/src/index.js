@@ -8,11 +8,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login';
 import SignUp from './components/Signup';
 import ForgotPassword from './components/ForgotPassword';
+import CustomerDashboard from './components/CustomerDashboard';
 
 ReactDOM.render(
   <BrowserRouter>
        <Switch>
         <Route exact path="/" component={App} />
+        <Route path="/customer-dashboard" component={CustomerDashboard} />
         <Route path="/sign-up" component={SignUp} />
         <Route path="/sign-in" component={Login} />
         <Route path="/forgotPassword" component={ForgotPassword} />
