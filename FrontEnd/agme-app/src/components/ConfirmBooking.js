@@ -21,6 +21,7 @@ export default class ConfirmBooking extends Component {
 
             <form>
                 <h3>Booking details</h3>
+                <hr/>
                 <br/>
                 <br/>
                 <h6>Service:</h6>
@@ -31,6 +32,7 @@ export default class ConfirmBooking extends Component {
                 <br/>
                 <h6>Worker:</h6>
                 <h5 className="hCol">{this.state.worker}</h5>
+                <br/>
                 <br/>
 
                 <div className="btn2-div">

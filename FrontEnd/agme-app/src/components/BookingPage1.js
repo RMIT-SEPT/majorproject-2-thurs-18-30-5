@@ -26,6 +26,7 @@ export default class BookingPage1 extends Component {
 
             <form>
                 <h3>Choose a service</h3>
+                <hr/>
                 <br/>
                 <br/>
                 {serviceList}

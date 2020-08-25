@@ -22,6 +22,7 @@ export default class BookingPage2 extends Component {
 
             <form>
                 <h3>Choose a worker</h3>
+                <hr/>
                 <br/>
                 <br/>
                 {

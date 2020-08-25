@@ -33,6 +33,7 @@ export default class BookingPage2 extends Component {
 
             <form>
                 <h3>Choose date and time</h3>
+                <hr/>
                 <br/>
                 <br/>
                 <div>
