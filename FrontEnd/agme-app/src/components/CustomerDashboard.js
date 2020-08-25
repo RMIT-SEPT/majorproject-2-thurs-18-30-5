@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Link } from "react-router-dom"
 import CustomerHeader from './Layout/CustomerHeader'
 import Footer from './Layout/Footer'
 import './CustomerDashboard.css'
@@ -11,7 +12,7 @@ export default class CustomerDashboard extends Component {
         <div className="cust-img">
           <div className="container customer-title">
             <div className="welcome-msg">G'day, JOHN!</div>
-            <div className="btn book-btn">Book a service</div>
+            <Link className="btn book-btn" to={"/bookingPage1"}>Book a service</Link>
           </div>
           
           <div className="container upcoming-booking">

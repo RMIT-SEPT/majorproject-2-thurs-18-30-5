@@ -37,7 +37,7 @@ export default class ConfirmBooking extends Component {
 
                 <div className="btn2-div">
                     <Link to={{
-                        pathname: '/',
+                        pathname: '/customer-dashboard',
                         state: this.state
                       }}>
                         <button type="submit" className="mybtn btn-primary">Confirm booking</button> 
