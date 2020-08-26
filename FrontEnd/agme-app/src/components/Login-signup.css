@@ -54,12 +54,37 @@ body, html, .App, #root, .auth-wrapper {
   transition: all .3s;
 }
 
-.form-control {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
+.forgot-pwd {
+  text-align: center;
+  position: relative;
+  top: 25px;
 }
 
-.auth-wrapper .form-control:focus {
+.forgot-pwd-option {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: -0.3px;
+  color: #3700fc91;
+}
+
+.forgot-pwd-option:hover {
+  font-style: italic;
+  color: #3700fc6e;
+}
+
+.form-input {
+  font-weight: 300;
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgba(255, 255, 255, 0.788);
+  letter-spacing: -0.3px;
+}
+
+.form-input:hover {
+  border: 2px solid rgb(156, 199, 255);
+}
+
+.auth-wrapper {
   border-color: #c090ff;
   box-shadow: none;
 }
@@ -75,16 +100,78 @@ body, html, .App, #root, .auth-wrapper {
   font-weight: 400;
 }
 
+.submit-button {
+  text-align: center;
+  position: relative;
+  top: 15px;
+}
+
 .submit {
-  background-color: #a058ff;
-  border-color: #a058ff;
+  color: #3700fc;
+  transition: all 0.3s;
+  position: relative;
+  padding: 10px 24px;
+  width: 10em;
+  letter-spacing: -0.5px;
+
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  position: relative;
-  top: 13px;
+}
+
+.submit span {
+  transition: all 0.3s;
+}
+
+.submit::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-top-color: #0084ff;
+  border-bottom-color: #0084ff;
+  transform: scale(0.1, 1);
+}
+
+.submit:hover span {
+  letter-spacing: 2px;
 }
 
 .submit:hover {
-  background-color: #c090ff;
-  border-color: #c090ff;
+  color: #0084ff;
+  letter-spacing: 0.5px;
+}
+
+.submit:hover::before {
+  opacity: 1; 
+  transform: scale(1, 1); 
+}
+
+.submit::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+  background-color: rgba(4, 0, 231, 0.1);
+}
+
+.submit:hover::after {
+  opacity: 0; 
+  transform: scale(0.1, 1);
+}
+
+.submit:active {
+  color: #3700fc;
 }

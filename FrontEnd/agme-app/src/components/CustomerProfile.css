@@ -60,6 +60,7 @@
   line-height: 30px;
   font-weight: 500;
   font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.3px;
 }
 
 .save-changes::before {
@@ -103,6 +104,7 @@
 .save-changes:hover {
   color: #00bb8c;
   transition: all 0.3s;
+  letter-spacing: 0.3px;
 }
 
 .save-changes:active {

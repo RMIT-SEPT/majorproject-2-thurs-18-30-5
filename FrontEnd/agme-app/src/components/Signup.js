@@ -10,37 +10,38 @@ class SignUp extends Component {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Header/>
-            <form>
-              <h3>Sign Up</h3>
+              <form>
+                <h3>Sign Up</h3>
 
-              <div className="form-group">
-                <label>Name</label>
-                <input type="text" className="form-control" placeholder="Enter name" />
-              </div>
+                <div className="form-group">
+                  <label>Name</label>
+                  <input type="text" className="form-control form-input" placeholder="Enter name" />
+                </div>
 
-              <div className="form-group">
-                <label>Email address</label>
-                <input type="email" className="form-control" placeholder="Enter email" />
-              </div>
+                <div className="form-group">
+                  <label>Email address</label>
+                  <input type="email" className="form-control form-input" placeholder="Enter email" />
+                </div>
 
-              <div className="form-group">
-                <label>Username</label>
-                <input type="text" className="form-control" placeholder="Enter username" />
-              </div>
+                <div className="form-group">
+                  <label>Username</label>
+                  <input type="text" className="form-control form-input" placeholder="Enter username" />
+                </div>
 
-              <div className="form-group">
-                <label>Password</label>
-                <input type="password" className="form-control" placeholder="Enter password" />
-              </div>
+                <div className="form-group">
+                  <label>Password</label>
+                  <input type="password" className="form-control form-input" placeholder="Enter password" />
+                </div>
 
-              <div className="form-group">
-                <label>Password confirmation</label>
-                <input type="password" className="form-control" placeholder="Enter password again" />
-              </div>
+                <div className="form-group">
+                  <label>Password confirmation</label>
+                  <input type="password" className="form-control form-input" placeholder="Enter password again" />
+                </div>
 
-              <button type="submit" className="btn btn-primary btn-block submit">Submit</button>
-                
-            </form>
+                <div className="submit-button">
+                  <button type="submit" className="btn submit">Submit</button>
+                </div>
+              </form>
           </div>
           <Footer/>
         </div>
