@@ -97,12 +97,14 @@ class HoursServiceTest {
         h1 = new Hours();
         h1.setId(hoursPK);
 
+        List<Hours> hours = service.findByWorker(w1);  // we are testing this bit - if search works
+        int size = hours.size();
         Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
 
-        List<Hours> hours = service.findByWorker(w1);  // we are testing this bit - if search works
+        hours = service.findByWorker(w1);  // we are testing this bit - if search works
 
         assertNotNull(hours);
-        assertEquals(1, hours.size());
+        assertEquals(size+1, hours.size());  // should equal existing size of hours + 1
     }
 
     @Test
