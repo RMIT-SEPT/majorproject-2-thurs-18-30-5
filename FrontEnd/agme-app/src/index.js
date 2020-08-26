@@ -13,6 +13,7 @@ import BookingPage1 from './components/BookingPage1';
 import BookingPage2 from './components/BookingPage2';
 import BookingPage3 from './components/BookingPage3';
 import ConfirmBooking from './components/ConfirmBooking';
+import CustomerProfile from './components/CustomerProfile';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -26,6 +27,7 @@ ReactDOM.render(
         <Route path="/bookingPage2" component={BookingPage2} />
         <Route path="/bookingPage3" component={BookingPage3} />
         <Route path="/confirmBooking" component={ConfirmBooking} />
+        <Route path="/customer-profile" component={CustomerProfile} />
       </Switch>
   </BrowserRouter>,
   document.getElementById('root')

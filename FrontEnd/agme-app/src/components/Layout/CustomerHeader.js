@@ -14,7 +14,7 @@ export default class CustomerHeader extends Component {
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/sign-in"}>Profile</Link>
+                    <Link className="nav-link" to={"/customer-profile"}>Profile</Link>
                   </li>
 
                   <li className="nav-item">
