@@ -19,7 +19,7 @@ const serviceList = services.map(service =>
 export default class BookingPage1 extends Component {
   render() {
     return (
-        <div className="img-bg">
+      <div className="img-bg">
         <div className="auth-wrapper">
           <div className="auth-inner">
             <CustomerHeader/>

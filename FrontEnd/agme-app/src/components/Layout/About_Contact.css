@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
 
+.about-contact-info {
+  position: relative;
+}
+
 .about-title {
-    position: absolute;
-    width: 171px;
-    height: 75px;
-    left: 163px;
-    top: 126px;
+    position: relative;
+    top: 120px;
   
     font-style: normal;
     font-size: 56px;
@@ -18,13 +19,10 @@
   }
   
   .about-content {
-    position: absolute;
+    position: relative;
     width: 700px;
-    height: 190px;
-    left: 163px;
-    top: 216px;
+    top: 130px;
   
-    
     font-style: normal;
     font-size: 24px;
     line-height: 37px;
@@ -36,11 +34,8 @@
   }
   
   .contact-title {
-    position: absolute;
-    width: 400px;
-    height: 75px;
-    left: 163px;
-    top: 452px;
+    position: relative;
+    top: 170px;
   
     font-style: normal;
     font-size: 56px;
@@ -52,11 +47,9 @@
   }
   
   .contact-content {
-    position: absolute;
+    position: relative;
     width: 700px;
-    height: 190px;
-    left: 163px;
-    top: 542px;
+    top: 180px;
   
     font-style: normal;
     font-size: 24px;

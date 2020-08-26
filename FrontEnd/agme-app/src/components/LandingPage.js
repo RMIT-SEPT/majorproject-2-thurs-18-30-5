@@ -9,7 +9,7 @@ export default class LandingPage extends Component {
     return (
       <div>
         <Header/>
-          <div className="img">
+          <div className="landing-img">
             <About_Contact/>
           </div>
         <Footer/>
