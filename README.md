@@ -1,12 +1,11 @@
 # RMIT SEPT 2020 Major Project
 
-# Group 2
+# Group 5
 
 ## Members
 * U'REN, Donald (s3686963)
 * LEE, Ge (s3776409)
 * KHOSRAVI, Ali (s3788120)
-* MANFREDI, Carlo (s3545832)
 
 ## Records
 
