@@ -12,28 +12,31 @@ class SignUp extends Component {
             <Header/>
             <form>
               <h3>Forgot Password?</h3>
+              <br/>
 
               <div className="form-group">
                 <label>Email address</label>
-                <input type="email" className="form-control" placeholder="Enter email" />
+                <input type="email" className="form-control form-input" placeholder="Enter email" />
               </div>
 
               <div className="form-group">
                 <label>Username</label>
-                <input type="text" className="form-control" placeholder="Enter username" />
+                <input type="text" className="form-control form-input" placeholder="Enter username" />
               </div>
 
               <div className="form-group">
                 <label>New password</label>
-                <input type="password" className="form-control" placeholder="Enter password" />
+                <input type="password" className="form-control form-input" placeholder="Enter password" />
               </div>
 
               <div className="form-group">
                 <label>New password confirmation</label>
-                <input type="password" className="form-control" placeholder="Enter password again" />
+                <input type="password" className="form-control form-input" placeholder="Enter password again" />
               </div>
 
-              <button type="submit" className="btn btn-primary btn-block">Submit</button>
+              <div className="submit-button">
+                <button type="submit" className="btn submit">Submit</button>
+              </div>
                 
             </form>
           </div>

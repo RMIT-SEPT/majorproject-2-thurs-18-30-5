@@ -8,14 +8,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login';
 import SignUp from './components/Signup';
 import ForgotPassword from './components/ForgotPassword';
+import CustomerDashboard from './components/CustomerDashboard';
+import BookingPage1 from './components/BookingPage1';
+import BookingPage2 from './components/BookingPage2';
+import BookingPage3 from './components/BookingPage3';
+import ConfirmBooking from './components/ConfirmBooking';
+import CustomerProfile from './components/CustomerProfile';
 
 ReactDOM.render(
   <BrowserRouter>
        <Switch>
         <Route exact path="/" component={App} />
+        <Route path="/customer-dashboard" component={CustomerDashboard} />
         <Route path="/sign-up" component={SignUp} />
         <Route path="/sign-in" component={Login} />
         <Route path="/forgotPassword" component={ForgotPassword} />
+        <Route path="/bookingPage1" component={BookingPage1} />
+        <Route path="/bookingPage2" component={BookingPage2} />
+        <Route path="/bookingPage3" component={BookingPage3} />
+        <Route path="/confirmBooking" component={ConfirmBooking} />
+        <Route path="/customer-profile" component={CustomerProfile} />
       </Switch>
   </BrowserRouter>,
   document.getElementById('root')

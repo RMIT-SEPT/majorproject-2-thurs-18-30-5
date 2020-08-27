@@ -17,20 +17,24 @@ class Login extends Component {
               <br/>
 
               <div className="form-group">
-                <label>Email address / Username</label>
-                <input type="email" className="form-control" placeholder="Enter email / username" />
+                <label>Email / username</label>
+                <input type="text" className="form-control form-input" placeholder="Enter email / username" />
               </div>
 
               <div className="form-group">
                 <label>Password</label>
-                <input type="password" className="form-control" placeholder="Enter password" />
+                <input type="password" className="form-control form-input" placeholder="Enter password" />
               </div>
 
-              <button type="submit" className="btn btn-primary btn-block">Submit</button> 
+              <div className="submit-button">
+                <Link className="btn submit" to={"/customer-dashboard"}>Submit</Link> 
+              </div>
 
-              <Link className="nav-link" to={"/forgotPassword"}>Forgot password?</Link>
+              <div className="forgot-pwd">
+                <Link className="forgot-pwd-option" to={"/forgotPassword"}>Forgot password?</Link>
+              </div>
+              
             </form>
-
           </div>
           <Footer/>
         </div>
