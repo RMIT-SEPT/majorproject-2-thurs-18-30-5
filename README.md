@@ -6,7 +6,6 @@
 * U'REN, Donald (s3686963)
 * LEE, Ge (s3776409)
 * KHOSRAVI, Ali (s3788120)
-* MANFREDI, Carlo (s3545832)
 
 ## Records
 
