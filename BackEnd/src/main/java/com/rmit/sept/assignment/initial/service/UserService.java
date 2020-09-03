@@ -1,6 +1,6 @@
 package com.rmit.sept.assignment.initial.service;
 
-import com.rmit.sept.assignment.initial.Repositories.UserRepository;
+import com.rmit.sept.assignment.initial.repositories.UserRepository;
 import com.rmit.sept.assignment.initial.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

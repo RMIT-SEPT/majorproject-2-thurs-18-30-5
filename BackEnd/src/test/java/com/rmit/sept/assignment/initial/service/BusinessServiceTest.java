@@ -1,9 +1,7 @@
 package com.rmit.sept.assignment.initial.service;
 
-import com.rmit.sept.assignment.initial.Repositories.BusinessRepository;
+import com.rmit.sept.assignment.initial.repositories.BusinessRepository;
 import com.rmit.sept.assignment.initial.model.Business;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

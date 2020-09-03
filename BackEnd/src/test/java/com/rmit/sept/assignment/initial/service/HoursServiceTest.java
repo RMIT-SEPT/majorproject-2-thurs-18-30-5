@@ -1,6 +1,6 @@
 package com.rmit.sept.assignment.initial.service;
 
-import com.rmit.sept.assignment.initial.Repositories.HoursRepository;
+import com.rmit.sept.assignment.initial.repositories.HoursRepository;
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;

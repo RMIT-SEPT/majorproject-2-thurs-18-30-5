@@ -1,7 +1,7 @@
 package com.rmit.sept.assignment.initial.service;
 
-import com.rmit.sept.assignment.initial.Repositories.BusinessRepository;
-import com.rmit.sept.assignment.initial.Repositories.WorkerRepository;
+import com.rmit.sept.assignment.initial.repositories.BusinessRepository;
+import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
 import com.rmit.sept.assignment.initial.model.Business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

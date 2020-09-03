@@ -13,6 +13,11 @@ import java.util.Objects;
 @Entity(name = "Booking")
 @Table(name = "booking")
 public class Booking {
+    public enum BookingStatus {
+        PENDING,
+        COMPLETED,
+        CANCELLED
+    }
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -32,6 +37,8 @@ public class Booking {
     @NotNull(message = "End date cannot be null")
     @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
     private Date end;
+
+    private BookingStatus status;
 
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-mm-dd hh:mm")

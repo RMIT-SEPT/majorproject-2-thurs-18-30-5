@@ -1,4 +1,4 @@
-package com.rmit.sept.assignment.initial.Repositories;
+package com.rmit.sept.assignment.initial.repositories;
 
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.Worker;
