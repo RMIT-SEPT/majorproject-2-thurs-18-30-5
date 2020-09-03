@@ -30,9 +30,9 @@ public class BusinessService {
 //            if (!businessOptional.isPresent()) {
 //                return businessRepository.save(business);
 //            }
-            businessRepository.save(business);  // TODO: check if update/save works
-        }
-        return null;
+            return businessRepository.save(business);  // TODO: check if update/save works
+        } else
+            return null;
     }
 
     /**
