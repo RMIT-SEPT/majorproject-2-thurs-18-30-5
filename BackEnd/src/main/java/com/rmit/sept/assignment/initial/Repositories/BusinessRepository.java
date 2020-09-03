@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface BusinessRepository extends CrudRepository<Business, Long> {
     @Override
     Optional<Business> findById(Long aLong);
-    List<Business> findAllByName(String name);
-    List<Business> findAllByNameContains(String name);
+    List<Business> findAllByNameIgnoreCase(String name);
+    List<Business> findAllByNameContainsIgnoreCase(String name);
 }

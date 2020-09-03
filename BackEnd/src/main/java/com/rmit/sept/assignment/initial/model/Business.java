@@ -47,6 +47,10 @@ public class Business {
         this.description = description;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
