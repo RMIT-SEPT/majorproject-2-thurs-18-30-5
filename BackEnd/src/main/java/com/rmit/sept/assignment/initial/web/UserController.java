@@ -39,7 +39,6 @@ public class UserController {
         // if the service return null this means no user was found
         HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(user, status);
-
     }
 
     /**
