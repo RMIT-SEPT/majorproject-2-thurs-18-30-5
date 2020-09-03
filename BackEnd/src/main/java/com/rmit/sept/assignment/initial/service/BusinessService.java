@@ -24,9 +24,8 @@ public class BusinessService {
      * @return Created/updated Business object, or null if invalid (no business id or name)
      */
     public Business saveOrUpdateBusiness(Business business) {
-        Long businessId = business.getId();
         String businessName = business.getName();
-        if (businessId != null && businessName != null) {
+        if (businessName != null) {
 //            Optional<Business> businessOptional = businessRepository.findById(businessId);
 //            if (!businessOptional.isPresent()) {
 //                return businessRepository.save(business);
