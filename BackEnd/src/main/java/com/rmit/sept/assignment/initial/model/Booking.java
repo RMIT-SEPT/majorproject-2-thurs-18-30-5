@@ -87,6 +87,14 @@ public class Booking {
         this.end = end;
     }
 
+    public BookingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BookingStatus status) {
+        this.status = status;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }

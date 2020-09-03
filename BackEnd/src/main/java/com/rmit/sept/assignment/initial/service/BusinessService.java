@@ -51,8 +51,7 @@ public class BusinessService {
      * @return Business object, or null if not found
      */
     public Business findById(Long id) {
-        Optional<Business> business = businessRepository.findById(id);
-        return business.orElse(null);
+        return businessRepository.findById(id).orElse(null);
     }
 
     /**
