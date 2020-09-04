@@ -32,27 +32,46 @@ public class Booking {
     private User user;
 
     @NotNull(message = "Start date cannot be null")
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date start;
     @NotNull(message = "End date cannot be null")
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date end;
 
     private BookingStatus status;
 
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @Column(name = "created_at")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date createdAt;
     @UpdateTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @Column(name = "updated_at")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date updatedAt;
 
     public Booking() {
 
     }
 
+    public Booking(Long id) {
+        this.id = id;
+    }
+
+    public Booking(Long id, Worker worker, User user, Date start, Date end, BookingStatus status) {
+        this.id = id;
+        this.worker = worker;
+        this.user = user;
+        this.start = start;
+        this.end = end;
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Worker getWorker() {
@@ -111,11 +130,21 @@ public class Booking {
         this.updatedAt = updatedAt;
     }
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = new Date();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Booking booking = (Booking) o;
-        return Objects.equals(id, booking.id);
+        return id.compareTo(booking.id) == 0;
     }
 }

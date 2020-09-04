@@ -6,11 +6,15 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.repositories.BookingRepository;
 import com.rmit.sept.assignment.initial.repositories.UserRepository;
 import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
+
+import static com.rmit.sept.assignment.initial.service.Utilities.findOverlap;
 
 @Service
 public class BookingService {
@@ -20,6 +24,8 @@ public class BookingService {
     WorkerRepository workerRepository;
     @Autowired
     UserRepository userRepository;
+
+    Logger logger = LoggerFactory.getLogger(BookingService.class);
 
     /**
      * Service method to update or create a booking.
@@ -31,23 +37,31 @@ public class BookingService {
      * @return updated Booking object, or null if invalid
      */
     public Booking saveOrUpdateBooking(@NotNull Booking booking) {
-        // TODO: add additional date validation
-        Long bookingId = booking.getId();
-        Worker worker = booking.getWorker();
-        User user = booking.getUser();
-        if (bookingId != null && worker != null && user != null) {
-            Optional<Worker> worker1 = workerRepository.findById(worker.getId());
-            Optional<User> user1 = userRepository.findById(user.getId());
-            Optional<Worker> userIsWorker = workerRepository.findById(user.getId());
-            if (worker1.isPresent() && user1.isPresent() && !userIsWorker.isPresent()) {
-                Date start = booking.getStart();
-                Date end = booking.getEnd();
-                if (start != null && end != null && end.after(start))
-                    return bookingRepository.save(booking);
-            }
+        Long workerId = booking.getWorker().getId();
+        Long userId = booking.getUser().getId();
+        if (workerId == null || userId == null) {
+            return null;
         }
-        return null;
+        Optional<Worker> worker1 = workerRepository.findById(workerId);
+        Optional<User> user1 = userRepository.findById(userId);
+        Optional<Worker> userIsWorker = workerRepository.findById(userId);
+        if (!worker1.isPresent() || !user1.isPresent() || userIsWorker.isPresent()) {
+            return null;
+        }
+        List<Booking> userBookings = new ArrayList<>(this.findByUser(userId));
+        List<Booking> workerBookings = new ArrayList<>(this.findByWorker(workerId));
+        Date start = booking.getStart();
+        Date end = booking.getEnd();
+        if (start == null || end == null || !end.after(start) ||
+                findOverlap(userBookings) || findOverlap(workerBookings)) {
+            return null;
+        } else {
+            booking.setUser(user1.get());
+            booking.setWorker(worker1.get());
+            return bookingRepository.save(booking);
+        }
     }
+
 
     /**
      * Method to return all bookings
@@ -74,6 +88,10 @@ public class BookingService {
 
     public Collection<Booking> findByUser(@NotNull Long userId) {
         return bookingRepository.findAllByUser_Id(userId);
+    }
+
+    public Collection<Booking> findByUser(@NotNull Long userId, @NotNull Booking.BookingStatus status) {
+        return bookingRepository.findAllByUser_IdAndStatus(userId, status);
     }
 
     public Collection<Booking> findByBusiness(@NotNull Long businessId) {

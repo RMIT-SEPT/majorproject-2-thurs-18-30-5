@@ -35,10 +35,10 @@ public class User {
     private List<Booking> bookings;
 
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date createdAt;
     @UpdateTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date updatedAt;
 
     public User() {
