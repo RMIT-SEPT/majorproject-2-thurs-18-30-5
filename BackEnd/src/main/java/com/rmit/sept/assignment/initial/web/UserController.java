@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.User;
+import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FieldValidationService validationService;
 
     /**
      * Returns a list of users
@@ -49,13 +53,13 @@ public class UserController {
      */
     @PostMapping("")
     public ResponseEntity<?> createNewUser(@Validated @RequestBody User user, BindingResult result) {
-        if (result.hasErrors()) {  // validate that fields are correct format/type
-            for (FieldError error : result.getFieldErrors()) {
-                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
-            }
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            User user1 = userService.saveOrUpdateUser(user);
+            HttpStatus status = (user1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+            return new ResponseEntity<User>(user1, status);
+        } else {
+            return errors;
         }
-        User user1 = userService.saveOrUpdateUser(user);
-        HttpStatus status = (user1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-        return new ResponseEntity<User>(user1, status);
     }
 }

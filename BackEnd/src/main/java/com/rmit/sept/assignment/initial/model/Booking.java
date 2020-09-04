@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
@@ -38,6 +39,8 @@ public class Booking {
     @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date end;
 
+    @Size(min = 7, max = 9, message = "Status must be either PENDING, COMPLETED, or CANCELLED")
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
     @CreationTimestamp

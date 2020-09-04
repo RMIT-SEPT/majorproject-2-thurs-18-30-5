@@ -2,6 +2,7 @@ package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Business;
 import com.rmit.sept.assignment.initial.service.BusinessService;
+import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ import java.util.Optional;
 public class BusinessController {
     @Autowired
     BusinessService businessService;
+
+    @Autowired
+    FieldValidationService validationService;
 
     @GetMapping("/all")
     public ResponseEntity<Collection<Business>> getBusinesses() {
@@ -46,13 +50,29 @@ public class BusinessController {
 
     @PostMapping("")
     public ResponseEntity<?> createNewBusiness(@Validated @RequestBody Business business, BindingResult result) {
-        if (result.hasErrors()) {
-            for (FieldError error : result.getFieldErrors()) {
-                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
-            }
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            Business business1 = businessService.saveOrUpdateBusiness(business);
+            HttpStatus status = (business1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+            return new ResponseEntity<Business>(business, status);
+        } else {
+            return errors;
         }
-        Business business1 = businessService.saveOrUpdateBusiness(business);
-        HttpStatus status = (business1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-        return new ResponseEntity<Business>(business, status);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateBusiness(@Validated @RequestBody Business business, Long businessId, BindingResult result) {
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            if (getBusiness(businessId) != null) {
+                // TODO: check that this works - or do you need to set id from path
+                Business business1 = businessService.saveOrUpdateBusiness(business);
+                HttpStatus status = (business1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+                return new ResponseEntity<Business>(business, status);
+            }
+            return new ResponseEntity<>("Invalid Business ID", HttpStatus.NOT_FOUND);
+        } else {
+            return errors;
+        }
     }
 }

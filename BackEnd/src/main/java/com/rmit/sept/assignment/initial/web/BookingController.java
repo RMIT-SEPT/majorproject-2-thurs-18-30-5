@@ -2,6 +2,7 @@ package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Booking;
 import com.rmit.sept.assignment.initial.service.BookingService;
+import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import java.util.List;
 public class BookingController {
     @Autowired
     BookingService bookingService;
+
+    @Autowired
+    FieldValidationService validationService;
 
     private final Logger logger = LoggerFactory.getLogger(BookingController.class);
 
@@ -63,31 +67,30 @@ public class BookingController {
 
     @PostMapping("")
     public ResponseEntity<?> createBooking(@Validated @RequestBody Booking booking, BindingResult result) {
-        if (result.hasErrors()) {
-            for (FieldError error : result.getFieldErrors()) {
-                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
-            }
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            Booking booking1 = bookingService.saveOrUpdateBooking(booking);
+            HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+            return new ResponseEntity<Booking>(booking1, status);
+        } else {
+            return errors;
         }
-        Booking booking1 = bookingService.saveOrUpdateBooking(booking);
-        HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-        return new ResponseEntity<Booking>(booking1, status);
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBooking(@Validated @RequestBody Booking booking, @PathVariable Long id, BindingResult result) {
-        if (result.hasErrors()) {
-            for (FieldError error : result.getFieldErrors()) {
-                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            if (bookingService.findById(id) != null) {
+                booking.setId(id);  // TODO: why is this required? postman sending id as field is ignored somehow
+                Booking booking1 = bookingService.saveOrUpdateBooking(booking);
+                HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.OK;
+                return new ResponseEntity<Booking>(booking1, status);
             }
-        }
-        if (booking.getId() == null) {
-            logger.debug("BOOKING ID IS NULL");
+            return new ResponseEntity<>("Invalid Booking ID", HttpStatus.NOT_FOUND);
         } else {
-            logger.debug("BOOKING ID IS NOT NULL " + booking.getId());
+            return errors;
         }
-        booking.setId(id);  // TODO: why is this required? postman sending id as field is ignored somehow
-        Booking booking1 = bookingService.saveOrUpdateBooking(booking);
-        HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-        return new ResponseEntity<Booking>(booking1, status);
     }
 }
