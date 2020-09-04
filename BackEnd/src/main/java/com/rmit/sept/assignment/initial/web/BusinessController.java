@@ -20,7 +20,6 @@ public class BusinessController {
     @Autowired
     BusinessService businessService;
 
-
     @GetMapping("/all")
     public ResponseEntity<Collection<Business>> getBusinesses() {
         return new ResponseEntity<>(businessService.findAll(), HttpStatus.OK);

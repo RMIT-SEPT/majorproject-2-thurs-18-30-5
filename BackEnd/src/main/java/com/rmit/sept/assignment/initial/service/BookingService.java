@@ -76,5 +76,9 @@ public class BookingService {
         return bookingRepository.findAllByUser_Id(userId);
     }
 
+    public Collection<Booking> findByBusiness(@NotNull Long businessId) {
+        return bookingRepository.findAllByWorker_Business_Id(businessId);
+    }
+
 
 }
