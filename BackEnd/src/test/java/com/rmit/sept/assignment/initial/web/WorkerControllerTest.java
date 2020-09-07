@@ -3,16 +3,21 @@ package com.rmit.sept.assignment.initial.web;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.WorkerService;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -59,7 +64,7 @@ public class WorkerControllerTest {
         mockMvc.perform(get("/api/worker/all").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[1].id", is("2")));
+                .andExpect(jsonPath("$[1].id", is(2)));
     }
 
     @Test
@@ -70,7 +75,7 @@ public class WorkerControllerTest {
 
         mockMvc.perform(get("/api/worker/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id", is(1)));
+                .andExpect(jsonPath("id", is(1)));
     }
 
     @Test
@@ -89,10 +94,16 @@ public class WorkerControllerTest {
         // Mocking service
         when(workerService.saveOrUpdateWorker(workers.get(0))).thenReturn(workers.get(0));
 
-        String inputJson = workers.get(0).toString();
-        mockMvc.perform(post("/api/worker").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(inputJson)).andExpect(status().isCreated())
-                .andExpect(jsonPath("$[0].id", is(1L)));
+        String inputJson = "{\"id\":1}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/worker")
+                .accept(MediaType.APPLICATION_JSON).content(inputJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
 
     @Test
@@ -101,9 +112,15 @@ public class WorkerControllerTest {
         // Mocking service
         when(workerService.saveOrUpdateWorker(null)).thenReturn(null);
 
-        Worker worker = null;
-        String inputJson = worker.toString();
-        mockMvc.perform(post("/api/worker").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(inputJson)).andExpect(status().isBadRequest());
+        String inputJson = "{\"id\":1}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/worker")
+                .accept(MediaType.APPLICATION_JSON).content(inputJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
 }
