@@ -39,8 +39,6 @@ public class Booking {
     @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date end;
 
-    @Size(min = 7, max = 9, message = "Status must be either PENDING, COMPLETED, or CANCELLED")
-    @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
     @CreationTimestamp
@@ -148,6 +146,11 @@ public class Booking {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Booking booking = (Booking) o;
-        return id.compareTo(booking.id) == 0;
+        return Objects.equals(id, booking.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

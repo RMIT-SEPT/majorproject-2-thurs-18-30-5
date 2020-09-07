@@ -20,10 +20,10 @@ import java.util.List;
 @RequestMapping("/api/booking")
 public class BookingController {
     @Autowired
-    BookingService bookingService;
+    private BookingService bookingService;
 
     @Autowired
-    FieldValidationService validationService;
+    private FieldValidationService validationService;
 
     private final Logger logger = LoggerFactory.getLogger(BookingController.class);
 

@@ -19,10 +19,10 @@ import java.util.Optional;
 @RequestMapping("/api/business")
 public class BusinessController {
     @Autowired
-    BusinessService businessService;
+    private BusinessService businessService;
 
     @Autowired
-    FieldValidationService validationService;
+    private FieldValidationService validationService;
 
     @GetMapping("/all")
     public ResponseEntity<Collection<Business>> getBusinesses() {
