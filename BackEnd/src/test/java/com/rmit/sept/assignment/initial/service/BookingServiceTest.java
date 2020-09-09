@@ -38,7 +38,7 @@ class BookingServiceTest {
     private final Calendar end = Calendar.getInstance();
 
     @Test
-    @DisplayName("Test saveOrUpdate Success")
+    @DisplayName("Test saveOrUpdate Create Success")
     void testCreateBooking() {
         start.set(2020, Calendar.FEBRUARY, 2, 10, 0);
         end.set(2020, Calendar.FEBRUARY, 2, 11, 0);
@@ -57,7 +57,7 @@ class BookingServiceTest {
         doReturn(new ArrayList<>()).when(repo).findAllByUser_Id(any());  // empty list => no overlap
         doReturn(new ArrayList<>()).when(repo).findAllByWorker_Id(any());  // empty list => no overlap
 
-        Booking b2 = service.saveOrUpdateBooking(b1);
+        Booking b2 = service.saveOrUpdateBooking(b1, true);
 
         assertNotNull(b2);
         assertEquals(b1.getId(), b2.getId());
@@ -83,7 +83,7 @@ class BookingServiceTest {
         doReturn(new ArrayList<>()).when(repo).findAllByUser_Id(any());  // empty list => no overlap
         doReturn(new ArrayList<>()).when(repo).findAllByWorker_Id(any());  // empty list => no overlap
 
-        Booking b2 = service.saveOrUpdateBooking(b1);
+        Booking b2 = service.saveOrUpdateBooking(b1, true);
 
         assertNotNull(b2);
         assertEquals(b1.getId(), b2.getId());
@@ -92,50 +92,39 @@ class BookingServiceTest {
         b2.setStart(start.getTime());
         doReturn(b2).when(repo).save(any());
 
-        Booking b3 = service.saveOrUpdateBooking(b2);
+        Booking b3 = service.saveOrUpdateBooking(b2, false);
         assertNotNull(b3);
         assertEquals(b2.getId(), b3.getId());
         assertEquals(b2.getStart(), b3.getStart());
     }
 
     @Test
-    @DisplayName("Test findOverlap Success")
-    void testFindOverlap() {
-        List<Booking> bookings = new ArrayList<>();
-        start.set(2020, Calendar.FEBRUARY, 2, 10, 30);
-        end.set(2020, Calendar.FEBRUARY, 2, 11, 30);
-        Booking b1 = new Booking();
-        b1.setStart(start.getTime());
-        b1.setEnd(end.getTime());
-        bookings.add(b1);
-        Booking b2 = new Booking();
+    @DisplayName("Test create Failure (overlap)")
+    void testCreateBookingOverlap() {
         start.set(2020, Calendar.FEBRUARY, 2, 10, 0);
         end.set(2020, Calendar.FEBRUARY, 2, 11, 0);
-        b2.setStart(start.getTime());
-        b2.setEnd(end.getTime());
-        bookings.add(b2);
-
-        assertTrue(Utilities.findOverlap(bookings));
-    }
-
-    @Test
-    @DisplayName("Test findOverlap False")
-    void testFindOverlapFalse() {
-        List<Booking> bookings = new ArrayList<>();
-        start.set(2020, Calendar.FEBRUARY, 2, 10, 30);
-        end.set(2020, Calendar.FEBRUARY, 2, 11, 30);
-        Booking b1 = new Booking();
+        User u2 = new User(3L, "anotheruser", "123Qwe!");
+        Booking b1 = new Booking(1L);
         b1.setStart(start.getTime());
         b1.setEnd(end.getTime());
-        bookings.add(b1);
-        Booking b2 = new Booking();
-        start.set(2020, Calendar.FEBRUARY, 2, 11, 30);
-        end.set(2020, Calendar.FEBRUARY, 2, 12, 0);
-        b2.setStart(start.getTime());
-        b2.setEnd(end.getTime());
-        bookings.add(b2);
+        b1.setWorker(w1);
+        b1.setUser(u2);
 
-        assertFalse(Utilities.findOverlap(bookings));
+        doReturn(Optional.of(w1)).when(workerRepo).findById(1L);
+        doReturn(Optional.empty()).when(workerRepo).findById(2L);
+        doReturn(Optional.of(u1)).when(userRepo).findById(2L);
+        doReturn(Optional.of(u2)).when(userRepo).findById(3L);
+        doReturn(b1).when(repo).save(any());
+
+        List<Booking> workerBookigns = new ArrayList<>();
+        workerBookigns.add(b1);
+
+        doReturn(new ArrayList<>()).when(repo).findAllByUser_Id(2L);  // empty list => no overlap
+        doReturn(workerBookigns).when(repo).findAllByWorker_Id(any());  // NON-EMPTY list (with overlap) overlap
+
+        b1.setUser(u1);
+        Booking b2 = service.saveOrUpdateBooking(b1, true);
+
+        assertNull(b2);
     }
-
 }

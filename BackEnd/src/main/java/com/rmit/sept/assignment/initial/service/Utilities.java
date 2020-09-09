@@ -10,7 +10,8 @@ public class Utilities {
         if (bookings.size() == 1) return false;
         bookings.sort(Comparator.comparing(Booking::getStart));
         for (int i = 1; i < bookings.size(); i++) {
-            if (bookings.get(i).getStart().compareTo(bookings.get(i-1).getEnd()) < 0)
+            if ((bookings.get(i).getStart().compareTo(bookings.get(i - 1).getEnd()) <= 0) &&
+                    (bookings.get(i).getEnd().compareTo(bookings.get(i - 1).getStart()) >= 0))
                 return true;
         }
         return false;

@@ -69,7 +69,7 @@ public class BookingController {
     public ResponseEntity<?> createBooking(@Validated @RequestBody Booking booking, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            Booking booking1 = bookingService.saveOrUpdateBooking(booking);
+            Booking booking1 = bookingService.saveOrUpdateBooking(booking, true);
             HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
             return new ResponseEntity<Booking>(booking1, status);
         } else {
@@ -84,7 +84,7 @@ public class BookingController {
         if (errors == null) {
             if (bookingService.findById(id) != null) {
                 booking.setId(id);  // TODO: why is this required? postman sending id as field is ignored somehow
-                Booking booking1 = bookingService.saveOrUpdateBooking(booking);
+                Booking booking1 = bookingService.saveOrUpdateBooking(booking, false);
                 HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.OK;
                 return new ResponseEntity<Booking>(booking1, status);
             }

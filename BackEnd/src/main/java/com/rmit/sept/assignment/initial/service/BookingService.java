@@ -36,7 +36,7 @@ public class BookingService {
      * @param booking Booking object to create/update
      * @return updated Booking object, or null if invalid
      */
-    public Booking saveOrUpdateBooking(@NotNull Booking booking) {
+    public Booking saveOrUpdateBooking(@NotNull Booking booking, boolean create) {
         Long workerId = booking.getWorker().getId();
         Long userId = booking.getUser().getId();
         if (workerId == null || userId == null) {
@@ -46,20 +46,24 @@ public class BookingService {
         Optional<User> user1 = userRepository.findById(userId);
         Optional<Worker> userIsWorker = workerRepository.findById(userId);
         if (!worker1.isPresent() || !user1.isPresent() || userIsWorker.isPresent()) {
-            return null;
+            return null; // check if user/worker are invalid, or if the user is also a worker (not allowed - invalid)
         }
         List<Booking> userBookings = new ArrayList<>(this.findByUser(userId));
         List<Booking> workerBookings = new ArrayList<>(this.findByWorker(workerId));
         Date start = booking.getStart();
         Date end = booking.getEnd();
-        if (start == null || end == null || !end.after(start) ||
-                findOverlap(userBookings) || findOverlap(workerBookings)) {
+        if (start == null || end == null || !end.after(start)) {
             return null;
         } else {
-            booking.setUser(user1.get());
-            booking.setWorker(worker1.get());
-            return bookingRepository.save(booking);
+            if (create) {  // append new booking and check for an overlap
+                userBookings.add(booking);
+                workerBookings.add(booking);
+            }
+            if (findOverlap(userBookings) || findOverlap(workerBookings)) return null;
         }
+        booking.setUser(user1.get());
+        booking.setWorker(worker1.get());
+        return bookingRepository.save(booking);
     }
 
 
