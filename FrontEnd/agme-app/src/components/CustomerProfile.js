@@ -15,42 +15,42 @@ export default class CustomerProfile extends Component {
                 <h1 className="profile-title">Profile</h1>
 
                 <div className="form-group row field-row">
-                  <label for="inputname" className="col-sm-2 col-form-label">Name</label>
+                  <label for="inputname" className="col-sm-2 col-form-label name">Name</label>
                   <div className="col-sm-10">
                     <input type="text" className="form-control field-input" id="inputname" placeholder="John" />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputusername" className="col-sm-2 col-form-label">Username</label>
+                  <label for="inputusername" className="col-sm-2 col-form-label username">Username</label>
                   <div className="col-sm-10">
                     <input type="text" className="form-control field-input" id="inputusername" placeholder="johnsmith123" />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputpassword" className="col-sm-2 col-form-label">Password</label>
+                  <label for="inputpassword" className="col-sm-2 col-form-label pwd">Password</label>
                   <div className="col-sm-10">
                     <input type="text" className="form-control field-input" id="inputpassword" placeholder="12345678" />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputpassword" className="col-sm-2 col-form-label">Confirm password</label>
+                  <label for="inputpassword" className="col-sm-2 col-form-label confirm-pwd">Confirm password</label>
                   <div className="col-sm-10">
                     <input type="text" className="form-control field-input" id="inputpassword" placeholder="12345678" />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputemail" className="col-sm-2 col-form-label">E-mail</label>
+                  <label for="inputemail" className="col-sm-2 col-form-label email">E-mail</label>
                   <div className="col-sm-10">
                     <input type="email" className="form-control field-input" id="inputemail" placeholder="johnsmith123@mail.com" />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputcontactno" className="col-sm-2 col-form-label">Contact number</label>
+                  <label for="inputcontactno" className="col-sm-2 col-form-label contact-no">Contact number</label>
                   <div className="col-sm-10">
                     <input type="tel" className="form-control field-input" id="inputcontactno" placeholder="04 9999 9999" />
                   </div>

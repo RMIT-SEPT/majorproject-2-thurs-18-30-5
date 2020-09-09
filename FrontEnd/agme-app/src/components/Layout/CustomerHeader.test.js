@@ -16,7 +16,7 @@ describe("<CustomerHeader /> component Unit Test", () => {
     });
 
     it("should render login in <CustomerHeader /> component", () => {
-        const profile = wrapper.find(".profile");
+        const profile = wrapper.find(".cust-profile");
         expect(profile).toHaveLength(1);
         expect(profile.text()).toEqual("Profile");
     });

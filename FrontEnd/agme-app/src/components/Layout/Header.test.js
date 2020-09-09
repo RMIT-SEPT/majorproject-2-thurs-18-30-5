@@ -26,5 +26,4 @@ describe("<Header /> component Unit Test", () => {
         expect(sign_up).toHaveLength(1);
         expect(sign_up.text()).toEqual("Sign up");
     });
-    
 });

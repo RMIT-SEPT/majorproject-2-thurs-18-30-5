@@ -8,7 +8,6 @@ export default class Header extends Component {
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
           <div className="container">
-
             <Link className="navbar-brand" to={"/"}>AGME</Link>
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
 

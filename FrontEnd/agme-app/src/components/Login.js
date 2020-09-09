@@ -13,16 +13,16 @@ class Login extends Component {
             <Header/>
 
             <form>
-              <h3>Login</h3>
+              <h3 className="login">Login</h3>
               <br/>
 
               <div className="form-group">
-                <label>Email / username</label>
+                <label className="email-username">Email / username</label>
                 <input type="text" className="form-control form-input" placeholder="Enter email / username" />
               </div>
 
               <div className="form-group">
-                <label>Password</label>
+                <label className="pwd">Password</label>
                 <input type="password" className="form-control form-input" placeholder="Enter password" />
               </div>
 

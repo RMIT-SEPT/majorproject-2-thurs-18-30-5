@@ -11,30 +11,30 @@ class SignUp extends Component {
           <div className="auth-inner">
             <Header/>
               <form>
-                <h3>Sign Up</h3>
+                <h3 className="signup">Sign Up</h3>
 
                 <div className="form-group">
-                  <label>Name</label>
+                  <label className="name">Name</label>
                   <input type="text" className="form-control form-input" placeholder="Enter name" />
                 </div>
 
                 <div className="form-group">
-                  <label>Email address</label>
+                  <label className="email">Email address</label>
                   <input type="email" className="form-control form-input" placeholder="Enter email" />
                 </div>
 
                 <div className="form-group">
-                  <label>Username</label>
+                  <label className="username">Username</label>
                   <input type="text" className="form-control form-input" placeholder="Enter username" />
                 </div>
 
                 <div className="form-group">
-                  <label>Password</label>
+                  <label className="password">Password</label>
                   <input type="password" className="form-control form-input" placeholder="Enter password" />
                 </div>
 
                 <div className="form-group">
-                  <label>Password confirmation</label>
+                  <label className="pwd-confirm">Password confirmation</label>
                   <input type="password" className="form-control form-input" placeholder="Enter password again" />
                 </div>
 
