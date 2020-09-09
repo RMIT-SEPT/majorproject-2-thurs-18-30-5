@@ -30,8 +30,8 @@ export default class BookingPage2 extends Component {
           <div className="auth-inner">
             <CustomerHeader/>
 
-            <form>
-                <h3>Choose date and time</h3>
+            <form className="date-form">
+                <h3 className="date-h3">Choose date and time</h3>
                 <hr/>
                 <br/>
                 <br/>

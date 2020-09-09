@@ -24,8 +24,8 @@ export default class BookingPage1 extends Component {
           <div className="auth-inner">
             <CustomerHeader/>
 
-            <form>
-                <h3>Choose a service</h3>
+            <form className="service-form">
+                <h3 className="service-h3">Choose a service</h3>
                 <hr/>
                 <br/>
                 <br/>
