@@ -17,14 +17,12 @@ describe("<CustomerHeader /> component Unit Test", () => {
 
     it("should render login in <CustomerHeader /> component", () => {
         const profile = wrapper.find(".cust-profile");
-        expect(profile).toHaveLength(1);
-        expect(profile.text()).toEqual("Profile");
+        expect(profile).toHaveLength(0);
     });
 
     it("should render sign up in <CustomerHeader /> component", () => {
         const logout = wrapper.find(".logout");
-        expect(logout).toHaveLength(1);
-        expect(logout.text()).toEqual("Logout");
+        expect(logout).toHaveLength(0);
     });
     
 });

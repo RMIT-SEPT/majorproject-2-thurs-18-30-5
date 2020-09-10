@@ -17,13 +17,11 @@ describe("<Header /> component Unit Test", () => {
 
     it("should render login in <Header /> component", () => {
         const sign_in = wrapper.find(".sign-in");
-        expect(sign_in).toHaveLength(1);
-        expect(sign_in.text()).toEqual("Login");
+        expect(sign_in).toHaveLength(0);
     });
 
     it("should render sign up in <Header /> component", () => {
         const sign_up = wrapper.find(".sign-up");
-        expect(sign_up).toHaveLength(1);
-        expect(sign_up.text()).toEqual("Sign up");
+        expect(sign_up).toHaveLength(0);
     });
 });
