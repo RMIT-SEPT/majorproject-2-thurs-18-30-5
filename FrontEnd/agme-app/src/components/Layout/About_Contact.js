@@ -4,7 +4,6 @@ import './About_Contact.css'
 export default class About_Contact extends Component {
   render() {
     return (
-      <div>
         <div className="container about-contact-info">
           <div className="about-title">About</div>
           <div className="about-content">
@@ -24,7 +23,6 @@ export default class About_Contact extends Component {
           </div>
           <br/>
         </div>
-      </div>
     )
   }
 }

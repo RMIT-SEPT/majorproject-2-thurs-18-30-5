@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Footer from './Layout/Footer'
-import CustomerHeader from './Layout/CustomerHeader'
+import Footer from '../Layout/Footer'
+import CustomerHeader from '../Layout/CustomerHeader'
 import { BrowserRouter as Router, Link } from "react-router-dom"
 import './BookingPage.css';
 
@@ -24,8 +24,8 @@ export default class BookingPage1 extends Component {
           <div className="auth-inner">
             <CustomerHeader/>
 
-            <form>
-                <h3>Choose a service</h3>
+            <form className="service-form">
+                <h3 className="service-h3">Choose a service</h3>
                 <hr/>
                 <br/>
                 <br/>

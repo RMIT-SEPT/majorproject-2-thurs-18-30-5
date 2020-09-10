@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Footer from './Layout/Footer'
-import CustomerHeader from './Layout/CustomerHeader'
+import Footer from '../Layout/Footer'
+import CustomerHeader from '../Layout/CustomerHeader'
 import { BrowserRouter as Router, Link } from "react-router-dom"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -30,8 +30,8 @@ export default class BookingPage2 extends Component {
           <div className="auth-inner">
             <CustomerHeader/>
 
-            <form>
-                <h3>Choose date and time</h3>
+            <form className="date-form">
+                <h3 className="date-h3">Choose date and time</h3>
                 <hr/>
                 <br/>
                 <br/>
