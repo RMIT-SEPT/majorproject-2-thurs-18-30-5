@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Footer from './Layout/Footer'
-import CustomerHeader from './Layout/CustomerHeader'
+import Footer from '../Layout/Footer'
+import CustomerHeader from '../Layout/CustomerHeader'
 import { BrowserRouter as Router, Link } from "react-router-dom"
 import './BookingPage.css';
 

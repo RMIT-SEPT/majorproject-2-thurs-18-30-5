@@ -1,9 +1,9 @@
 import './Login-signup.css';
 import React, { Component } from "react";
-import Header from './Layout/Header';
-import Footer from './Layout/Footer';
+import Header from '../Layout/Header';
+import Footer from '../Layout/Footer';
 
-class SignUp extends Component {
+class ForgotPassword extends Component {
   render() {
     return (
       <div className="img-bg">
@@ -46,4 +46,4 @@ class SignUp extends Component {
     );
   }
 }
-export default SignUp;
+export default ForgotPassword;

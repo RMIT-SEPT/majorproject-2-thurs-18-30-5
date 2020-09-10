@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Link } from "react-router-dom"
-import CustomerHeader from './Layout/CustomerHeader'
-import Footer from './Layout/Footer'
+import CustomerHeader from '../Layout/CustomerHeader'
+import Footer from '../Layout/Footer'
 import './CustomerProfile.css'
 
 export default class CustomerProfile extends Component {

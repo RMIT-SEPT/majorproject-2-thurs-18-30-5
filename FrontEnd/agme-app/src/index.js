@@ -5,15 +5,15 @@ import App from './App';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './components/Login';
-import SignUp from './components/Signup';
-import ForgotPassword from './components/ForgotPassword';
-import CustomerDashboard from './components/CustomerDashboard';
-import BookingPage1 from './components/BookingPage1';
-import BookingPage2 from './components/BookingPage2';
-import BookingPage3 from './components/BookingPage3';
-import ConfirmBooking from './components/ConfirmBooking';
-import CustomerProfile from './components/CustomerProfile';
+import Login from './components/General/Login';
+import SignUp from './components/General/Signup';
+import ForgotPassword from './components/General/ForgotPassword';
+import CustomerDashboard from './components/Customer/CustomerDashboard';
+import BookingPage1 from './components/Customer/BookingPage1';
+import BookingPage2 from './components/Customer/BookingPage2';
+import BookingPage3 from './components/Customer/BookingPage3';
+import ConfirmBooking from './components/Customer/ConfirmBooking';
+import CustomerProfile from './components/Customer/CustomerProfile';
 
 ReactDOM.render(
   <BrowserRouter>
