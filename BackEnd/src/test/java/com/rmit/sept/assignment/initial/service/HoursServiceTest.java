@@ -7,6 +7,7 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit testing for HoursService
  */
 @SpringBootTest
+@ActiveProfiles("test")
 class HoursServiceTest {
     @Autowired
     private HoursService service;

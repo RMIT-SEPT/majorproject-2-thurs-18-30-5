@@ -6,15 +6,13 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.repositories.BookingRepository;
 import com.rmit.sept.assignment.initial.repositories.UserRepository;
 import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
-import org.hibernate.jdbc.Work;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
-import javax.rmi.CORBA.Util;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,6 +20,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.any;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class BookingServiceTest {
     @Autowired
     private BookingService service;

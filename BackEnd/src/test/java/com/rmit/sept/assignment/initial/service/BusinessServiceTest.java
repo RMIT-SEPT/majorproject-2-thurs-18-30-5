@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.any;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class BusinessServiceTest {
     @Autowired
     private BusinessService service;
