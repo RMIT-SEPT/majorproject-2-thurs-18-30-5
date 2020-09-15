@@ -1,5 +1,6 @@
 package com.rmit.sept.assignment.initial.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -7,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * User entity is used to house core user data, such as username, password, name, address.
@@ -27,11 +30,15 @@ public class User {
     private String lastName;
     private String address;
 //    TODO: phone number (area code + number?), separate address into fields?
+    @OneToMany(targetEntity = Booking.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("user")
+    private List<Booking> bookings;
+
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date createdAt;
     @UpdateTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date updatedAt;
 
     public User() {
@@ -109,5 +116,17 @@ public class User {
     @PreUpdate
     public void setUpdatedAt() {
         this.updatedAt = new java.util.Date();
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
     }
 }

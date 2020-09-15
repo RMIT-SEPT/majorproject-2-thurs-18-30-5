@@ -1,7 +1,7 @@
 package com.rmit.sept.assignment.initial.service;
 
-import com.rmit.sept.assignment.initial.Repositories.UserRepository;
-import com.rmit.sept.assignment.initial.Repositories.WorkerRepository;
+import com.rmit.sept.assignment.initial.repositories.UserRepository;
+import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.any;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class WorkerServiceTest {
     @Autowired
     private WorkerService service;

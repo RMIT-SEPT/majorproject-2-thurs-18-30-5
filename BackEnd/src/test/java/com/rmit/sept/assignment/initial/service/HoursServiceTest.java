@@ -1,14 +1,14 @@
 package com.rmit.sept.assignment.initial.service;
 
-import com.rmit.sept.assignment.initial.Repositories.HoursRepository;
+import com.rmit.sept.assignment.initial.repositories.HoursRepository;
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit testing for HoursService
  */
 @SpringBootTest
+@ActiveProfiles("test")
 class HoursServiceTest {
     @Autowired
     private HoursService service;

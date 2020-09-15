@@ -1,13 +1,13 @@
 package com.rmit.sept.assignment.initial.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Worker entities are used to track users who are workers. Additionally, a worker may also be an admin user.
@@ -25,14 +25,19 @@ public class Worker {
     @PrimaryKeyJoinColumn
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "business_id")
+    @JsonIgnoreProperties("workers")
+    private Business business;
+
     private Boolean isAdmin = false;
 
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date createdAt;
 
     @UpdateTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
     private Date updatedAt;
 
     public Worker() {
@@ -85,6 +90,14 @@ public class Worker {
         this.updatedAt = new java.util.Date();
     }
 
+    public Business getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(Business business) {
+        this.business = business;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,12 +109,12 @@ public class Worker {
     @Override
     public String toString() {
         return "Worker{" +
-                "id=" + id +
-                ", user=" + user +
-                ", isAdmin=" + isAdmin +
+                "\n\tid=" + id +
+                ",\n\tuser=" + user +
+                ",\n\tisAdmin=" + isAdmin +
 //                ", hours=" + hours +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+                ",\n\tcreatedAt=" + createdAt +
+                ",\n\tupdatedAt=" + updatedAt +
+                "\n" + business.toString() + "\n}";
     }
 }

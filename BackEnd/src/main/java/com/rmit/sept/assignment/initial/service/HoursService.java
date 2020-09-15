@@ -1,14 +1,12 @@
 package com.rmit.sept.assignment.initial.service;
 
-import com.rmit.sept.assignment.initial.Repositories.HoursRepository;
-import com.rmit.sept.assignment.initial.Repositories.WorkerRepository;
+import com.rmit.sept.assignment.initial.repositories.HoursRepository;
+import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
 import com.rmit.sept.assignment.initial.model.Hours;
-import com.rmit.sept.assignment.initial.model.HoursPK;
 import com.rmit.sept.assignment.initial.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;

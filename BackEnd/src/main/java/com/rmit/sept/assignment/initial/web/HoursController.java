@@ -2,6 +2,7 @@ package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.Worker;
+import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.HoursService;
 import com.rmit.sept.assignment.initial.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class HoursController {
 
     @Autowired
     private WorkerService workerService;
+
+    @Autowired
+    private FieldValidationService validationService;
 
     @GetMapping("/{workerId}")
     public ResponseEntity<Collection<Hours>> getWorkerHours(@PathVariable Long workerId) {
@@ -47,15 +51,14 @@ public class HoursController {
 
     @PostMapping("")
     public ResponseEntity<?> createNewHours(@Validated @RequestBody Hours hours, BindingResult result) {
-        if (result.hasErrors()) {
-            for (FieldError error : result.getFieldErrors()) {
-                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
-            }
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            Hours hours1 = hoursService.saveOrUpdateHours(hours);
+            HttpStatus status = (hours1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+            return new ResponseEntity<>(hours1, status);
+        } else {
+            return errors;
         }
-        System.out.println(hours);
-        Hours hours1 = hoursService.saveOrUpdateHours(hours);
-        HttpStatus status = (hours1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-        return new ResponseEntity<>(hours1, status);
     }
 
     @DeleteMapping(value = "/{workerId}", params = "dayOfWeek")

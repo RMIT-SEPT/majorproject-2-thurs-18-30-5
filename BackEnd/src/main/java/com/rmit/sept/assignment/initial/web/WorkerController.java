@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Worker;
+import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ import java.util.List;
 public class WorkerController {
     @Autowired
     private WorkerService workerService;
+
+    @Autowired
+    private FieldValidationService validationService;
 
     /**
      * Endpoint to return all workers
@@ -49,13 +53,29 @@ public class WorkerController {
      */
     @PostMapping("")
     public ResponseEntity<?> createNewWorker(@Validated @RequestBody Worker worker, BindingResult result) {
-        if (result.hasErrors()) {  // validate that fields are correct format/type
-            for (FieldError error : result.getFieldErrors()) {
-                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
-            }
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            Worker worker1 = workerService.saveOrUpdateWorker(worker);
+            HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+            return new ResponseEntity<Worker>(worker1, status);
+        } else {
+            return errors;
         }
-        Worker worker1 = workerService.saveOrUpdateWorker(worker);
-        HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-        return new ResponseEntity<Worker>(worker1, status);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateWorker(@Validated @RequestBody Worker worker, Long workerId,BindingResult result) {
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            if (getWorker(workerId) != null) {
+                // TODO: check that this works - or do you need to set id from path
+                Worker worker1 = workerService.saveOrUpdateWorker(worker);
+                HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+                return new ResponseEntity<Worker>(worker1, status);
+            }
+            return new ResponseEntity<>("Invalid Worker ID", HttpStatus.NOT_FOUND);
+        } else {
+            return errors;
+        }
     }
 }
