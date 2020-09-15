@@ -2,6 +2,7 @@ import './Login-signup.css';
 import React, { Component } from "react";
 import Header from '../Layout/Header';
 import Footer from '../Layout/Footer';
+import axios from "axios";
 
 class SignUp extends Component {
   constructor() {
@@ -10,6 +11,7 @@ class SignUp extends Component {
     this.state = {
       "username": "",
       "password": "",
+      "secpass": "",
       "firstName": "",
       "lastName": ""
     }
@@ -19,16 +21,26 @@ class SignUp extends Component {
   onChange(e){
     this.setState({[e.target.name]: e.target.value});
   }
-  onSubmit(e){
+  onSubmit = async e =>{
       e.preventDefault();
       const newPerson = {
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           username: this.state.username,
-          password:this.state.password
+          password: this.state.password
       }
 
       console.log(newPerson);
+
+      if (this.state.password == this.state.secpass) {
+        try {
+          const res = await axios.post("http://localhost:8080/api/customer", newPerson);
+          // history.push("/sign-up");
+        } catch (err) {
+        
+        }
+      }
+      window.location.reload(false);
   }
   render() {
     return (
@@ -69,7 +81,9 @@ class SignUp extends Component {
 
                 <div className="form-group">
                   <label className="pwd-confirm">Password confirmation</label>
-                  <input type="password" className="form-control form-input" placeholder="Enter password again" />
+                  <input type="password" className="form-control form-input" placeholder="Enter password again" name="secpass"
+                  value= {this.state.secpass}
+                  onChange = {this.onChange} />
                 </div>
 
                 <div className="submit-button">
