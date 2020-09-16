@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface HoursRepository extends CrudRepository<Hours, Hours.HoursPK> {
     Optional<Hours> findById(Hours.HoursPK hoursPK);
     List<Hours> findById_Worker(Worker worker);
+    List<Hours> findById_WorkerId(Long workerId);
     List<Hours> findAll(Example<Hours> hours);
     void deleteById(Hours.HoursPK hoursPK);
 //    void deleteById(Worker worker, Long dayOfWeek);

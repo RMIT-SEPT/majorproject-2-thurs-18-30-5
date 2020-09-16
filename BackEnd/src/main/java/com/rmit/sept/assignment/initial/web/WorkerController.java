@@ -4,6 +4,7 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -11,8 +12,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/worker")
@@ -43,6 +48,22 @@ public class WorkerController {
         // if the service return null this means no worker was found
         HttpStatus status = worker != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(worker, status);
+    }
+
+    @GetMapping("/business/{businessId}")
+    public ResponseEntity<List<Worker>> getWorkersByBusiness(
+            @PathVariable Long businessId,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime start,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime end) {
+        List<Worker> workers;
+        if (start != null && end != null) {
+            System.out.println("START AND END");
+            workers = workerService.findAllByBusiness(businessId, start, end);
+        } else {
+            workers = workerService.findAllByBusiness(businessId);
+        }
+        HttpStatus status = (workers.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(workers, status);
     }
 
     /**
@@ -83,5 +104,19 @@ public class WorkerController {
         } else {
             return errors;
         }
+    }
+
+
+    @GetMapping("/test/{workerId}")
+    public ResponseEntity<?> getTestHours(
+            @PathVariable Long workerId,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime start,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime end) throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String s = "2020-16-09 14:00";
+        String e = "2020-16-09 15:00";
+//        Date start = df.parse(s);
+//        Date end = df.parse(e);
+        return new ResponseEntity<>(workerService.checkAvailability(workerId, start, end), HttpStatus.OK);
     }
 }

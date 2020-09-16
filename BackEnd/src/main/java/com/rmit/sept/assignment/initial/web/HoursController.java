@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class HoursController {
     }
 
     @GetMapping(value = "/{workerId}", params = "dayOfWeek")
-    public ResponseEntity<?> getWorkerHoursByDay(@PathVariable Long workerId, @RequestParam Long dayOfWeek) {
+    public ResponseEntity<?> getWorkerHoursByDay(@PathVariable Long workerId, @RequestParam DayOfWeek dayOfWeek) {
         Worker worker = workerService.findById(workerId);
         if (worker != null) {
             Hours hours = hoursService.findById(worker, dayOfWeek);
@@ -62,7 +63,7 @@ public class HoursController {
     }
 
     @DeleteMapping(value = "/{workerId}", params = "dayOfWeek")
-    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId, @RequestParam Long dayOfWeek) {
+    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId, @RequestParam DayOfWeek dayOfWeek) {
         boolean deleteHours = false;
         if (workerId != null && dayOfWeek != null) {
             deleteHours = hoursService.deleteHours(workerId, dayOfWeek);

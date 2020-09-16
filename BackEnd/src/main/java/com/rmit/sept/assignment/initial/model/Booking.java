@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -33,21 +34,21 @@ public class Booking {
     private User user;
 
     @NotNull(message = "Start date cannot be null")
-    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date start;
     @NotNull(message = "End date cannot be null")
-    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date end;
 
     private BookingStatus status;
 
     @CreationTimestamp
     @Column(name = "created_at")
-    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date createdAt;
     @UpdateTimestamp
     @Column(name = "updated_at")
-    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
 
     public Booking() {
@@ -91,6 +92,7 @@ public class Booking {
         this.user = user;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     public Date getStart() {
         return start;
     }
@@ -99,6 +101,7 @@ public class Booking {
         this.start = start;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     public Date getEnd() {
         return end;
     }
