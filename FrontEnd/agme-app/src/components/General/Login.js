@@ -52,7 +52,7 @@ class Login extends Component {
               <br/>
 
               <div className="form-group">
-                <label className="email-username">Email / username</label>
+                <label className="email-username">Username</label>
                 <input type="text" className="form-control form-input" placeholder="Enter username" name="username"
                 value= {this.state.username}
                 onChange = {this.onChange} />

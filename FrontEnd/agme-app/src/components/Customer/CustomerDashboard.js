@@ -12,7 +12,10 @@ export default class CustomerDashboard extends Component {
           <div className="cust-img">
             <div className="container customer-title">
               <div className="welcome-msg">G'day, {this.props.location.state.user.firstName}!</div>
-              <Link className="btn book-btn" to={"/bookingPage1"}>Book a service</Link>
+              <Link className="btn book-btn" to={{
+                pathname: '/bookingPage1',
+                state: this.props.location.state
+              }}>Book a service</Link>
             </div>
             {console.log(this.props)}
             <div className="container upcoming-booking">
