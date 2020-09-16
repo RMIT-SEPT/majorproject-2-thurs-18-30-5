@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Worker entities are used to track users who are workers. Additionally, a worker may also be an admin user.
@@ -31,6 +32,10 @@ public class Worker {
     private Business business;
 
     private Boolean isAdmin = false;
+
+    @OneToMany(targetEntity = Booking.class, mappedBy = "worker", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("worker")
+    private List<Booking> bookings;
 
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
@@ -97,6 +102,11 @@ public class Worker {
     public void setBusiness(Business business) {
         this.business = business;
     }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
 
     @Override
     public boolean equals(Object o) {
