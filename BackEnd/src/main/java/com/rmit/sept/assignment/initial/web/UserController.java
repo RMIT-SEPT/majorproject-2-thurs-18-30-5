@@ -16,6 +16,7 @@ import sun.net.httpserver.HttpsServerImpl;
 import java.util.Collection;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/customer")
 public class UserController {
