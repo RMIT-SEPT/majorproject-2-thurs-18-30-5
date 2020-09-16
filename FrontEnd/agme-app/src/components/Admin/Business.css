@@ -1,0 +1,8 @@
+.edit-business {
+  position: relative;
+  top: 300px;
+}
+
+textarea {
+  resize: none;
+}
