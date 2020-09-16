@@ -1,8 +1,11 @@
 package com.rmit.sept.assignment.initial.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,7 +14,9 @@ import java.util.Objects;
 public class Hours {
     @EmbeddedId
     private HoursPK id;
+    @JsonFormat(pattern = "HH:mm")
     private Date start;
+    @JsonFormat(pattern = "HH:mm")
     private Date end;
 
     public Hours() {
@@ -41,19 +46,20 @@ public class Hours {
         this.end = end;
     }
 
+    @SuppressWarnings("JpaDataSourceORMInspection")  // errors with mapping to columns in table
     @Embeddable
     public static class HoursPK implements Serializable {
         @ManyToOne
         @JoinColumn(name = "worker_id")
         private Worker worker;
         @Column(name = "day_of_week")
-        private Long dayOfWeek;
+        private DayOfWeek dayOfWeek;
 
         public HoursPK() {
 
         }
 
-        public HoursPK(Worker worker, Long dayOfWeek) {
+        public HoursPK(Worker worker, DayOfWeek dayOfWeek) {
             this.worker = worker;
             this.dayOfWeek = dayOfWeek;
         }
@@ -62,7 +68,7 @@ public class Hours {
             return worker;
         }
 
-        public Long getDayOfWeek() {
+        public DayOfWeek getDayOfWeek() {
             return dayOfWeek;
         }
 

@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
 import java.util.Date;
 import java.util.List;
 
@@ -38,11 +39,11 @@ public class Worker {
     private List<Booking> bookings;
 
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date createdAt;
 
     @UpdateTimestamp
-    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
 
     public Worker() {
@@ -106,7 +107,19 @@ public class Worker {
     public List<Booking> getBookings() {
         return bookings;
     }
-
+//
+//    public List<Hours> getHours() {
+//        return hours;
+//    }
+//
+//    public Hours getHours(DayOfWeek dayOfWeek) {
+//        for (Hours hours : hours) {
+//            System.out.println("\n" + (hours.getId().getDayOfWeek().compareTo(dayOfWeek) == 0));
+//            if (hours.getId().getDayOfWeek().compareTo(dayOfWeek) == 0)
+//                return hours;
+//        }
+//        return null;
+//    }
 
     @Override
     public boolean equals(Object o) {

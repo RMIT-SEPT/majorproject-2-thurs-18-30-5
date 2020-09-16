@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +63,7 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test createHours Success")
     void testCreateHours() {
-        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, DayOfWeek.FRIDAY);
         h1 = new Hours();
         h1.setId(hoursPK);
 
@@ -77,7 +78,7 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test createHours Invalid Hours")
     void testCreateHoursInvalidHours() {
-        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, DayOfWeek.FRIDAY);
         h1 = new Hours();
         h1.setId(hoursPK);
 
@@ -94,7 +95,7 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test findByWorker Success")
     void testFindByWorker() {
-        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, DayOfWeek.FRIDAY);
         h1 = new Hours();
         h1.setId(hoursPK);
 
@@ -111,7 +112,7 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test findById Success")
     void testFindById() {
-        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, DayOfWeek.FRIDAY);
         h1 = new Hours();
         h1.setId(hoursPK);
 
@@ -126,7 +127,7 @@ class HoursServiceTest {
     @Test
     @DisplayName("Test updateHours Success")
     void testUpdateHours() {
-        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, DayOfWeek.FRIDAY);
         h1 = new Hours();
         cal.set(2020, Calendar.FEBRUARY, 1, 10, 0);
         h1.setStart(cal.getTime());
@@ -155,7 +156,7 @@ class HoursServiceTest {
 
     @Test
     void testDeleteHours() {
-        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, 0L);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, DayOfWeek.FRIDAY);
         h1 = new Hours();
         cal.set(2020, Calendar.FEBRUARY, 1, 10, 0);
         h1.setStart(cal.getTime());

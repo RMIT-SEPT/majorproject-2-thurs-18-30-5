@@ -29,6 +29,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,12 +57,12 @@ public class HoursControllerTest {
         worker = new Worker(new User(1L, "ali123", "123Qwe!"));
         hours = new ArrayList<Hours>();
 
-        Hours.HoursPK hoursPK = new Hours.HoursPK(worker, 0L);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(worker, DayOfWeek.FRIDAY);
         Hours h1 = new Hours();
         h1.setId(hoursPK);
         hours.add(h1);
 
-        Hours.HoursPK hoursPK2 = new Hours.HoursPK(worker, 1L);
+        Hours.HoursPK hoursPK2 = new Hours.HoursPK(worker, DayOfWeek.SATURDAY);
         Hours h2 = new Hours();
         h2.setId(hoursPK2);
         hours.add(h2);
@@ -95,7 +96,7 @@ public class HoursControllerTest {
     void testGetWorkerHoursByDaySuccess() throws Exception {
         // Mocking service
         when(workerService.findById(1L)).thenReturn(worker);
-        when(hoursService.findById(worker, 0L)).thenReturn(hours.get(0));
+        when(hoursService.findById(worker, DayOfWeek.FRIDAY)).thenReturn(hours.get(0));
 
         mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -117,7 +118,7 @@ public class HoursControllerTest {
     void testGetWorkerHoursByDayFailNullHours() throws Exception {
         // Mocking service
         when(workerService.findById(1L)).thenReturn(worker);
-        when(hoursService.findById(worker, 0L)).thenReturn(null);
+        when(hoursService.findById(worker, DayOfWeek.FRIDAY)).thenReturn(null);
 
         mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -207,7 +208,7 @@ public class HoursControllerTest {
     @DisplayName("Test deleteWorkersHours success")
     void testDeleteWorkerHoursSuccess() throws Exception {
         // Mocking service
-        when(hoursService.deleteHours(worker.getId(), 0L)).thenReturn(true);
+        when(hoursService.deleteHours(worker.getId(), DayOfWeek.FRIDAY)).thenReturn(true);
 
         mockMvc.perform(delete("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -217,7 +218,7 @@ public class HoursControllerTest {
     @DisplayName("Test deleteWorkersHours fail (null worker)")
     void testDeleteWorkerHoursFailNullWorker() throws Exception {
         // Mocking service
-        when(hoursService.deleteHours(null, 0L)).thenReturn(false);
+        when(hoursService.deleteHours(null, DayOfWeek.FRIDAY)).thenReturn(false);
 
         mockMvc.perform(delete("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

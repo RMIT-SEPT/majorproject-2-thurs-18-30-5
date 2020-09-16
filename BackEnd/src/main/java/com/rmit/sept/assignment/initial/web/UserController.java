@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.User;
+import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,27 @@ public class UserController {
             User user1 = userService.saveOrUpdateUser(user);
             HttpStatus status = (user1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
             return new ResponseEntity<User>(user1, status);
+        } else {
+            return errors;
+        }
+    }
+
+    /**
+     * Endpoint to update an existing user
+     * @param user: User object with updated details, and current password (plaintext)
+     * @param result: field errors/validation based on User entity
+     * @return ResponseEntity with updated User object and corresponding status code (CREATED, BAD_REQUEST)
+     */
+    @PutMapping("")
+    public ResponseEntity<?> updateUser(@Validated @RequestBody User user, BindingResult result) {
+        ResponseEntity<?> errors = validationService.mapFieldErrors(result);
+        if (errors == null) {
+            if (userService.authenticateUser(user.getId(), user.getPassword()) != null) {
+                User user1 = userService.saveOrUpdateUser(user);
+                HttpStatus status = (user1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+                return new ResponseEntity<User>(user1, status);
+            }
+            return new ResponseEntity<>("Invalid User Credentials", HttpStatus.NOT_FOUND);
         } else {
             return errors;
         }

@@ -7,6 +7,7 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +53,7 @@ public class HoursService {
         return false;
     }
 
-    public boolean deleteHours(Long workerId, Long dayOfWeek) {
+    public boolean deleteHours(Long workerId, DayOfWeek dayOfWeek) {
         Optional<Worker> worker = workerRepository.findById(workerId);
         if (worker.isPresent()) {
             Hours.HoursPK hoursPK = new Hours.HoursPK(worker.get(), dayOfWeek);
@@ -69,7 +70,7 @@ public class HoursService {
         return (hoursPK != null) ? hoursRepository.findById(hoursPK).orElse(null) : null;
     }
 
-    public Hours findById(Worker worker, Long dayOfWeek) {
+    public Hours findById(Worker worker, DayOfWeek dayOfWeek) {
         if (worker == null || dayOfWeek == null) return null;
         return hoursRepository.findById(new Hours.HoursPK(worker, dayOfWeek)).orElse(null);
     }
