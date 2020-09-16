@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400&display=swap');
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.footer {
+  clear: both;
+  height: 50px;
+  margin-top: -50px;
+  position: relative;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0.9rem;
+  background-color: #e4e4e462;
+  text-align: center;
+}
+
+.copyright {
+  position: absolute;
+  right: 50px;
+  float: right;
+  color: #7c7c7c;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+}
+
+.aboutcontact {
+  position: absolute;
+  left: 50px;
+  float: left;
+  color: #464646;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+}
+
+.aboutcontact:hover {
+  text-decoration-line: none;
+  color: #9558f7;
+}

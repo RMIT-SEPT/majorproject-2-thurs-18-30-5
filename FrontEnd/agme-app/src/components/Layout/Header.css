@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+.navbar-brand {
+  font-size: xx-large;
+  display: flex;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.nav-link {
+  font-size: large;
+  display: flex;
+  font-family: 'Raleway', sans-serif;
+}

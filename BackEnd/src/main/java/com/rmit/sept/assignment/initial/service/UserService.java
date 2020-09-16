@@ -3,6 +3,7 @@ package com.rmit.sept.assignment.initial.service;
 import com.rmit.sept.assignment.initial.repositories.UserRepository;
 import com.rmit.sept.assignment.initial.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,8 +13,13 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+    private final BCryptPasswordEncoder encoder;
     @Autowired
     private UserRepository userRepository;
+
+    public UserService(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
     /**
      * Service method to update or create a user
@@ -30,6 +36,10 @@ public class UserService {
             } else {  // if we cannot find by username then the request was incorrect
                 return null;
             }
+        }
+        String password = user.getPassword();
+        if (password != null) {
+            user.setPassword(encoder.encode(user.getPassword()));
         }
         return userRepository.save(user);
     }
@@ -65,14 +75,31 @@ public class UserService {
     }
 
     /**
-     * Authenticate a user - check ID and password
-     * @param username: id of user to fetch
+     * Authenticate a user - check username and password
+     * @param username: username of user to fetch
      * @param password: password to check
      * @return User object or null if not found
      */
     public User authenticateUser(String username, String password) {
         User user = findByUsername(username);
-        return (user.getPassword().compareTo(password) == 0) ? user : null;
+        if (user != null)
+            if (encoder.matches(password, user.getPassword()))
+                return user;
+        return null;
+    }
+
+    /**
+     * Authenticate a user - check ID and password
+     * @param id: id of user to fetch
+     * @param password: password to check
+     * @return User object or null if not found
+     */
+    public User authenticateUser(Long id, String password) {
+        User user = findById(id);
+        if (user != null)
+            if (encoder.matches(password, user.getPassword()))
+                return user;
+        return null;
     }
 
 }

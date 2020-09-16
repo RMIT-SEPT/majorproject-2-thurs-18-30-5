@@ -63,11 +63,17 @@ public class WorkerController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateWorker(@Validated @RequestBody Worker worker, Long workerId,BindingResult result) {
+    /**
+     * Endpoint to update an existing worker
+     * @param worker: Worker object with updated details, and current password (plaintext)
+     * @param result: field errors/validation based on Worker entity
+     * @return ResponseEntity with updated Worker object and corresponding status code (CREATED, BAD_REQUEST)
+     */
+    @PutMapping("")
+    public ResponseEntity<?> updateWorker(@Validated @RequestBody Worker worker, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            if (getWorker(workerId) != null) {
+            if (getWorker(worker.getId()) != null) {
                 // TODO: check that this works - or do you need to set id from path
                 Worker worker1 = workerService.saveOrUpdateWorker(worker);
                 HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
