@@ -12,7 +12,7 @@ export default class CustomerProfile extends Component {
           <div className="cust-img">
             <div className="container profile">
               <form>
-                <h1 className="profile-title">Profile</h1>
+                <div className="profile-title">Profile</div>
 
                 <div className="form-group row field-row">
                   <label for="inputname" className="col-sm-2 col-form-label name">Name</label>
