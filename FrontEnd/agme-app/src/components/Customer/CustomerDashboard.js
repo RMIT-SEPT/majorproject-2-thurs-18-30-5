@@ -8,13 +8,13 @@ export default class CustomerDashboard extends Component {
   render() {
     return (
       <div>
-        <CustomerHeader/>
+        <CustomerHeader user={this.props.location.state} />
           <div className="cust-img">
             <div className="container customer-title">
-              <div className="welcome-msg">G'day, JOHN!</div>
+              <div className="welcome-msg">G'day, {this.props.location.state.user.firstName}!</div>
               <Link className="btn book-btn" to={"/bookingPage1"}>Book a service</Link>
             </div>
-            
+            {console.log(this.props)}
             <div className="container upcoming-booking">
               <div className="upcoming-title">Upcoming bookings</div>
               <div className="table-wrapper-scroll-y my-custom-scrollbar">

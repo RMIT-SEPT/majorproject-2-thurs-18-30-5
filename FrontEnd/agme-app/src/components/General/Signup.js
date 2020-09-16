@@ -19,6 +19,7 @@ class SignUp extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e){
+    console.log(this.props);
     this.setState({[e.target.name]: e.target.value});
   }
   onSubmit = async e =>{
