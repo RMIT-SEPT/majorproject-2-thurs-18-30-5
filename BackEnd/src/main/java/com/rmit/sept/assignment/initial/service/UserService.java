@@ -75,13 +75,27 @@ public class UserService {
     }
 
     /**
-     * Authenticate a user - check ID and password
-     * @param username: id of user to fetch
+     * Authenticate a user - check username and password
+     * @param username: username of user to fetch
      * @param password: password to check
      * @return User object or null if not found
      */
     public User authenticateUser(String username, String password) {
         User user = findByUsername(username);
+        if (user != null)
+            if (encoder.matches(password, user.getPassword()))
+                return user;
+        return null;
+    }
+
+    /**
+     * Authenticate a user - check ID and password
+     * @param id: id of user to fetch
+     * @param password: password to check
+     * @return User object or null if not found
+     */
+    public User authenticateUser(Long id, String password) {
+        User user = findById(id);
         if (user != null)
             if (encoder.matches(password, user.getPassword()))
                 return user;
