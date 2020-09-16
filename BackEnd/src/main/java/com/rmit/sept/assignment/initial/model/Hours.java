@@ -46,6 +46,7 @@ public class Hours {
         this.end = end;
     }
 
+    @SuppressWarnings("JpaDataSourceORMInspection")  // errors with mapping to columns in table
     @Embeddable
     public static class HoursPK implements Serializable {
         @ManyToOne
