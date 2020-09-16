@@ -18,7 +18,7 @@ export default class CustomerDashboard extends Component {
             <div className="container upcoming-booking">
               <div className="upcoming-title">Upcoming bookings</div>
               <div className="table-wrapper-scroll-y my-custom-scrollbar">
-                <table className="table table-editable text-nowrap table-borderless table-hover">
+                <table className="table table-editable text-nowrap table-borderless table-hover booking-table">
                   <thead>
                     <tr>
                       <th scope="col" width="20%" className="date">Date</th>
@@ -62,7 +62,7 @@ export default class CustomerDashboard extends Component {
 
             <div className="container past-booking">
             <div className="past-title">Past bookings</div>
-              <table className="table table-editable text-nowrap table-borderless table-hover">
+              <table className="table table-editable text-nowrap table-borderless table-hover booking-table">
                 <thead>
                   <tr>
                     <th scope="col" width="20%">Date</th>
