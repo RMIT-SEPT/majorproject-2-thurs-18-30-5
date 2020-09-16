@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sun.net.httpserver.HttpsServerImpl;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,6 +43,19 @@ public class UserController {
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         User user = userService.findById(id);
         // if the service return null this means no user was found
+        HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(user, status);
+    }
+
+    /**
+     * Authenticate a user based on username and password
+     * @param username: username of user
+     * @param password: password of user
+     * @return
+     */
+    @GetMapping("/auth/{username}")
+    public ResponseEntity<User> authenticateUser(@PathVariable String username, @RequestParam String password) {
+        User user = userService.authenticateUser(username, password);
         HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(user, status);
     }

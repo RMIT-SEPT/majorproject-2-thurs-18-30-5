@@ -54,4 +54,25 @@ public class UserService {
         return customer.orElse(null);
     }
 
+    /**
+     * Return a user based on username
+     * @param username: unique username of user
+     * @return User object of null if not found
+     */
+    public User findByUsername(String username) {
+        Optional<User> customer = userRepository.findByUsername(username);
+        return customer.orElse(null);
+    }
+
+    /**
+     * Authenticate a user - check ID and password
+     * @param username: id of user to fetch
+     * @param password: password to check
+     * @return User object or null if not found
+     */
+    public User authenticateUser(String username, String password) {
+        User user = findByUsername(username);
+        return (user.getPassword().compareTo(password) == 0) ? user : null;
+    }
+
 }
