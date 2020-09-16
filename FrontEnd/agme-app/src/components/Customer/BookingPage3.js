@@ -3,21 +3,31 @@ import Footer from '../Layout/Footer'
 import CustomerHeader from '../Layout/CustomerHeader'
 import { BrowserRouter as Router, Link } from "react-router-dom"
 import './BookingPage.css';
-
-const workers = ['Worker-1', 'Worker-2', 'worker-3'];
+import axios from "axios";
 
 export default class BookingPage2 extends Component {
   state = {
-      date: this.props.location.state.date,
-      service: this.props.location.state.service,
-    };
+    startDate: this.props.location.state.startDate,
+    endDate: this.props.location.state.endDate,
+    service: this.props.location.state.service,
+    workers: []
+  };
+  constructor(props) {
+    super(props);
 
+    axios.get("http://localhost:8080/api/worker/all")
+      .then(res => {
+        const workers = res.data;
+        this.setState({workers: workers});
+      })
+    console.log(this.state);
+  }
   render() {
     return (
       <div className="img-bg">
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <CustomerHeader/>
+            <CustomerHeader user={this.props.location.state} />
 
             <form>
                 <h3>Choose a worker</h3>
@@ -25,14 +35,14 @@ export default class BookingPage2 extends Component {
                 <br/>
                 <br/>
                 {
-                  workers.map(worker =>
-                    // expression goes here:
+                  this.state.workers.map(worker =>
                     <div><div className="service-div"><Link to={{
                       pathname: '/confirmBooking',
-                      state: {date: this.state.date, service: this.state.service, worker: worker}
-                    }}><button className="service-btn" type="submit">{worker}</button></Link></div><br/><br/></div>
+                      state: {startDate: this.state.startDate, endDate: this.state.endDate, service: this.state.service, worker: worker, user:this.props.location.state.user}
+                    }}><button className="service-btn" type="submit">{worker.user.firstName}</button></Link></div><br/><br/></div>
                   )
                 }
+                {console.log(this.state.workers)}
             </form>
 
           </div>

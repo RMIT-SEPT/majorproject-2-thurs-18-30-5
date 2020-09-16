@@ -3,33 +3,38 @@ import Footer from '../Layout/Footer'
 import CustomerHeader from '../Layout/CustomerHeader'
 import { BrowserRouter as Router, Link } from "react-router-dom"
 import './BookingPage.css';
-
-const services = ['Service-1', 'Service-2', 'Service-3'];
-
-const serviceList = services.map(service =>
-    // expression goes here:
-    <div><div className="service-div"><Link to={{
-      pathname: '/bookingPage2',
-      state: {
-        service: service
-      }
-    }}><button className="service-btn" type="submit">{service}</button></Link></div><br/><br/></div>
-  );
+import axios from "axios";
 
 export default class BookingPage1 extends Component {
+  state = {
+    businesses: []
+  }
+  constructor() {
+    super();
+
+    axios.get("http://localhost:8080/api/business/all")
+      .then(res => {
+        const businesses = res.data;
+        this.setState({ businesses });
+      })
+  }
   render() {
     return (
       <div className="img-bg">
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <CustomerHeader/>
+            <CustomerHeader user={this.props.location.state} />
 
             <form className="service-form">
                 <h3 className="service-h3">Choose a service</h3>
                 <hr/>
                 <br/>
                 <br/>
-                {serviceList}
+                {this.state.businesses.map(business => <div><div className="service-div"><Link to={{
+                  pathname: '/bookingPage2',
+                  state: {user: this.props.location.state.user,
+                          service: business}
+                }}><button className="service-btn" type="submit">{business.name}</button></Link></div><br/><br/></div>)}
             </form>
 
           </div>

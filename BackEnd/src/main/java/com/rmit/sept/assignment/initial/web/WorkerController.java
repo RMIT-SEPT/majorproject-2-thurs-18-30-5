@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/worker")
 public class WorkerController {

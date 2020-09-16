@@ -12,7 +12,6 @@ export default class CustomerProfile extends Component {
     this.state = {
       "address": "",
       "password": "",
-      "secpass": "",
       "firstName": "",
       "lastName": ""
     }
@@ -30,32 +29,28 @@ export default class CustomerProfile extends Component {
           username: this.props.location.state.user.username,
           firstName: this.state.firstName,
           lastName: this.state.lastName,
-          address: this.state.address,
           password: this.state.password,
+          address: this.state.address,
           bookings: this.props.location.state.user.bookings
       }
 
-      console.log(newPerson);
+      if (this.state.firstName == "") {
+        newPerson.firstName = this.props.location.state.user.firstName;
+      }
+      if (this.state.lastName == "") {
+        newPerson.lastName = this.props.location.state.user.lastName;
+      }
+      if (this.state.address == "") {
+        newPerson.address = this.props.location.state.user.address;
+      }
 
-      if (this.state.password == this.state.secpass) {
-        if (this.state.password == "") {
-          newPerson.password = this.props.location.state.user.password;
-        }
-        if (this.state.firstName == "") {
-          newPerson.firstName = this.props.location.state.user.firstName;
-        }
-        if (this.state.lastName == "") {
-          newPerson.lastName = this.props.location.state.user.lastName;
-        }
-        if (this.state.address == "") {
-          newPerson.address = this.props.location.state.user.address;
-        }
-        try {
-          const res = await axios.post("http://localhost:8080/api/customer", newPerson);
-          this.props.history.push('/customer-profile', {user: newPerson});
-        } catch (err) {
-          console.log(err);
-        }
+      console.log(newPerson);
+      
+      try {
+        const res = await axios.post("http://localhost:8080/api/customer", newPerson);
+        this.props.history.push('/customer-profile', {user: newPerson});
+      } catch (err) {
+        console.log(err);
       }
       window.location.reload(false);
   }
@@ -97,28 +92,19 @@ export default class CustomerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputpassword" className="col-sm-2 col-form-label confirm-pwd">New password</label>
-                  <div className="col-sm-10">
-                    <input type="password" className="form-control field-input" id="inputpassword" placeholder={this.props.location.state.user.password} name="password"
-                    value= {this.state.password}
-                    onChange = {this.onChange} />
-                  </div>
-                </div>
-
-                <div className="form-group row field-row">
-                  <label htmlFor="inputpassword" className="col-sm-2 col-form-label confirm-pwd">Confirm new password</label>
-                  <div className="col-sm-10">
-                    <input type="password" className="form-control field-input" id="inputpassword2" placeholder={this.props.location.state.user.password} name="secpass"
-                    value= {this.state.secpass}
-                    onChange = {this.onChange} />
-                  </div>
-                </div>
-
-                <div className="form-group row field-row">
                   <label htmlFor="inputcontactno" className="col-sm-2 col-form-label contact-no">Address</label>
                   <div className="col-sm-10">
                     <input type="text" className="form-control field-input" id="inputcontactno" placeholder={this.props.location.state.user.address} name="address"
                     value= {this.state.address}
+                    onChange = {this.onChange} />
+                  </div>
+                </div>
+
+                <div className="form-group row field-row">
+                  <label htmlFor="inputpassword" className="col-sm-2 col-form-label confirm-pwd">Password</label>
+                  <div className="col-sm-10">
+                    <input type="password" className="form-control field-input" id="inputpassword" placeholder="Please enter password to confirm" name="password"
+                    value= {this.state.password}
                     onChange = {this.onChange} />
                   </div>
                 </div>

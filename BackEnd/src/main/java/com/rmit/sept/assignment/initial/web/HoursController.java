@@ -17,6 +17,7 @@ import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/hours")
 public class HoursController {
