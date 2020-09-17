@@ -29,7 +29,7 @@ public class HoursController {
     @Autowired
     private FieldValidationService validationService;
 
-    @GetMapping("/{workerId}")
+    @GetMapping(value = "/{workerId}")
     public ResponseEntity<Collection<Hours>> getWorkerHours(@PathVariable Long workerId) {
         Worker worker = workerService.findById(workerId);
         if (worker != null) {
@@ -50,11 +50,18 @@ public class HoursController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> createNewHours(@Validated @RequestBody Hours hours, BindingResult result) {
+    @PostMapping(value = "/{workerId}")
+    public ResponseEntity<?> createNewHours(@PathVariable Long workerId, @Validated @RequestBody Hours hours, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
-        if (errors == null) {
-            Hours hours1 = hoursService.saveOrUpdateHours(hours);
+        if (errors == null && workerId != null) {
+            Hours hours1 = null;
+            Worker w1 = workerService.findById(workerId);
+            if (w1 != null) {
+                Hours.HoursPK pk = hours.getId();
+                pk.setWorker(w1);
+                hours.setId(pk);
+                hours1 = hoursService.saveOrUpdateHours(hours);
+            }
             HttpStatus status = (hours1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
             return new ResponseEntity<>(hours1, status);
         } else {

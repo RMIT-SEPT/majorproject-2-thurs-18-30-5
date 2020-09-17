@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,22 +30,23 @@ public class HoursService {
         if (workerId == null) return null;  // must have an id value
         Optional<Worker> existingWorker = workerRepository.findById(workerId);
         if (!existingWorker.isPresent()) return null;  // worker must already exist in the system
-        Date start = hours.getStart();
-        Date end = hours.getEnd();
+        LocalTime start = hours.getStart();
+        LocalTime end = hours.getEnd();
         if (!(start == null || end == null)) {
-            Calendar calStart = Calendar.getInstance();
-            Calendar calEnd = Calendar.getInstance();
-            calStart.setTime(start);
-            calEnd.setTime(end);
-            boolean sameDay = (calEnd.get(Calendar.DAY_OF_YEAR) == calStart.get(Calendar.DAY_OF_YEAR)) &&
-                    (calEnd.get(Calendar.YEAR) == calStart.get(Calendar.YEAR));
-            if (!sameDay || calStart.after(calEnd)) return null;
+//            Calendar calStart = Calendar.getInstance();
+//            Calendar calEnd = Calendar.getInstance();
+//            calStart.setTime(start);
+//            calEnd.setTime(end);
+//            boolean sameDay = (calEnd.get(Calendar.DAY_OF_YEAR) == calStart.get(Calendar.DAY_OF_YEAR)) &&
+//                    (calEnd.get(Calendar.YEAR) == calStart.get(Calendar.YEAR));
+//            if (!sameDay || calStart.after(calEnd)) return null;
+            if (start.compareTo(end) >= 0) return null;
         }
         return hoursRepository.save(hours);
     }
 
     public boolean deleteHours(Hours hours) {
-        if (hours.getId() == null) return false;
+        if (hours == null || hours.getId() == null) return false;
         Optional<Hours> h1 = hoursRepository.findById(hours.getId());
         if (h1.isPresent()) {
             hoursRepository.deleteById(hours.getId());
