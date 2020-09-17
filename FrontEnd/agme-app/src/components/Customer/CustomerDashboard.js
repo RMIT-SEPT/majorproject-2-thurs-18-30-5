@@ -36,12 +36,23 @@ export default class CustomerDashboard extends Component {
     }
   }
 
-  handleClick (booking) {
+  handleClick = async booking => {
     
     // Set the booking status to cancelled
-    booking.status = "CANCELLED";
+    var changedBooking = {
+      id: booking.id,
+      user: {
+        id: booking.user.id
+      },
+      worker: {
+        id: booking.worker.id
+      },
+      start: booking.start,
+      end: booking.end,
+      status: "CANCELLED"
+    };
     try {
-      axios.put("http://localhost:8080/api/booking/" + booking.id, booking);
+      await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking);
     } catch (err) {
 
     }
