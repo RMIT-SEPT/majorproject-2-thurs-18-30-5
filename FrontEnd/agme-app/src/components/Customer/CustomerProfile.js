@@ -19,7 +19,6 @@ export default class CustomerProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e){
-    console.log(this.props);
     this.setState({[e.target.name]: e.target.value});
   }
   onSubmit = async e =>{
@@ -44,10 +43,9 @@ export default class CustomerProfile extends Component {
         newPerson.address = this.props.location.state.user.address;
       }
 
-      console.log(newPerson);
       
       try {
-        const res = await axios.post("http://localhost:8080/api/customer", newPerson);
+        const res = await axios.put("http://localhost:8080/api/customer", newPerson);
         this.props.history.push('/customer-profile', {user: newPerson});
       } catch (err) {
         console.log(err);

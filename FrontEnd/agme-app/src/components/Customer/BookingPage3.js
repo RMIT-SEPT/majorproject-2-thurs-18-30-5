@@ -6,21 +6,29 @@ import './BookingPage.css';
 import axios from "axios";
 
 export default class BookingPage2 extends Component {
-  state = {
-    startDate: this.props.location.state.startDate,
-    endDate: this.props.location.state.endDate,
-    service: this.props.location.state.service,
-    workers: []
-  };
   constructor(props) {
     super(props);
 
-    axios.get("http://localhost:8080/api/worker/all")
+    this.state = {
+      startDate: "",
+      endDate: "",
+      service: this.props.location.state.service,
+      workers: []
+    };
+
+    var d = this.props.location.state.startDate;
+    var formattedStart = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
+    this.state.startDate = formattedStart;
+    
+    d = this.props.location.state.endDate;
+    var formattedEnd = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
+    this.state.endDate = formattedEnd;
+    
+    axios.get("http://localhost:8080/api/worker/business/" + this.state.service.id.toString(), { params: { start: this.state.startDate, end: this.state.endDate } })
       .then(res => {
         const workers = res.data;
         this.setState({workers: workers});
       })
-    console.log(this.state);
   }
   render() {
     return (
@@ -42,7 +50,6 @@ export default class BookingPage2 extends Component {
                     }}><button className="service-btn" type="submit">{worker.user.firstName}</button></Link></div><br/><br/></div>
                   )
                 }
-                {console.log(this.state.workers)}
             </form>
 
           </div>

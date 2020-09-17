@@ -1,10 +1,53 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Link } from "react-router-dom"
-import CustomerHeader from '../Layout/CustomerHeader'
-import Footer from '../Layout/Footer'
-import './CustomerDashboard.css'
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import CustomerHeader from '../Layout/CustomerHeader';
+import Footer from '../Layout/Footer';
+import './CustomerDashboard.css';
+import axios from "axios";
 
 export default class CustomerDashboard extends Component {
+  state = {
+    upcomingBookings: [],
+    pastBookings: []
+  };
+  constructor(props) {
+    super(props);
+
+    try {
+      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "PENDING"} })
+        .then(res => {
+          const bookings = res.data;
+          this.setState({upcomingBookings: bookings});
+          this.state.upcomingBookings = bookings;
+        })
+    } catch (err) {
+
+    }
+
+    try {
+      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "COMPLETED"} })
+        .then(res => {
+          const bookings = res.data;
+          this.setState({pastBookings: bookings});
+          this.state.pastBookings = bookings;
+        })
+    } catch (err) {
+
+    }
+  }
+
+  handleClick (booking) {
+    
+    // Set the booking status to cancelled
+    booking.status = "CANCELLED";
+    try {
+      axios.put("http://localhost:8080/api/booking/" + booking.id, booking);
+    } catch (err) {
+
+    }
+    this.props.history.push('/customer-dashboard', {user: this.props.location.state.user});
+  }
+
   render() {
     return (
       <div>
@@ -17,47 +60,32 @@ export default class CustomerDashboard extends Component {
                 state: this.props.location.state
               }}>Book a service</Link>
             </div>
-            {console.log(this.props)}
             <div className="container upcoming-booking">
               <div className="upcoming-title">Upcoming bookings</div>
               <div className="table-wrapper-scroll-y my-custom-scrollbar">
                 <table className="table table-editable text-nowrap table-borderless table-hover">
                   <thead>
                     <tr>
-                      <th scope="col" width="20%" className="date">Date</th>
-                      <th scope="col" width="20%" className="time">Time</th>
+                      <th scope="col" width="20%" className="date">Start time</th>
+                      <th scope="col" width="20%" className="time">End time</th>
                       <th scope="col" width="30%" className="service">Service</th>
                       <th scope="col" width="25%" className="worker">Worker</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">14 Oct 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td className="table-remove text-center cancel-booking">
-                        <button type="button" className="close">&times;</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 Oct 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td className="table-remove text-center cancel-booking">
-                        <button type="button" className="close">&times;</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 Oct 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td className="table-remove text-center cancel-booking">
-                        <button type="button" className="close">&times;</button>
-                      </td>
-                    </tr>
+                    {
+                      this.state.upcomingBookings.map(booking =>
+                        <tr>
+                          <th scope="row">{booking.start}</th>
+                          <td>{booking.end}</td>
+                          <td>{booking.worker.business.name}</td>
+                          <td>{booking.worker.user.firstName}</td>
+                          <td className="table-remove text-center cancel-booking">
+                            <button type="button" className="close" onClick={() => this.handleClick(booking)}>&times;</button>
+                          </td>
+                        </tr>
+                      )
+                    }
                   </tbody>
                 </table>
               </div>
@@ -68,34 +96,23 @@ export default class CustomerDashboard extends Component {
               <table className="table table-editable text-nowrap table-borderless table-hover">
                 <thead>
                   <tr>
-                    <th scope="col" width="20%">Date</th>
-                    <th scope="col" width="20%">Time</th>
+                    <th scope="col" width="20%">Start time</th>
+                    <th scope="col" width="20%">End time</th>
                     <th scope="col" width="30%">Service</th>
                     <th scope="col" width="25%">Worker</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">14 May 2020</th>
-                    <td>4pm - 6pm</td>
-                    <td>Gym</td>
-                    <td>Mark</td>
-                    <td className="table-remove text-center cancel-booking"></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">18 May 2020</th>
-                    <td>1pm - 2pm</td>
-                    <td>Hairdressing</td>
-                    <td>Sarah</td>
-                    <td className="table-remove text-center cancel-booking"></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">22 May 2020</th>
-                    <td>10am - 11am</td>
-                    <td>Dentist</td>
-                    <td>Peter</td>
-                    <td className="table-remove text-center cancel-booking"></td>
-                  </tr>
+                  {
+                    this.state.pastBookings.map(booking =>
+                      <tr>
+                        <th scope="row">{booking.start}</th>
+                        <td>{booking.end}</td>
+                        <td>{booking.worker.business.name}</td>
+                        <td>{booking.worker.user.firstName}</td>
+                      </tr>
+                    )
+                  }
                 </tbody>
               </table>
             </div>

@@ -19,7 +19,6 @@ class SignUp extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e){
-    console.log(this.props);
     this.setState({[e.target.name]: e.target.value});
   }
   onSubmit = async e =>{
@@ -31,14 +30,12 @@ class SignUp extends Component {
           password: this.state.password
       }
 
-      console.log(newPerson);
-
       if (this.state.password == this.state.secpass) {
         try {
           const res = await axios.post("http://localhost:8080/api/customer", newPerson);
-          // history.push("/sign-up");
+          this.props.history.push('/sign-in');
         } catch (err) {
-        
+          
         }
       }
       window.location.reload(false);

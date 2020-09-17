@@ -18,7 +18,6 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e){
-    console.log(this.props);
     this.setState({[e.target.name]: e.target.value});
   }
   onSubmit = async e =>{
@@ -28,15 +27,11 @@ class Login extends Component {
           password: this.state.password
       }
 
-      console.log(newPerson);
-
       try {
         const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
-        console.log(res);
         this.person = res.data;
         this.props.history.push('/customer-dashboard', {user: this.person});
       } catch (err) {
-        console.log(err);
         window.location.reload(false);
       }
   }

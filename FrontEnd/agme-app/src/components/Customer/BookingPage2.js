@@ -56,24 +56,14 @@ export default class BookingPage2 extends Component {
     }
 
     if (bad == false) {
-      try {
-        this.props.history.push('/bookingPage3', {service: this.state.service,
-                                                  startDate: this.state.startDate,
-                                                  endDate: this.state.endDate,
-                                                  user: this.props.location.state.user});
-      } catch (err) {
-        console.log(err);
-        window.location.reload(false);
-      }
+      this.props.history.push('/bookingPage3', {service: this.state.service,
+                                                startDate: this.state.startDate,
+                                                endDate: this.state.endDate,
+                                                user: this.props.location.state.user});
     }
     else {
       window.location.reload(false);
     }
-
-    /*<Link to={{
-      pathname: '/bookingPage3',
-      state: this.state
-    }}>*/
   }
   render() {
     return (
