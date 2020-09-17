@@ -46,6 +46,7 @@ export default class CustomerDashboard extends Component {
 
     }
     this.props.history.push('/customer-dashboard', {user: this.props.location.state.user});
+    window.location.reload(false);
   }
 
   render() {
