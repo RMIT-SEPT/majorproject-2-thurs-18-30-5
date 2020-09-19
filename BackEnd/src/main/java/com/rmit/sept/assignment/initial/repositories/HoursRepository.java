@@ -5,6 +5,7 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import org.springframework.data.domain.Example;
 import org.springframework.data.repository.CrudRepository;
 
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,5 +15,5 @@ public interface HoursRepository extends CrudRepository<Hours, Hours.HoursPK> {
     List<Hours> findById_WorkerId(Long workerId);
     List<Hours> findAll(Example<Hours> hours);
     void deleteById(Hours.HoursPK hoursPK);
-//    void deleteById(Worker worker, Long dayOfWeek);
+    void deleteById_WorkerAndId_DayOfWeek(Worker id_worker, DayOfWeek id_dayOfWeek);
 }
