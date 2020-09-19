@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkerService {
@@ -80,6 +81,7 @@ public class WorkerService {
         List<Worker> workers = new ArrayList<>();
         for (Worker worker : workerRepository.findAllByBusiness_Id(bid)) {
             if (checkAvailability(worker.getId(), startDate, endDate)) {
+                System.err.println("ADDING " + worker.getId());
                 workers.add(worker);
             }
         }
@@ -87,18 +89,18 @@ public class WorkerService {
     }
 
     public boolean checkAvailability(Long workerId, LocalDateTime startDate, LocalDateTime endDate) {
-        SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
         Date start = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
         Date end = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
         for (Hours hours : hoursRepository.findById_WorkerId(workerId)) {
             if (hours.getId().getDayOfWeek().compareTo(startDate.getDayOfWeek()) == 0) {
-                if ((tf.format(start).compareTo(tf.format(hours.getStart())) >= 0) &&
-                        (tf.format(end).compareTo(tf.format(hours.getEnd())) <= 0)) {
+                if ((startDate.toLocalTime().compareTo(hours.getStart()) >= 0) &&
+                        (endDate.toLocalTime().compareTo(hours.getEnd()) <= 0)) {
                     Booking temp = new Booking();
                     temp.setStart(start);
                     temp.setEnd(end);
-                    List<Booking> bookings = findById(workerId).getBookings();
-                    bookings.add(temp);
+                    List<Booking> bookings = findById(workerId).getBookings().stream()
+                            .filter(b -> b.getStatus() == Booking.BookingStatus.PENDING).collect(Collectors.toList());
+                    bookings.add(temp);  // add proposed booking dates to check for an overlap with existing bookings
                     return !Utilities.findOverlap(bookings);
                 }
             }
