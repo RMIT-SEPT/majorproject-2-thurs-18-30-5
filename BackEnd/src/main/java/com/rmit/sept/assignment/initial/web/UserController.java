@@ -71,7 +71,7 @@ public class UserController {
     public ResponseEntity<?> createNewUser(@Validated @RequestBody User user, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            User user1 = userService.saveOrUpdateUser(user);
+            User user1 = userService.saveOrUpdateUser(user, true);
             HttpStatus status = (user1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
             return new ResponseEntity<User>(user1, status);
         } else {
@@ -90,7 +90,7 @@ public class UserController {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
             if (userService.authenticateUser(user.getId(), user.getPassword()) != null) {
-                User user1 = userService.saveOrUpdateUser(user);
+                User user1 = userService.saveOrUpdateUser(user, false);
                 HttpStatus status = (user1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
                 return new ResponseEntity<User>(user1, status);
             }

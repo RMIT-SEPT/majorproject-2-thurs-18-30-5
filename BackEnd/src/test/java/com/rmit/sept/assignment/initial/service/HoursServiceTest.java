@@ -47,7 +47,7 @@ class HoursServiceTest {
     void setUpTest() {
         u1 = new User(1L, "dondon94", "123Qwe!");
         w1 = new Worker(u1);
-        User temp1 = userService.saveOrUpdateUser(u1);
+        User temp1 = userService.saveOrUpdateUser(u1, true);
         Worker temp2 = workerService.saveOrUpdateWorker(w1);
         doReturn(Optional.of(w1)).when(workerRepository).findById(any());
         Hours.HoursPK hoursPK = new Hours.HoursPK(w1, DayOfWeek.FRIDAY);

@@ -85,7 +85,7 @@ class UserServiceTest {
         User u1 = new User(1L, "dondon94", "123Qwe!");
         doReturn(u1).when(repo).save(any());
 
-        User u2 = service.saveOrUpdateUser(u1);
+        User u2 = service.saveOrUpdateUser(u1, true);
 
         assertNotNull(u2);
         assertEquals(u2, u1);
@@ -97,7 +97,7 @@ class UserServiceTest {
         User u1 = new User();
         doReturn(u1).when(repo).save(any());
 
-        User u2 = service.saveOrUpdateUser(u1);  // user has null ID
+        User u2 = service.saveOrUpdateUser(u1, true);  // user has null ID
 
         assertNull(u2);
     }
@@ -108,7 +108,7 @@ class UserServiceTest {
         User u1 = new User(1L, "dondon94", "123Qwe!");
         doReturn(u1).when(repo).save(any());
 
-        User u2 = service.saveOrUpdateUser(u1);
+        User u2 = service.saveOrUpdateUser(u1, true);
 
         // confirm create worked
         assertNotNull(u2);
@@ -117,7 +117,7 @@ class UserServiceTest {
         u1.setUsername("dootdoot94");
 //        doReturn(Optional.of(c1)).when(repo).findById(any());
 
-        User c3 = service.saveOrUpdateUser(u1);
+        User c3 = service.saveOrUpdateUser(u1, false);
 
         // confirm that update username worked
         assertNotNull(c3);
@@ -133,7 +133,7 @@ class UserServiceTest {
 
         doReturn(u1).when(repo).save(u1);
 
-        User u2 = service.saveOrUpdateUser(u1);
+        User u2 = service.saveOrUpdateUser(u1, true);
 
         // confirm create worked
         assertNotNull(u2);
@@ -141,7 +141,7 @@ class UserServiceTest {
 
         u1.setFirstName("Donald");
 
-        User u3 = service.saveOrUpdateUser(u1);
+        User u3 = service.saveOrUpdateUser(u1, false);
 
 
         assertNotNull(u3);
@@ -154,7 +154,7 @@ class UserServiceTest {
         User u1 = new User(1L, "dondon94", "123Qwe!");
         doReturn(u1).when(repo).save(any());
 
-        User u2 = service.saveOrUpdateUser(u1);
+        User u2 = service.saveOrUpdateUser(u1, true);
 
         assertNotNull(u2);
         assertEquals(u2, u1);
@@ -163,7 +163,7 @@ class UserServiceTest {
         u1.setId(null);
 //        doReturn(Optional.of(c1)).when(repo).findById(any());
 
-        User c3 = service.saveOrUpdateUser(u1);  // user has a null id - should not update
+        User c3 = service.saveOrUpdateUser(u1, false);  // user has a null id - should not update
 
         assertNull(c3);
     }

@@ -26,12 +26,13 @@ public class UserService {
      * @param user user data to update
      * @return User object, or null if not found (i.e. when updating via username)
      */
-    public User saveOrUpdateUser(User user) {
+    public User saveOrUpdateUser(User user, boolean create) {
         Long userId = user.getId();
         if (userId == null) {  // if ID is null we should check for username
             String username = user.getUsername();
             if (username != null) {  // append id to user parameter
                 Optional<User> user1 = userRepository.findByUsername(username);
+                if (create && user1.isPresent()) return null;  // return null if duplicate username and creating a user
                 user1.ifPresent(value -> user.setId(value.getId()));
             } else {  // if we cannot find by username then the request was incorrect
                 return null;
