@@ -48,8 +48,8 @@ public class BookingService {
         if (!worker1.isPresent() || !user1.isPresent() || userIsWorker.isPresent()) {
             return null; // check if user/worker are invalid, or if the user is also a worker (not allowed - invalid)
         }
-        List<Booking> userBookings = new ArrayList<>(this.findByUser(userId));
-        List<Booking> workerBookings = new ArrayList<>(this.findByWorker(workerId));
+        List<Booking> userBookings = new ArrayList<>(this.findByUser(userId, Booking.BookingStatus.PENDING));
+        List<Booking> workerBookings = new ArrayList<>(this.findByWorker(workerId, Booking.BookingStatus.PENDING));
         Date start = booking.getStart();
         Date end = booking.getEnd();
         if (start == null || end == null || !end.after(start)) {
@@ -88,6 +88,10 @@ public class BookingService {
 
     public Collection<Booking> findByWorker(@NotNull Long workerId) {
         return bookingRepository.findAllByWorker_Id(workerId);
+    }
+
+    public Collection<Booking> findByWorker(@NotNull Long workerId, Booking.BookingStatus status) {
+        return bookingRepository.findAllByWorker_IdAndStatus(workerId, status);
     }
 
     public Collection<Booking> findByUser(@NotNull Long userId) {

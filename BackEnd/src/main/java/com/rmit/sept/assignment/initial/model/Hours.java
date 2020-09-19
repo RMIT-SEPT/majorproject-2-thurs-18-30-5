@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -15,9 +17,9 @@ public class Hours {
     @EmbeddedId
     private HoursPK id;
     @JsonFormat(pattern = "HH:mm")
-    private Date start;
+    private LocalTime start;
     @JsonFormat(pattern = "HH:mm")
-    private Date end;
+    private LocalTime end;
 
     public Hours() {
     }
@@ -30,20 +32,40 @@ public class Hours {
         this.id = id;
     }
 
-    public Date getStart() {
+    public LocalTime getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalTime start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public boolean setStart(String start) {
+        try {
+            this.start = LocalTime.parse(start);
+            return true;
+        } catch (DateTimeParseException dtpe) {
+            System.err.println(dtpe.getMessage());
+            return false;
+        }
+    }
+
+    public LocalTime getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalTime end) {
         this.end = end;
+    }
+
+    public boolean setEnd(String end) {
+        try {
+            this.end = LocalTime.parse(end);
+            return true;
+        } catch (DateTimeParseException dtpe) {
+            System.err.println(dtpe.getMessage());
+            return false;
+        }
     }
 
     @SuppressWarnings("JpaDataSourceORMInspection")  // errors with mapping to columns in table
@@ -68,8 +90,16 @@ public class Hours {
             return worker;
         }
 
+        public void setWorker(Worker worker) {
+            this.worker = worker;
+        }
+
         public DayOfWeek getDayOfWeek() {
             return dayOfWeek;
+        }
+
+        public void setDayOfWeek(DayOfWeek dayOfWeek) {
+            this.dayOfWeek = dayOfWeek;
         }
 
         @Override
@@ -89,7 +119,7 @@ public class Hours {
         @Override
         public String toString() {
             return "HoursPK{" +
-                    "worker=" + worker.toString() +
+                    "worker=" + worker +
                     ", dayOfWeek=" + dayOfWeek +
                     '}';
         }

@@ -94,7 +94,7 @@ public class UserControllerTest {
     @DisplayName("Test createNewUser success")
     void testCreateNewUserSuccess() throws Exception {
         // Mocking service
-        when(userService.saveOrUpdateUser(ArgumentMatchers.any(User.class))).thenReturn(users.get(0));
+        when(userService.saveOrUpdateUser(ArgumentMatchers.any(User.class), true)).thenReturn(users.get(0));
 
         String inputJson = "{\n" +
                 "    \"id\": 1,\n" +
@@ -116,7 +116,7 @@ public class UserControllerTest {
     @DisplayName("Test createNewUser badRequest")
     void testCreateNewUserFail() throws Exception {
         // Mocking service
-        when(userService.saveOrUpdateUser(null)).thenReturn(null);
+        when(userService.saveOrUpdateUser(null, true)).thenReturn(null);
 
         String inputJson = "null";
         RequestBuilder requestBuilder = MockMvcRequestBuilders
