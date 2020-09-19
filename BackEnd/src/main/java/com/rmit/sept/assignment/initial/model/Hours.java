@@ -1,8 +1,13 @@
 package com.rmit.sept.assignment.initial.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,8 +16,10 @@ import java.util.Objects;
 public class Hours {
     @EmbeddedId
     private HoursPK id;
-    private Date start;
-    private Date end;
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime start;
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime end;
 
     public Hours() {
     }
@@ -25,35 +32,56 @@ public class Hours {
         this.id = id;
     }
 
-    public Date getStart() {
+    public LocalTime getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalTime start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public boolean setStart(String start) {
+        try {
+            this.start = LocalTime.parse(start);
+            return true;
+        } catch (DateTimeParseException dtpe) {
+            System.err.println(dtpe.getMessage());
+            return false;
+        }
+    }
+
+    public LocalTime getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalTime end) {
         this.end = end;
     }
 
+    public boolean setEnd(String end) {
+        try {
+            this.end = LocalTime.parse(end);
+            return true;
+        } catch (DateTimeParseException dtpe) {
+            System.err.println(dtpe.getMessage());
+            return false;
+        }
+    }
+
+    @SuppressWarnings("JpaDataSourceORMInspection")  // errors with mapping to columns in table
     @Embeddable
     public static class HoursPK implements Serializable {
         @ManyToOne
         @JoinColumn(name = "worker_id")
         private Worker worker;
         @Column(name = "day_of_week")
-        private Long dayOfWeek;
+        private DayOfWeek dayOfWeek;
 
         public HoursPK() {
 
         }
 
-        public HoursPK(Worker worker, Long dayOfWeek) {
+        public HoursPK(Worker worker, DayOfWeek dayOfWeek) {
             this.worker = worker;
             this.dayOfWeek = dayOfWeek;
         }
@@ -62,8 +90,16 @@ public class Hours {
             return worker;
         }
 
-        public Long getDayOfWeek() {
+        public void setWorker(Worker worker) {
+            this.worker = worker;
+        }
+
+        public DayOfWeek getDayOfWeek() {
             return dayOfWeek;
+        }
+
+        public void setDayOfWeek(DayOfWeek dayOfWeek) {
+            this.dayOfWeek = dayOfWeek;
         }
 
         @Override
@@ -83,7 +119,7 @@ public class Hours {
         @Override
         public String toString() {
             return "HoursPK{" +
-                    "worker=" + worker.toString() +
+                    "worker=" + worker +
                     ", dayOfWeek=" + dayOfWeek +
                     '}';
         }

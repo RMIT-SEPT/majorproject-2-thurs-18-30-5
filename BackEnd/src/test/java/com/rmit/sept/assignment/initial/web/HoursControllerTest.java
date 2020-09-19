@@ -5,6 +5,7 @@ import com.rmit.sept.assignment.initial.service.HoursService;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.WorkerService;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.mockito.Mockito.when;
@@ -29,6 +31,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,12 +59,12 @@ public class HoursControllerTest {
         worker = new Worker(new User(1L, "ali123", "123Qwe!"));
         hours = new ArrayList<Hours>();
 
-        Hours.HoursPK hoursPK = new Hours.HoursPK(worker, 0L);
+        Hours.HoursPK hoursPK = new Hours.HoursPK(worker, DayOfWeek.FRIDAY);
         Hours h1 = new Hours();
         h1.setId(hoursPK);
         hours.add(h1);
 
-        Hours.HoursPK hoursPK2 = new Hours.HoursPK(worker, 1L);
+        Hours.HoursPK hoursPK2 = new Hours.HoursPK(worker, DayOfWeek.SATURDAY);
         Hours h2 = new Hours();
         h2.setId(hoursPK2);
         hours.add(h2);
@@ -76,8 +79,8 @@ public class HoursControllerTest {
 
         mockMvc.perform(get("/api/hours/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id.dayOfWeek", is(0)))
-                .andExpect(jsonPath("$[1].id.dayOfWeek", is(1)));
+                .andExpect(jsonPath("$[0].id.dayOfWeek", is(DayOfWeek.FRIDAY.toString())))
+                .andExpect(jsonPath("$[1].id.dayOfWeek", is(DayOfWeek.SATURDAY.toString())));
     }
 
     @Test
@@ -95,11 +98,11 @@ public class HoursControllerTest {
     void testGetWorkerHoursByDaySuccess() throws Exception {
         // Mocking service
         when(workerService.findById(1L)).thenReturn(worker);
-        when(hoursService.findById(worker, 0L)).thenReturn(hours.get(0));
+        when(hoursService.findById(worker, DayOfWeek.FRIDAY)).thenReturn(hours.get(0));
 
-        mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "FRIDAY").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id.dayOfWeek", is(0)));
+                .andExpect(jsonPath("id.dayOfWeek", is(DayOfWeek.FRIDAY.toString())));
     }
 
     @Test
@@ -108,7 +111,7 @@ public class HoursControllerTest {
         // Mocking service
         when(workerService.findById(1L)).thenReturn(null);
 
-        mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "FRIDAY").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -117,9 +120,9 @@ public class HoursControllerTest {
     void testGetWorkerHoursByDayFailNullHours() throws Exception {
         // Mocking service
         when(workerService.findById(1L)).thenReturn(worker);
-        when(hoursService.findById(worker, 0L)).thenReturn(null);
+        when(hoursService.findById(worker, DayOfWeek.FRIDAY)).thenReturn(null);
 
-        mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "FRIDAY").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -127,38 +130,23 @@ public class HoursControllerTest {
     @DisplayName("Test createNewHours success")
     void testCreateNewHoursSuccess() throws Exception {
         // Mocking service
-        when(hoursService.saveOrUpdateHours(ArgumentMatchers.any(Hours.class))).thenReturn(hours.get(0));
-
+        when(workerService.findById(1L)).thenReturn(worker);
+        when(hoursService.saveOrUpdateHours(any(Hours.class))).thenReturn(hours.get(0));
         String inputJson = "{\n" +
                 "        \"id\": {\n" +
-                "            \"worker\": {\n" +
-                "                \"id\": 1,\n" +
-                "                \"user\": {\n" +
-                "                    \"id\": 1,\n" +
-                "                    \"username\": \"ali123\",\n" +
-                "                    \"password\": \"123Qwe!\",\n" +
-                "                    \"firstName\": null,\n" +
-                "                    \"lastName\": null,\n" +
-                "                    \"address\": null,\n" +
-                "                    \"createdAt\": null,\n" +
-                "                    \"updatedAt\": \"2020-14-06 08:14\"\n" +
-                "                },\n" +
-                "                \"createdAt\": null,\n" +
-                "                \"updatedAt\": \"2020-14-06 08:14\",\n" +
-                "                \"admin\": false\n" +
-                "            },\n" +
                 "            \"dayOfWeek\": 1\n" +
                 "        },\n" +
-                "        \"start\": null,\n" +
-                "        \"end\": null\n" +
+                "        \"start\": \"09:00\",\n" +
+                "        \"end\": \"17:00\"\n" +
                 "    }";
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/api/hours")
+                .post("/api/hours/1")
                 .accept(MediaType.APPLICATION_JSON).content(inputJson)
                 .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
+        System.err.println(response.getContentAsString());
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
@@ -167,33 +155,16 @@ public class HoursControllerTest {
     @DisplayName("Test createNewHours badRequest")
     void testCreateNewUserFail() throws Exception {
         // Mocking service
-        when(hoursService.saveOrUpdateHours(ArgumentMatchers.any(Hours.class))).thenReturn(null);
-
+        when(hoursService.saveOrUpdateHours(any(Hours.class))).thenReturn(null);
         String inputJson = "{\n" +
                 "        \"id\": {\n" +
-                "            \"worker\": {\n" +
-                "                \"id\": 1,\n" +
-                "                \"user\": {\n" +
-                "                    \"id\": 1,\n" +
-                "                    \"username\": \"ali123\",\n" +
-                "                    \"password\": \"123Qwe!\",\n" +
-                "                    \"firstName\": null,\n" +
-                "                    \"lastName\": null,\n" +
-                "                    \"address\": null,\n" +
-                "                    \"createdAt\": null,\n" +
-                "                    \"updatedAt\": \"2020-14-06 08:14\"\n" +
-                "                },\n" +
-                "                \"createdAt\": null,\n" +
-                "                \"updatedAt\": \"2020-14-06 08:14\",\n" +
-                "                \"admin\": false\n" +
-                "            },\n" +
                 "            \"dayOfWeek\": 1\n" +
                 "        },\n" +
                 "        \"start\": null,\n" +
                 "        \"end\": null\n" +
                 "    }";
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/api/hours")
+                .post("/api/hours/1")
                 .accept(MediaType.APPLICATION_JSON).content(inputJson)
                 .contentType(MediaType.APPLICATION_JSON);
 
@@ -207,9 +178,9 @@ public class HoursControllerTest {
     @DisplayName("Test deleteWorkersHours success")
     void testDeleteWorkerHoursSuccess() throws Exception {
         // Mocking service
-        when(hoursService.deleteHours(worker.getId(), 0L)).thenReturn(true);
+        when(hoursService.deleteHours(worker.getId(), DayOfWeek.FRIDAY)).thenReturn(true);
 
-        mockMvc.perform(delete("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/api/hours/1").param("dayOfWeek", DayOfWeek.FRIDAY.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -217,9 +188,9 @@ public class HoursControllerTest {
     @DisplayName("Test deleteWorkersHours fail (null worker)")
     void testDeleteWorkerHoursFailNullWorker() throws Exception {
         // Mocking service
-        when(hoursService.deleteHours(null, 0L)).thenReturn(false);
+        when(hoursService.deleteHours(null, DayOfWeek.FRIDAY)).thenReturn(false);
 
-        mockMvc.perform(delete("/api/hours/1").param("dayOfWeek", "0").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/api/hours/1").param("dayOfWeek", DayOfWeek.FRIDAY.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
@@ -227,9 +198,9 @@ public class HoursControllerTest {
     @DisplayName("Test deleteWorkersHours fail (null weekDay)")
     void testDeleteWorkerHoursFailNullWeekDay() throws Exception {
         // Mocking service
-        when(hoursService.deleteHours(1L, null)).thenReturn(false);
+        when(hoursService.deleteHours(1L, null)).thenReturn(true);
 
-        mockMvc.perform(delete("/api/hours/1").param("dayOfWeek", "null").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/api/hours/1").contentType(MediaType.APPLICATION_JSON))  // null/missing dayOfWeek
                 .andExpect(status().isBadRequest());
     }
 }

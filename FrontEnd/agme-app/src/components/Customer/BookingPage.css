@@ -19,6 +19,12 @@
     padding-left: 28%;
 }
 
+.service-div-2 {
+  position: relative;
+  display: inline-block;
+  padding-left: 12%;
+}
+
 .datePicker {
   position: relative;
   display: inline-block;
