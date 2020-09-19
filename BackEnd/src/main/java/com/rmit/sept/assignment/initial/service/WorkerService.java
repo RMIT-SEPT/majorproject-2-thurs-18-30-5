@@ -87,13 +87,12 @@ public class WorkerService {
     }
 
     public boolean checkAvailability(Long workerId, LocalDateTime startDate, LocalDateTime endDate) {
-        SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
         Date start = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
         Date end = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
         for (Hours hours : hoursRepository.findById_WorkerId(workerId)) {
             if (hours.getId().getDayOfWeek().compareTo(startDate.getDayOfWeek()) == 0) {
-                if ((tf.format(start).compareTo(tf.format(hours.getStart())) >= 0) &&
-                        (tf.format(end).compareTo(tf.format(hours.getEnd())) <= 0)) {
+                if ((startDate.toLocalTime().compareTo(hours.getStart()) >= 0) &&
+                        (endDate.toLocalTime().compareTo(hours.getEnd()) <= 0)) {
                     Booking temp = new Booking();
                     temp.setStart(start);
                     temp.setEnd(end);
