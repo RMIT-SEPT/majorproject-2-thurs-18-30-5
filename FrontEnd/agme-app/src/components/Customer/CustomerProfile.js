@@ -48,7 +48,7 @@ export default class CustomerProfile extends Component {
         const res = await axios.put("http://localhost:8080/api/customer", newPerson);
         this.props.history.push('/customer-profile', {user: newPerson});
       } catch (err) {
-        console.log(err);
+        window.alert("Incorrect password; please try again.");
       }
       window.location.reload(false);
   }

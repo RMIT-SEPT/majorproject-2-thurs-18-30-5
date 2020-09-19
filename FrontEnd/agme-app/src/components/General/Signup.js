@@ -29,16 +29,40 @@ class SignUp extends Component {
           username: this.state.username,
           password: this.state.password
       }
-
-      if (this.state.password == this.state.secpass) {
-        try {
-          const res = await axios.post("http://localhost:8080/api/customer", newPerson);
-          this.props.history.push('/sign-in');
-        } catch (err) {
-          
-        }
+      if (this.state.password == ""){
+        window.alert("Password field cannot be empty; please try again.");
       }
-      window.location.reload(false);
+      else if (this.state.password == this.state.secpass) {
+        if (this.state.firstName != "") {
+          if (this.state.lastName != "") {
+            if (this.state.username.length < 6) {
+              window.alert("The size of the username should be at least 6 characters; please try again.");
+            }
+            else {
+              if (this.state.username.length > 15) {
+                window.alert("The size of the username should be at most 15 characters; please try again.");
+              }
+              else {
+                try {
+                  const res = await axios.post("http://localhost:8080/api/customer", newPerson);
+                  this.props.history.push('/sign-in');
+                } catch (err) {
+                  window.alert("Username already exists; please try again.");      
+                }
+              }
+            }
+          }
+          else{
+            window.alert("Last name field cannot be empty; please try again.");
+          }
+        }
+        else {
+          window.alert("First name field cannot be empty; please try again.");
+        }
+      } 
+      else {
+        window.alert("The passwords do not match; please try again.");
+      }
   }
   render() {
     return (

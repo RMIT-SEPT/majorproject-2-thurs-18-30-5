@@ -42,16 +42,24 @@ export default class BookingPage2 extends Component {
     e.preventDefault();
 
     var bad = false;
+    var diffHours = this.state.endDate.getHours() - this.state.startDate.getHours();
     // Comparing start and end time
-    if (this.state.endDate <= this.state.startDate || this.state.endDate.getDate() != this.state.startDate.getDate()) {
+    if (this.state.endDate <= this.state.startDate) {
+      window.alert("The ending time of the booking should be after starting time; please try again.");
       bad = true;
     }
-    if (this.state.endDate.getDay() != this.state.startDate.getDay()) {
+    else if (this.state.endDate.getDate() != this.state.startDate.getDate() || this.state.endDate.getDay() != this.state.startDate.getDay()){
+      window.alert("Booking date for start and end time should be the same; please try again.");
       bad = true;
     }
     // Booking for maximum of 2 hours
-    var diffHours = this.state.endDate.getHours() - this.state.startDate.getHours();
-    if (diffHours > 2 || (diffHours == 2 && this.state.endDate.getMinutes() > this.state.startDate.getMinutes())) {
+    else if (diffHours > 2 || (diffHours == 2 && this.state.endDate.getMinutes() > this.state.startDate.getMinutes())) {
+      window.alert("Maximum booking time is 2 hours; please try again.");
+      bad = true;
+    }
+    // Booking date should be in the future
+    else if (this.state.startDate < new Date()) {
+      window.alert("Booking time cannot be in the past; please try again.");
       bad = true;
     }
 
@@ -60,9 +68,6 @@ export default class BookingPage2 extends Component {
                                                 startDate: this.state.startDate,
                                                 endDate: this.state.endDate,
                                                 user: this.props.location.state.user});
-    }
-    else {
-      window.location.reload(false);
     }
   }
   render() {

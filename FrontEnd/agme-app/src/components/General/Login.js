@@ -67,7 +67,7 @@ class Login extends Component {
               </div>
 
               <div className="forgot-pwd">
-                <Link className="forgot-pwd-option" to={"/forgotPassword"}>Forgot password?</Link>
+                <Link className="forgot-pwd-option" to={"/sign-in"}>Forgot password?</Link>
               </div>
               
             </form>
