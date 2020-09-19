@@ -40,7 +40,7 @@ public class Booking {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date end;
 
-    private BookingStatus status;
+    private BookingStatus status = BookingStatus.PENDING;
 
     @CreationTimestamp
     @Column(name = "created_at")
