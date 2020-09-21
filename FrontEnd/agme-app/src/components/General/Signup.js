@@ -44,7 +44,7 @@ class SignUp extends Component {
               }
               else {
                 try {
-                  const res = await axios.post("http://localhost:8080/api/customer", newPerson);
+                  const res = await axios.post("http://Backend-Dev-dev.us-east-1.elasticbeanstalk.com/customer", newPerson);
                   this.props.history.push('/sign-in');
                 } catch (err) {
                   window.alert("Username already exists; please try again.");      

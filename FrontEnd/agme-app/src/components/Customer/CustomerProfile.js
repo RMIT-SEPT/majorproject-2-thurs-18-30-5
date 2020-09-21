@@ -45,7 +45,7 @@ export default class CustomerProfile extends Component {
 
       
       try {
-        const res = await axios.put("http://localhost:8080/api/customer", newPerson);
+        const res = await axios.put("http://Backend-Dev-dev.us-east-1.elasticbeanstalk.com/api/customer", newPerson);
         this.props.history.push('/customer-profile', {user: newPerson});
       } catch (err) {
         window.alert("Incorrect password; please try again.");
