@@ -64,10 +64,12 @@ jobs:
     docker:
       - image: circleci/node:12
 
-    working_directory: ~/majorproject-2-thurs-18-30-5/FrontEnd
+    working_directory: ~/majorproject-2-thurs-18-30-5/FrontEnd/agme-app
 
     steps:
-      - checkout
+      - checkout:
+          path: ~/majorproject-2-thurs-18-30-5
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -89,6 +91,3 @@ workflows:
           filters:
             branches:
               only: develop
-  app-tests:
-    jobs:
-      - node/test
