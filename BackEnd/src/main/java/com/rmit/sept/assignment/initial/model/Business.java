@@ -10,8 +10,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Business entities are used to provide services to Customers, can also have a number of assigned Worker entities who
+ * carry out the services i.e. Workers of a business can be booked by a customer
+ */
 @Entity(name = "Business")
 @Table(name = "business")
 public class Business {

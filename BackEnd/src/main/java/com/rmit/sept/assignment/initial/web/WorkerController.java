@@ -8,17 +8,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Controller class to handle retrieving and updating of Worker entities
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/api/worker")
@@ -51,6 +48,14 @@ public class WorkerController {
         return new ResponseEntity<>(worker, status);
     }
 
+    /**
+     * Endpoint to return Workers for a Business. Optionally, start and end date-time arguments can be passed which will then
+     * return only Workers for that Business who are not booked between those date-time values
+     * @param businessId ID of Business to search
+     * @param start LocalDateTime value for start of period - optional
+     * @param end LocalDateTime value for end of period - optional
+     * @return List of Worker objects
+     */
     @GetMapping("/business/{businessId}")
     public ResponseEntity<List<Worker>> getWorkersByBusiness(
             @PathVariable Long businessId,
@@ -76,7 +81,7 @@ public class WorkerController {
     @PostMapping("")
     public ResponseEntity<?> createNewWorker(@Validated @RequestBody Worker worker, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
-        if (errors == null) {
+        if (errors == null) {  // no invalid fields/entity errors
             Worker worker1 = workerService.saveOrUpdateWorker(worker);
             HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
             return new ResponseEntity<Worker>(worker1, status);
@@ -94,9 +99,8 @@ public class WorkerController {
     @PutMapping("")
     public ResponseEntity<?> updateWorker(@Validated @RequestBody Worker worker, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
-        if (errors == null) {
+        if (errors == null) {  // no invalid fields/entity errors
             if (getWorker(worker.getId()) != null) {
-                // TODO: check that this works - or do you need to set id from path
                 Worker worker1 = workerService.saveOrUpdateWorker(worker);
                 HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
                 return new ResponseEntity<Worker>(worker1, status);
@@ -105,19 +109,5 @@ public class WorkerController {
         } else {
             return errors;
         }
-    }
-
-
-    @GetMapping("/test/{workerId}")
-    public ResponseEntity<?> getTestHours(
-            @PathVariable Long workerId,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime start,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime end) throws ParseException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String s = "2020-16-09 14:00";
-        String e = "2020-16-09 15:00";
-//        Date start = df.parse(s);
-//        Date end = df.parse(e);
-        return new ResponseEntity<>(workerService.checkAvailability(workerId, start, end), HttpStatus.OK);
     }
 }

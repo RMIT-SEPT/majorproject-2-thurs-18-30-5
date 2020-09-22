@@ -11,6 +11,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * User Service acts as an intermediary between the Repo and Controller classes, providing validation and handling
+ * of requests.
+ */
 @Service
 public class UserService {
     private final BCryptPasswordEncoder encoder;

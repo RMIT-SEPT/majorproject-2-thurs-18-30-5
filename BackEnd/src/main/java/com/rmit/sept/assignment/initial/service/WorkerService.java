@@ -2,7 +2,6 @@ package com.rmit.sept.assignment.initial.service;
 
 import com.rmit.sept.assignment.initial.model.Booking;
 import com.rmit.sept.assignment.initial.model.Hours;
-import com.rmit.sept.assignment.initial.repositories.BookingRepository;
 import com.rmit.sept.assignment.initial.repositories.UserRepository;
 import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
 import com.rmit.sept.assignment.initial.repositories.HoursRepository;
@@ -11,15 +10,15 @@ import com.rmit.sept.assignment.initial.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Worker Service acts as an intermediary between the Repo and Controller classes, providing additional validation and
+ * handling of requests.
+ */
 @Service
 public class WorkerService {
     @Autowired
@@ -73,21 +72,41 @@ public class WorkerService {
         return worker.orElse(null);
     }
 
+    /**
+     * Returns all Workers based on their assigned Business.
+     * @param bid id of Business
+     * @return Collection of Workers assigned to that Business
+     */
     public List<Worker> findAllByBusiness(Long bid) {
         return new ArrayList<>(workerRepository.findAllByBusiness_Id(bid));
     }
 
+    /**
+     * Returns all Workers based on their assigned Business. Also filters based on LocalDateTime start and end values,
+     * returning only Workers who have no existing bookings between those dates
+     * @param bid id of Business
+     * @param startDate start date-time value
+     * @param endDate end date-time value
+     * @return List of available Workers assigned to that Business
+     */
     public List<Worker> findAllByBusiness(Long bid, LocalDateTime startDate, LocalDateTime endDate) {
         List<Worker> workers = new ArrayList<>();
         for (Worker worker : workerRepository.findAllByBusiness_Id(bid)) {
             if (checkAvailability(worker.getId(), startDate, endDate)) {
-                System.err.println("ADDING " + worker.getId());
                 workers.add(worker);
             }
         }
         return workers;
     }
 
+    /**
+     * Checks if a worker is available between two LocalDateTime values, by making use of the Utilities.findOverlap function.
+     * Also provides minor validation of fields before checking for an overlap with the new start/end dates
+     * @param workerId id of worker to check
+     * @param startDate start Date-time value
+     * @param endDate end Date-time value
+     * @return true if the worker is available, otherwise false
+     */
     public boolean checkAvailability(Long workerId, LocalDateTime startDate, LocalDateTime endDate) {
         Date start = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
         Date end = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
