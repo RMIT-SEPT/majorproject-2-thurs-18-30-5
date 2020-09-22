@@ -93,7 +93,6 @@ public class WorkerService {
         List<Worker> workers = new ArrayList<>();
         for (Worker worker : workerRepository.findAllByBusiness_Id(bid)) {
             if (checkAvailability(worker.getId(), startDate, endDate)) {
-                System.err.println("ADDING " + worker.getId());
                 workers.add(worker);
             }
         }
