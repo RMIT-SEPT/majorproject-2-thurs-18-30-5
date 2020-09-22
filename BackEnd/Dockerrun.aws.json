@@ -1,17 +1,11 @@
 {
-  "AWSEBDockerrunVersion": 2,
-  "containerDefinitions": [
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "donalduren/sept-be"
+  },
+  "Ports": [
     {
-      "name": "sept-backend",
-      "image": "sept-backend",
-      "essential": true,
-      "memory": 256,
-      "portMappings": [
-        {
-          "hostPort": 5000,
-          "containerPort": 8080
-        }
-      ]
+      "ContainerPort": "8080"
     }
   ]
 }
