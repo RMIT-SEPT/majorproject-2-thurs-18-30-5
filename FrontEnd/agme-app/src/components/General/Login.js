@@ -28,7 +28,7 @@ class Login extends Component {
       }
 
       try {
-        const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
+        const res = await axios.get("http://sept-backend.us-east-1.elasticbeanstalk.com/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
         this.person = res.data;
         this.props.history.push('/customer-dashboard', {user: this.person});
       } catch (err) {
@@ -61,9 +61,7 @@ class Login extends Component {
               </div>
 
               <div className="submit-button">
-                
                   <button className="service-btn" type="submit">Submit</button>
-                
               </div>
 
               <div className="forgot-pwd">

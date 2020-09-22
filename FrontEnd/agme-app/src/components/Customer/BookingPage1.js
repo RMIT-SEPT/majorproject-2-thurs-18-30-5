@@ -12,7 +12,7 @@ export default class BookingPage1 extends Component {
   constructor() {
     super();
 
-    axios.get("http://localhost:8080/api/business/all")
+    axios.get("http://sept-backend.us-east-1.elasticbeanstalk.com/api/business/all")
       .then(res => {
         const businesses = res.data;
         this.setState({ businesses });
