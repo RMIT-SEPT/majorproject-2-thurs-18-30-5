@@ -14,7 +14,7 @@ export default class CustomerDashboard extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "PENDING"} })
+      axios.get("http://sept-backend.us-east-1.elasticbeanstalk.com/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "PENDING"} })
         .then(res => {
           const bookings = res.data;
           this.setState({upcomingBookings: bookings});
@@ -25,7 +25,7 @@ export default class CustomerDashboard extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "COMPLETED"} })
+      axios.get("http://sept-backend.us-east-1.elasticbeanstalk.com/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "COMPLETED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({pastBookings: bookings});
@@ -52,7 +52,7 @@ export default class CustomerDashboard extends Component {
       status: "CANCELLED"
     };
     try {
-      await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking);
+      await axios.put("http://sept-backend.us-east-1.elasticbeanstalk.com/api/booking/" + booking.id, changedBooking);
     } catch (err) {
 
     }
