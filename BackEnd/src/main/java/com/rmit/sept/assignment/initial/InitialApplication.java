@@ -10,15 +10,15 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 public class InitialApplication {
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();  // set up password encryption service
     }
 
     @PostConstruct
     void started() {
-        // set JVM timezone as UTC
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));  // set timezone - required to prevent some datetime comparison bugs
     }
 
     public static void main(String[] args) {

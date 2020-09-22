@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
@@ -52,9 +51,9 @@ public class WorkerController {
     /**
      * Endpoint to return Workers for a Business. Optionally, start and end date-time arguments can be passed which will then
      * return only Workers for that Business who are not booked between those date-time values
-     * @param businessId: ID of Business to search
-     * @param start: LocalDateTime value for start of period - optional
-     * @param end: LocalDateTime value for end of period - optional
+     * @param businessId ID of Business to search
+     * @param start LocalDateTime value for start of period - optional
+     * @param end LocalDateTime value for end of period - optional
      * @return List of Worker objects
      */
     @GetMapping("/business/{businessId}")
@@ -82,7 +81,7 @@ public class WorkerController {
     @PostMapping("")
     public ResponseEntity<?> createNewWorker(@Validated @RequestBody Worker worker, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
-        if (errors == null) {
+        if (errors == null) {  // no invalid fields/entity errors
             Worker worker1 = workerService.saveOrUpdateWorker(worker);
             HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
             return new ResponseEntity<Worker>(worker1, status);
@@ -100,9 +99,8 @@ public class WorkerController {
     @PutMapping("")
     public ResponseEntity<?> updateWorker(@Validated @RequestBody Worker worker, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
-        if (errors == null) {
+        if (errors == null) {  // no invalid fields/entity errors
             if (getWorker(worker.getId()) != null) {
-                // TODO: check that this works - or do you need to set id from path
                 Worker worker1 = workerService.saveOrUpdateWorker(worker);
                 HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
                 return new ResponseEntity<Worker>(worker1, status);

@@ -1,21 +1,19 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.User;
-import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.util.Collection;
-import java.util.List;
 
+/**
+ * User Controller class - allows access/updates on User entities
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/api/customer")
@@ -52,7 +50,7 @@ public class UserController {
      * Authenticate a user based on username and password
      * @param username: username of user
      * @param password: password of user
-     * @return
+     * @return User object of authentication was successful
      */
     @GetMapping("/auth/{username}")
     public ResponseEntity<User> authenticateUser(@PathVariable String username, @RequestParam String password) {

@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 
+/**
+ * Business Controller class allows access to retrieve create and update Business Entities. Businesses can have multiple
+ * Workers, which can be booked by Customers
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/api/business")
@@ -25,11 +25,20 @@ public class BusinessController {
     @Autowired
     private FieldValidationService validationService;
 
+    /**
+     * Endpoint to retrieve all businesses
+     * @return a Collection of Business entities
+     */
     @GetMapping("/all")
     public ResponseEntity<Collection<Business>> getBusinesses() {
         return new ResponseEntity<>(businessService.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * Endpoint to retrieve a Business by ID
+     * @param id ID of business
+     * @return Business entity if found, or null
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Business> getBusiness(@PathVariable Long id) {
         Business business = businessService.findById(id);
@@ -37,6 +46,13 @@ public class BusinessController {
         return new ResponseEntity<>(business, status);
     }
 
+    /**
+     * Endpoint to search for businesses - allows for exact and partial matching
+     * @param name String name of business to find
+     * @param exact indicates if the search is to be exact or partial. If false, it will look for names containing the
+     *              value of name as a substring. If true, it will only look for exact matches
+     * @return Collection of Business entities matching search criteria
+     */
     @GetMapping("/name/{name}")
     public ResponseEntity<Collection<Business>> getBusinessByName(@PathVariable String name, @RequestParam(required = false, defaultValue = "false") boolean exact) {
         Collection<Business> businesses;
@@ -49,6 +65,12 @@ public class BusinessController {
         return new ResponseEntity<>(businesses, status);
     }
 
+    /**
+     * Endpoint to create a new Business entity. Validates fields are correct using FieldValidationService
+     * @param business Business entity to create
+     * @param result field errors/validation based on Business entity
+     * @return new Business entity if successful otherwise a corresponding FieldError
+     */
     @PostMapping("")
     public ResponseEntity<?> createNewBusiness(@Validated @RequestBody Business business, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
@@ -61,12 +83,18 @@ public class BusinessController {
         }
     }
 
+    /**
+     * Endpoint to update a Business entity
+     * @param business Business entity to update
+     * @param businessId id of Business - used to verify existence
+     * @param result field errors/validation based on Business entity
+     * @return newly updated Business or null if errors
+     */
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBusiness(@Validated @RequestBody Business business, Long businessId, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
             if (getBusiness(businessId) != null) {
-                // TODO: check that this works - or do you need to set id from path
                 Business business1 = businessService.saveOrUpdateBusiness(business);
                 HttpStatus status = (business1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
                 return new ResponseEntity<Business>(business, status);
