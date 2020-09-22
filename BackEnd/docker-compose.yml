@@ -1,0 +1,11 @@
+version: '3'
+services:
+  sept-backend-container:
+    image: sept-backend:1
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /data/sept-backend
+    ports:
+      - "8080:8080"
