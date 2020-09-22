@@ -38,9 +38,9 @@ public class BusinessController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Collection<Business>> getBusinessByName(@PathVariable String name, @RequestParam Optional<Boolean> exact) {
+    public ResponseEntity<Collection<Business>> getBusinessByName(@PathVariable String name, @RequestParam(required = false, defaultValue = "false") boolean exact) {
         Collection<Business> businesses;
-        if (exact.isPresent() && exact.get() == Boolean.TRUE) {
+        if (exact) {
             businesses = businessService.findByName(name, true);
         } else {
             businesses = businessService.findByName(name);

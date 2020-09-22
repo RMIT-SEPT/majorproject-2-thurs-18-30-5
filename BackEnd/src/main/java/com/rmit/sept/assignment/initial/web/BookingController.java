@@ -54,7 +54,7 @@ public class BookingController {
 
     @GetMapping("/all/user/{id}")
     public ResponseEntity<Collection<Booking>> getBookingsByUser(@PathVariable Long id,
-                                                                 @RequestParam Booking.BookingStatus bookingStatus) {
+                                                                 @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
         Collection<Booking> bookings;
         if (bookingStatus == null)
             bookings = bookingService.findByUser(id);
