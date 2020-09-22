@@ -7,11 +7,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Booking Entities record bookings, made between a customer and a worker. Bookings can also have one of three status
+ * values: PENDING, COMPLETED, or CANCELLED
+ */
 @Entity(name = "Booking")
 @Table(name = "booking")
 public class Booking {

@@ -11,6 +11,10 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Hours Entity - used to record working day and time of Workers
+ * utilises a composite primary key, consisting of Worker.ID (FK) and DayOfWeek
+ */
 @Entity(name = "Hours")
 @Table(name = "hours")
 public class Hours {
@@ -68,6 +72,9 @@ public class Hours {
         }
     }
 
+    /**
+     * HoursPK creates the composite primary key for Hours entities - Worker.ID and DayOfWeek
+     */
     @SuppressWarnings("JpaDataSourceORMInspection")  // errors with mapping to columns in table
     @Embeddable
     public static class HoursPK implements Serializable {

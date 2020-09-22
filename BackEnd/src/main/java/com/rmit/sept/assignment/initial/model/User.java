@@ -29,7 +29,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String address;
-//    TODO: phone number (area code + number?), separate address into fields?
     @OneToMany(targetEntity = Booking.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("user")
     private List<Booking> bookings;
