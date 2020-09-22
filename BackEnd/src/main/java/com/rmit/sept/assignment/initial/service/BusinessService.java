@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * Business Services is an intermediary between Business Repo and Controller
+ */
 @Service
 public class BusinessService {
     @Autowired
@@ -26,11 +28,7 @@ public class BusinessService {
     public Business saveOrUpdateBusiness(Business business) {
         String businessName = business.getName();
         if (businessName != null) {
-//            Optional<Business> businessOptional = businessRepository.findById(businessId);
-//            if (!businessOptional.isPresent()) {
-//                return businessRepository.save(business);
-//            }
-            return businessRepository.save(business);  // TODO: check if update/save works
+            return businessRepository.save(business);
         } else
             return null;
     }

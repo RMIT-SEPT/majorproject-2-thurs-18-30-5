@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +15,11 @@ import java.util.Map;
 @Service
 public class FieldValidationService {
 
+    /**
+     * Appends errors to a HashMap to return to the calling function
+     * @param result field errors/validation based on the entity class
+     * @return Map of errors, or null if there were none
+     */
     public ResponseEntity<?> mapFieldErrors(BindingResult result) {
 
         if(result.hasErrors()){
