@@ -1,19 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
-.worker-page {
-  position: relative;
-  top: 120px;
+.date-time {
+  font-style: normal;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+  background-color: rgba(255, 255, 255, 0.651);
+  border-width: 1px;
+  border-style: none;
+  height: 38px;
 }
 
-.worker-title {
-  float: left;
-  font-style: normal;
-  font-size: 40px;
-  line-height: 44px;
-  font-weight: 600;
+.date-time:hover {
+  border: 2px solid rgb(156, 199, 255);
+}
+
+.work-day {
+  position: relative;
+  left: 15px;
+  width: 300px;
+  text-indent: 10px;
+  border-radius: 12px;
+}
+
+.check-hour {
+  position: relative;
+  left: 35px;
+
+  color: #fff !important;
+  background: #89aeff;
+  text-transform: uppercase;
+  border-radius: 50px;
+  display: inline-block;
+  border: none;
+  transition: all 0.2s ease 0s;
+  height: 36px;
+  width: 140px;
+
+  font-weight: 500;
+  font-size: 12px;
   font-family: 'Montserrat', sans-serif;
-  color: #000000;
-  width: 100%;
+  letter-spacing: 0.3px;
+}
+
+.check-hour:hover {
+  background: #76a1ff;
+  text-shadow: 0px 0px 4px rgba(255, 255, 255, 1);
+  transition: all 0.2s ease 0s;
+}
+
+.select-time {
+  position: relative;
+  top: -10px;
+  width: 220px;
+  text-align: center;
+  border-radius: 50px;
+}
+
+.start-time {
+  left: 15px; 
+}
+
+.end-time {
+  left: 35px;
 }
