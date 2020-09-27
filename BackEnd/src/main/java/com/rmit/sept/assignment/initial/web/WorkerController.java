@@ -49,6 +49,52 @@ public class WorkerController {
     }
 
     /**
+     * Endpoint to authenticate a worker based on username value. Also used for admin users by setting admin flag
+     * @param username username of worker
+     * @param password password attempt
+     * @param admin admin flag
+     * @return OK and Worker if valid otherwise null and NOT_FOUND/BAD_REQUEST
+     */
+    @GetMapping("/auth/username/{username}")
+    public ResponseEntity<?> authenticateWorker(
+            @PathVariable String username, @RequestParam String password, @RequestParam(required = false) boolean admin) {
+        if (username != null && password != null) {
+            Worker worker;
+            if (admin)
+                worker = workerService.authenticateWorker(username, password, true);
+            else
+                worker = workerService.authenticateWorker(username, password, false);
+            HttpStatus status = worker != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(worker, status);
+        } else {
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Overloaded endpoint to authenticate a worker based on id value. Also used for admin users by setting admin flag
+     * @param id username of worker
+     * @param password password attempt
+     * @param admin admin flag
+     * @return OK and Worker if valid otherwise null and NOT_FOUND/BAD_REQUEST
+     */
+    @GetMapping("/auth/id/{id}")
+    public ResponseEntity<?> authenticateWorker(
+            @PathVariable Long id, @RequestParam String password, @RequestParam(required = false) boolean admin) {
+        if (id != null && password != null) {
+            Worker worker;
+            if (admin)
+                worker = workerService.authenticateWorker(id, password, true);
+            else
+                worker = workerService.authenticateWorker(id, password, false);
+            HttpStatus status = worker != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(worker, status);
+        } else {
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
      * Endpoint to return Workers for a Business. Optionally, start and end date-time arguments can be passed which will then
      * return only Workers for that Business who are not booked between those date-time values
      * @param businessId ID of Business to search

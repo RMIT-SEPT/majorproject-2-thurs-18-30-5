@@ -12,6 +12,8 @@ public interface WorkerRepository extends CrudRepository<Worker, Long> {
     Iterable<Worker> findAllById(Iterable<Long> iterable);
     @Override
     Optional<Worker> findById(Long aLong);
+    Optional<Worker> findByUserUsername(String username);
+    Optional<Worker> findByIdAndAdmin(Long aLong, boolean admin);
     List<Worker> findAllByBusiness(Business business);
     List<Worker> findAllByBusiness_Id(Long businessId);
 }
