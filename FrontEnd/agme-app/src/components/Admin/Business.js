@@ -28,6 +28,13 @@ export default class Business extends Component {
                   </div>
                 </div>
 
+                <div className="form-group row field-row biz-pwd">
+                  <label for="inputpwd" className="col-sm-2 col-form-label pwd">ADMIN Password</label>
+                  <div className="col-sm-10">
+                  <input type="password" className="form-control field-input pwd" id="inputpwd" placeholder="Enter ADMIN password to confirm changes" />
+                  </div>
+                </div>
+
                 <div className="container edit-business">
                   <button type="reset" className="btn cancel-changes">cancel</button>
                   <button type="submit" className="btn save-changes">Save changes</button>
