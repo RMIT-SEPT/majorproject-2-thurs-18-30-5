@@ -13,7 +13,7 @@ public interface WorkerRepository extends CrudRepository<Worker, Long> {
     @Override
     Optional<Worker> findById(Long aLong);
     Optional<Worker> findByUserUsername(String username);
-    Optional<Worker> findByIdAndAdmin(Long aLong, boolean admin);
+    Optional<Worker> findByIdAndIsAdmin(Long aLong, boolean admin);
     List<Worker> findAllByBusiness(Business business);
     List<Worker> findAllByBusiness_Id(Long businessId);
 }

@@ -49,19 +49,20 @@ public class WorkerController {
     }
 
     /**
-     * Endpoint to authenticate a worker based on username value. Also used for admin users by setting admin flag
+     * Endpoint to authenticate a worker based on username value. Also used for admin users by setting isAdmin flag
      * @param username username of worker
      * @param password password attempt
-     * @param admin admin flag
+     * @param isAdmin admin flag
      * @return OK and Worker if valid otherwise null and NOT_FOUND/BAD_REQUEST
      */
     @GetMapping("/auth/username/{username}")
     public ResponseEntity<?> authenticateWorker(
-            @PathVariable String username, @RequestParam String password, @RequestParam(required = false) boolean admin) {
+            @PathVariable String username, @RequestParam String password, @RequestParam(required = false) Boolean isAdmin) {
         if (username != null && password != null) {
+            System.err.println(isAdmin);
             Worker worker;
-            if (admin)
-                worker = workerService.authenticateWorker(username, password, true);
+            if (isAdmin != null)
+                worker = workerService.authenticateWorker(username, password, isAdmin);
             else
                 worker = workerService.authenticateWorker(username, password, false);
             HttpStatus status = worker != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
@@ -72,19 +73,19 @@ public class WorkerController {
     }
 
     /**
-     * Overloaded endpoint to authenticate a worker based on id value. Also used for admin users by setting admin flag
+     * Overloaded endpoint to authenticate a worker based on id value. Also used for admin users by setting isAdmin flag
      * @param id username of worker
      * @param password password attempt
-     * @param admin admin flag
+     * @param isAdmin admin flag
      * @return OK and Worker if valid otherwise null and NOT_FOUND/BAD_REQUEST
      */
     @GetMapping("/auth/id/{id}")
     public ResponseEntity<?> authenticateWorker(
-            @PathVariable Long id, @RequestParam String password, @RequestParam(required = false) boolean admin) {
+            @PathVariable Long id, @RequestParam String password, @RequestParam(required = false) Boolean isAdmin) {
         if (id != null && password != null) {
             Worker worker;
-            if (admin)
-                worker = workerService.authenticateWorker(id, password, true);
+            if (isAdmin != null)
+                worker = workerService.authenticateWorker(id, password, isAdmin);
             else
                 worker = workerService.authenticateWorker(id, password, false);
             HttpStatus status = worker != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;

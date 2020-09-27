@@ -67,10 +67,7 @@ public class WorkerService {
      */
     public Worker authenticateWorker(Long id, String password, boolean admin) {
         Worker worker;
-        if (admin)
-            worker = findByIdAndAdmin(id, admin);
-        else
-            worker = findById(id);
+        worker = findByIdAndAdmin(id, admin);
         if (worker != null && worker.getUser() != null) {
             if (encoder.matches(password, worker.getUser().getPassword())) {
                 return worker;
@@ -119,7 +116,7 @@ public class WorkerService {
      * @return Worker if found or null
      */
     public Worker findByIdAndAdmin(Long id, boolean admin) {
-        Optional<Worker> worker = workerRepository.findByIdAndAdmin(id, admin);
+        Optional<Worker> worker = workerRepository.findByIdAndIsAdmin(id, admin);
         return worker.orElse(null);
     }
 
