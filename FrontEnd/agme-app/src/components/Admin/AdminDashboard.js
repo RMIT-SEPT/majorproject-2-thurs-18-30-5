@@ -15,20 +15,13 @@ export default class AdminDashboard extends Component {
             </div>
 
             <div className="container admin-functions">
-              <div className="func-add-worker">
-                <Link className="btn func-btn" to={"/add-worker"}>Add new worker</Link>
-              </div>
-              <div className="func-add-business">
-                <Link className="btn func-btn" to={"/business"}>Edit business</Link>
-              </div>
-              <div className="func-upcoming">
-                <Link className="btn func-btn" to={"/upcoming-booking"}>Upcoming bookings</Link>
-              </div>
-              <div className="func-past">
-                <Link className="btn func-btn" to={"/past-booking"}>Past bookings</Link>
-              </div>
-              <div className="func-availability">
-                <Link className="btn func-btn" to={"/worker-availability"}>Workers availability</Link>
+              <div className="card biz-info">
+                <div className="biz-name">Pandemic Hair</div>
+                <div className="biz-desc">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                </div>
               </div>
 
               <div className="worker-table-scroll">
@@ -55,6 +48,23 @@ export default class AdminDashboard extends Component {
                   </tbody>
                 </table>
               </div>
+
+              <div className="func-add-worker">
+                <Link className="btn func-btn" to={"/add-worker"}>Add new worker</Link>
+              </div>
+              <div className="func-add-business">
+                <Link className="btn func-btn" to={"/business"}>Edit business</Link>
+              </div>
+              <div className="func-upcoming">
+                <Link className="btn func-btn" to={"/upcoming-booking"}>Upcoming bookings</Link>
+              </div>
+              <div className="func-past">
+                <Link className="btn func-btn" to={"/past-booking"}>Past bookings</Link>
+              </div>
+              <div className="func-availability">
+                <Link className="btn func-btn" to={"/worker-availability"}>Workers availability</Link>
+              </div>
+
             </div>
           </div>
         <Footer/>
