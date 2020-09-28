@@ -42,7 +42,6 @@ export default class CustomerProfile extends Component {
       if (this.state.address == "") {
         newPerson.address = this.props.location.state.user.address;
       }
-
       
       try {
         const res = await axios.put("http://sept-backend.us-east-1.elasticbeanstalk.com/api/customer", newPerson);
@@ -65,45 +64,71 @@ export default class CustomerProfile extends Component {
                 <h1 className="profile-title">Profile</h1>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputusername" className="col-sm-2 col-form-label username">Username</label>
+                  <label htmlFor="inputusername" className="col-sm-2 col-form-label">Username</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputusername" value={this.props.location.state.user.username} readOnly />
+                    <input 
+                      type="text" 
+                      className="form-control field-input" 
+                      id="inputusername" 
+                      value={this.props.location.state.user.username} 
+                      readOnly />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputname" className="col-sm-2 col-form-label name">First name</label>
+                  <label htmlFor="inputfname" className="col-sm-2 col-form-label">First name</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputname" placeholder={this.props.location.state.user.firstName} name="firstName"
-                    value= {this.state.firstName}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="text" 
+                      className="form-control field-input" 
+                      id="inputfname" 
+                      placeholder={this.props.location.state.user.firstName} 
+                      name="firstName"
+                      value= {this.state.firstName}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputemail" className="col-sm-2 col-form-label email">Last name</label>
+                  <label htmlFor="inputlname" className="col-sm-2 col-form-label">Last name</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputemail" placeholder={this.props.location.state.user.lastName} name="lastName"
-                    value= {this.state.lastName}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="text" 
+                      className="form-control field-input" 
+                      id="inputlname" 
+                      placeholder={this.props.location.state.user.lastName} 
+                      name="lastName"
+                      value= {this.state.lastName}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputcontactno" className="col-sm-2 col-form-label contact-no">Address</label>
+                  <label htmlFor="inputaddress" className="col-sm-2 col-form-label">Address</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputcontactno" placeholder={this.props.location.state.user.address} name="address"
-                    value= {this.state.address}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="text" 
+                      className="form-control field-input" 
+                      id="inputaddress" 
+                      placeholder={this.props.location.state.user.address} 
+                      name="address"
+                      value= {this.state.address}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputpassword" className="col-sm-2 col-form-label confirm-pwd">Password</label>
+                  <label htmlFor="inputpwd" className="col-sm-2 col-form-label cus-pwd">Password</label>
                   <div className="col-sm-10">
-                    <input type="password" className="form-control field-input" id="inputpassword" placeholder="Please enter password to confirm" name="password"
-                    value= {this.state.password}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="password" 
+                      className="form-control field-input cus-pwd" 
+                      id="inpwd" 
+                      placeholder="Enter password to confirm changes" 
+                      name="password"
+                      required="true"
+                      value= {this.state.password}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
