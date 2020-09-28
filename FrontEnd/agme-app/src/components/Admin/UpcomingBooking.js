@@ -17,11 +17,11 @@ export default class UpcomingBooking extends Component {
                 <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
                   <thead className="book-summary-title">
                     <tr>
-                      <th scope="col" width="15%" className="date">DATE</th>
-                      <th scope="col" width="20%" className="time">TIME</th>
-                      <th scope="col" width="25%" className="service">SERVICE</th>
-                      <th scope="col" width="20%" className="worker">WORKER</th>
-                      <th scope="col" width="20%" className="customer">CUSTOMER</th>
+                      <th scope="col" width="15%" className="book-header date">Date</th>
+                      <th scope="col" width="20%" className="book-header time">Time</th>
+                      <th scope="col" width="25%" className="book-header service">Service</th>
+                      <th scope="col" width="20%" className="book-header worker">Worker</th>
+                      <th scope="col" width="20%" className="book-header customer">Customer</th>
                     </tr>
                   </thead>
                   <tbody>
