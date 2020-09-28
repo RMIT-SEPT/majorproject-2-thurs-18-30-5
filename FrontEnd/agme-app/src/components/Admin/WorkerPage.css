@@ -1,3 +1,26 @@
+.work-info {
+  position: absolute;
+  top: 90px;
+  width: 470px;
+  height: 450px;
+  left: 650px;
+
+  border-radius: 30px 30px 30px 30px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+  transition: 0.3s;
+  background-color: #ffffff11;
+  border-color: transparent;
+}
+
+.work-field, .admin-pwd {
+  width: 40%;
+}
+
+.worker-admin-pwd {
+  position: relative;
+  top: 148px;
+}
+
 .date-time {
   font-style: normal;
   font-weight: 300;
@@ -13,17 +36,24 @@
 }
 
 .work-day {
-  position: relative;
-  left: 15px;
-  width: 300px;
+  width: 250px;
   text-indent: 10px;
   border-radius: 12px;
 }
 
-.check-hour {
-  position: relative;
-  left: 35px;
+.select-date {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+}
 
+.check-time-btn {
+  position: absolute;
+  left: 300px;
+  top: 30px;
+}
+
+.check-time {
   color: #fff !important;
   background: #89aeff;
   text-transform: uppercase;
@@ -40,24 +70,102 @@
   letter-spacing: 0.3px;
 }
 
-.check-hour:hover {
+.check-time:hover {
   background: #76a1ff;
   text-shadow: 0px 0px 4px rgba(255, 255, 255, 1);
   transition: all 0.2s ease 0s;
 }
 
+.card-title {
+  font-weight: 500;
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif;
+
+  position: absolute;
+}
+
+.working-hour-title {
+  top: 100px;
+  left: 30px;
+}
+
 .select-time {
-  position: relative;
-  top: -10px;
-  width: 220px;
+  width: 190px;
   text-align: center;
   border-radius: 50px;
 }
 
-.start-time {
-  left: 15px; 
+.select-start-time {
+  position: absolute;
+  top: 135px;
+  left: 30px;
 }
 
-.end-time {
-  left: 35px;
+.select-end-time {
+  position: absolute;
+  top: 135px;
+  left: 250px;
+}
+
+.availability-title {
+  top: 210px;
+  left: 30px;
+}
+
+.avail-table {
+  box-shadow: 0px 10px 40px rgba(41, 41, 54, 0.2);
+  background-color: #ffffff33;
+  border-radius: 15px 60px 10px 10px;
+
+  table-layout: fixed;
+  position: absolute;
+  text-align: center;
+  float: left;
+  
+  font-style: normal;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  font-size: 13px;
+  line-height: 11px;
+}
+
+.avail-table tr td:last-child {
+  max-width: 5px;
+}
+
+.avail-title {
+  position: sticky;
+  top: 0;
+}
+
+.avail-header {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.avail-from {
+  background-color: rgb(209, 233, 255);
+  border-radius: 15px 0px 0px 15px; 
+}
+
+.avail-to {
+  background-color: rgb(209, 233, 255);
+  border-radius: 0px 15px 15px 0px; 
+}
+
+.avail-table-scroll { 
+  overflow-x: hidden; 
+  overflow-y: auto;
+
+  height: 180px;
+  top: 245px;
+  left: 30px;
+  position: absolute;
+  width: 410px; 
+}
+
+.edit-worker {
+  position: absolute;
+  top: 570px;
 }
