@@ -4,7 +4,6 @@ import AdminHeader from '../Layout/AdminHeader'
 import Footer from '../Layout/Footer'
 import DatePicker from "react-datepicker";
 import './WorkerPage.css'
-import addDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class AddWorker extends Component {
@@ -25,28 +24,28 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputfirstname" className="col-sm-2 col-form-label name">First name</label>
+                  <label for="inputfname" className="col-sm-2 col-form-label fname">First name</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputfirstname" placeholder="Enter first name" />
+                    <input type="text" className="form-control field-input" id="inputfname" placeholder="Enter first name" />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputlastname" className="col-sm-2 col-form-label username">Last name</label>
+                  <label for="inputlname" className="col-sm-2 col-form-label lname">Last name</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputlastname" placeholder="Enter last name" />
+                    <input type="text" className="form-control field-input" id="inputlname" placeholder="Enter last name" />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputaddress" className="col-sm-2 col-form-label email">Address</label>
+                  <label for="inputaddress" className="col-sm-2 col-form-label address">Address</label>
                   <div className="col-sm-10">
                     <input type="text" className="form-control field-input" id="inputaddress" placeholder="Enter address" />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputhr" className="col-sm-2 col-form-label job">Working hour</label>
+                  <label for="inputworkinghr" className="col-sm-2 col-form-label workinghr">Working hour</label>
                   <div>
                     <DatePicker 
                       className="date-time work-day" 
@@ -60,7 +59,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputhr" className="col-sm-2 col-form-label job"></label>
+                  <label for="inputholder" className="col-sm-2 col-form-label"></label>
                   <div>
                     <DatePicker className="date-time select-time start-time" placeholderText="start time" />
                   </div>
@@ -69,8 +68,8 @@ export default class AddWorker extends Component {
                   </div>
                 </div>
 
-                <div className="form-group row field-row add-worker-pwd">
-                  <label for="inputpwd" className="col-sm-2 col-form-label pwd">ADMIN password</label>
+                <div className="form-group row field-row pwd">
+                  <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd">ADMIN password</label>
                   <div className="col-sm-10">
                   <input type="password" className="form-control field-input pwd" id="inputpwd" placeholder="Enter ADMIN password to confirm changes" />
                   </div>
