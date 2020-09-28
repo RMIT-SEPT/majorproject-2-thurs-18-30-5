@@ -56,9 +56,9 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row add-worker-pwd">
-                  <label for="inputpwd" className="col-sm-2 col-form-label pwd">ADMIN password</label>
+                  <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd">ADMIN password</label>
                   <div className="col-sm-10">
-                  <input type="password" className="form-control field-input pwd" id="inputpwd" placeholder="Enter ADMIN password to confirm changes" />
+                    <input type="password" className="form-control field-input pwd" id="inputpwd" placeholder="Enter ADMIN password to confirm changes" />
                   </div>
                 </div>
 
