@@ -51,6 +51,9 @@ body, html, .App, #root, .auth-wrapper {
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
   transition: all .3s;
+
+  position: relative;
+  top: 10px;
 }
 
 .forgot-pwd {
