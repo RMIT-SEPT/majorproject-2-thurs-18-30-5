@@ -79,7 +79,10 @@ body, html, .App, #root, .auth-wrapper {
   font-weight: 400;
   font-family: 'Montserrat', sans-serif;
   background-color: rgba(255, 255, 255, 0.788);
+  border-style: none;
+  border-radius: 18px;
   letter-spacing: -0.3px;
+  text-indent: 10px;
 }
 
 .form-input:hover {
