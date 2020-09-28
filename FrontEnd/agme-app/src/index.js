@@ -23,8 +23,6 @@ import Business from './components/Admin/Business';
 import UpcomingBooking from './components/Admin/UpcomingBooking';
 import PastBooking from './components/Admin/PastBooking';
 import WorkerPage from './components/Admin/WorkerPage';
-import WorkerAvailability from './components/Admin/WorkerAvailability';
-
 
 ReactDOM.render(
   <BrowserRouter>
@@ -47,7 +45,6 @@ ReactDOM.render(
         <Route path="/upcoming-booking" component={UpcomingBooking} />
         <Route path="/past-booking" component={PastBooking} />
         <Route path="/worker-page" component={WorkerPage} />
-        <Route path="/worker-availability" component={WorkerAvailability} />
         
       </Switch>
   </BrowserRouter>,
