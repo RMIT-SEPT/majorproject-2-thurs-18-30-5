@@ -47,25 +47,27 @@ class Login extends Component {
               <br/>
 
               <div className="form-group">
-                <label className="email-username">Username</label>
+                <label>Username</label>
                 <input 
                   type="text" 
                   className="form-control form-input" 
                   placeholder="Enter username" 
                   name="username"
                   spellCheck="false"
+                  required="true"
                   value= {this.state.username}
                   onChange = {this.onChange} />
               </div>
 
               <div className="form-group">
-                <label className="pwd">Password</label>
+                <label>Password</label>
                 <input 
                   type="password" 
                   className="form-control form-input"
                   placeholder="Enter password" 
                   name="password"
                   spellCheck="false"
+                  required="true"
                   value= {this.state.password}
                   onChange = {this.onChange} />
               </div>
