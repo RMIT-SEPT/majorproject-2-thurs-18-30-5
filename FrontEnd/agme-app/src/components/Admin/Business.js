@@ -37,7 +37,7 @@ export default class Business extends Component {
                 <div className="form-group row field-row biz-pwd">
                   <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd">ADMIN Password</label>
                   <div className="col-sm-10">
-                  <input type="password" className="form-control field-input pwd" id="inputpwd" placeholder="Enter ADMIN password to confirm changes" />
+                  <input type="password" className="form-control field-input admin-pwd" id="inputpwd" placeholder="Enter ADMIN password to confirm changes" />
                   </div>
                 </div>
 
