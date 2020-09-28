@@ -8,6 +8,7 @@ import com.rmit.sept.assignment.initial.repositories.HoursRepository;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,12 +22,17 @@ import java.util.stream.Collectors;
  */
 @Service
 public class WorkerService {
+    private final BCryptPasswordEncoder encoder;
     @Autowired
     private WorkerRepository workerRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private HoursRepository hoursRepository;
+
+    public WorkerService(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
 
     /**
@@ -53,6 +59,37 @@ public class WorkerService {
     }
 
     /**
+     * Authenticate a worker based on username and password. Also authenticates admin users
+     * @param id id of worker
+     * @param password password attept
+     * @param admin admin flag - true if auth for an admin user
+     * @return Worker object if password and admin are valid otherwise null
+     */
+    public Worker authenticateWorker(Long id, String password, boolean admin) {
+        Worker worker;
+        worker = findByIdAndAdmin(id, admin);
+        if (worker != null && worker.getUser() != null) {
+            if (encoder.matches(password, worker.getUser().getPassword())) {
+                return worker;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Overloaded authentication service to allow for filtering by username instead.
+     * Calls the above method authenticateWorker(Long id, String password, boolean admin) to carry out authentication
+     * @param username username of Worker (user object field)
+     * @param password password of Worker
+     * @param admin admin flag - true if auth for an admin
+     * @return Worker object or null if invalid
+     */
+    public Worker authenticateWorker(String username, String password, boolean admin) {
+        Worker worker = findByUsername(username);
+        return authenticateWorker(worker.getId(), password, admin);
+    }
+
+    /**
      * Returns all workers
      * @return an ArrayList of Worker objects
      */
@@ -69,6 +106,27 @@ public class WorkerService {
      */
     public Worker findById(Long id) {
         Optional<Worker> worker = workerRepository.findById(id);
+        return worker.orElse(null);
+    }
+
+    /**
+     * Return a worker based on id value and admin boolean status
+     * @param id id of worker
+     * @param admin boolean admin status
+     * @return Worker if found or null
+     */
+    public Worker findByIdAndAdmin(Long id, boolean admin) {
+        Optional<Worker> worker = workerRepository.findByIdAndIsAdmin(id, admin);
+        return worker.orElse(null);
+    }
+
+    /**
+     * Returns a worker based on their username (User object)
+     * @param username username of the worker
+     * @return Worker object or null if not found
+     */
+    public Worker findByUsername(String username) {
+        Optional<Worker> worker = workerRepository.findByUserUsername(username);
         return worker.orElse(null);
     }
 

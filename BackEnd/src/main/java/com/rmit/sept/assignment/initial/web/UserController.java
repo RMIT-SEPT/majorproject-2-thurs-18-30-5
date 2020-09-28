@@ -53,10 +53,14 @@ public class UserController {
      * @return User object of authentication was successful
      */
     @GetMapping("/auth/{username}")
-    public ResponseEntity<User> authenticateUser(@PathVariable String username, @RequestParam String password) {
-        User user = userService.authenticateUser(username, password);
-        HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(user, status);
+    public ResponseEntity<?> authenticateUser(@PathVariable String username, @RequestParam String password) {
+        if (username != null && password != null) {
+            User user = userService.authenticateUser(username, password);
+            HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(user, status);
+        } else {
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
