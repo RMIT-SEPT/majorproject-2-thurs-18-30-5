@@ -48,16 +48,26 @@ class Login extends Component {
 
               <div className="form-group">
                 <label className="email-username">Username</label>
-                <input type="text" className="form-control form-input" placeholder="Enter username" name="username"
-                value= {this.state.username}
-                onChange = {this.onChange} />
+                <input 
+                  type="text" 
+                  className="form-control form-input" 
+                  placeholder="Enter username" 
+                  name="username"
+                  spellCheck="false"
+                  value= {this.state.username}
+                  onChange = {this.onChange} />
               </div>
 
               <div className="form-group">
                 <label className="pwd">Password</label>
-                <input type="password" className="form-control form-input" placeholder="Enter password" name="password"
-                value= {this.state.password}
-                onChange = {this.onChange} />
+                <input 
+                  type="password" 
+                  className="form-control form-input"
+                  placeholder="Enter password" 
+                  name="password"
+                  spellCheck="false"
+                  value= {this.state.password}
+                  onChange = {this.onChange} />
               </div>
 
               <div className="submit-button">

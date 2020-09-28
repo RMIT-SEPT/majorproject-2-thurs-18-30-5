@@ -75,37 +75,62 @@ class SignUp extends Component {
 
                 <div className="form-group">
                   <label className="name">First name</label>
-                  <input type="text" className="form-control form-input" placeholder="Enter first name" name="firstName"
-                  value= {this.state.firstName}
-                  onChange = {this.onChange} />
+                  <input 
+                    type="text" 
+                    className="form-control form-input" 
+                    placeholder="Enter first name" 
+                    name="firstName"
+                    spellCheck="false"
+                    value= {this.state.firstName}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="form-group">
                   <label className="name">Last name</label>
-                  <input type="text" className="form-control form-input" placeholder="Enter last name" name="lastName"
-                  value= {this.state.lastName}
-                  onChange = {this.onChange} />
+                  <input 
+                    type="text" 
+                    className="form-control form-input" 
+                    placeholder="Enter last name" 
+                    name="lastName"
+                    spellCheck="false"
+                    value= {this.state.lastName}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="form-group">
                   <label className="username">Username</label>
-                  <input type="text" className="form-control form-input" placeholder="Enter username" name="username"
-                  value= {this.state.username}
-                  onChange = {this.onChange} />
+                  <input 
+                    type="text" 
+                    className="form-control form-input" 
+                    placeholder="Enter username" 
+                    name="username"
+                    spellCheck="false"
+                    value= {this.state.username}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="form-group">
                   <label className="password">Password</label>
-                  <input type="password" className="form-control form-input" placeholder="Enter password" name="password"
-                  value= {this.state.password}
-                  onChange = {this.onChange} />
+                  <input 
+                    type="password" 
+                    className="form-control form-input" 
+                    placeholder="Enter password" 
+                    name="password"
+                    spellCheck="false"
+                    value= {this.state.password}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="form-group">
                   <label className="pwd-confirm">Password confirmation</label>
-                  <input type="password" className="form-control form-input" placeholder="Enter password again" name="secpass"
-                  value= {this.state.secpass}
-                  onChange = {this.onChange} />
+                  <input 
+                    type="password" 
+                    className="form-control form-input" 
+                    placeholder="Enter password again" 
+                    name="secpass"
+                    spellCheck="false"
+                    value= {this.state.secpass}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="submit-button">
