@@ -41,6 +41,12 @@
   top: 0;
 }
 
+.book-header {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
 .date {
   background-color: rgb(209, 233, 255);
   border-radius: 15px 0px 0px 15px; 
@@ -62,5 +68,5 @@
   height: 450px;
   top: 100px;
   position: absolute;
-  width: 90%; 
+  width: 97%; 
 }
