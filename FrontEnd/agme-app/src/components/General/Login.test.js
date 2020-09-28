@@ -18,7 +18,7 @@ describe("<Login /> component Unit Test", () => {
     it("should render email or username label in <Login /> component", () => {
         const email_username = wrapper.find(".email-username");
         expect(email_username).toHaveLength(1);
-        expect(email_username.text()).toEqual("Email / username");
+        expect(email_username.text()).toEqual("Username");
     });
 
     it("should render password label in <Login /> component", () => {
@@ -28,7 +28,7 @@ describe("<Login /> component Unit Test", () => {
     });
 
     it("should render submit button in <Login /> component", () => {
-        const submit = wrapper.find(".submit");
+        const submit = wrapper.find(".service-btn");
         expect(submit).toHaveLength(1);
         expect(submit.text()).toEqual("Submit");
     });

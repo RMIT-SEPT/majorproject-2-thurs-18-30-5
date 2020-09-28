@@ -7,4 +7,5 @@ RUN mvn package
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 COPY --from=MAVEN_BUILD /build/target/initial-0.0.1-SNAPSHOT.jar /app/
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "initial-0.0.1-SNAPSHOT.jar"]

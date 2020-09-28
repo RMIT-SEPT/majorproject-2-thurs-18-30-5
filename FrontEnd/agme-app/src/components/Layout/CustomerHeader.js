@@ -9,12 +9,17 @@ export default class CustomerHeader extends Component {
         <div className="App">
           <nav className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
-							<Link className="navbar-brand" to={"/customer-dashboard"}>AGME</Link>
-							
+							<Link className="navbar-brand" to={{
+                pathname: '/customer-dashboard',
+                state: this.props.user
+              }}>AGME</Link>
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/customer-profile"}>Profile</Link>
+                    <Link className="nav-link" to={{
+                      pathname: '/customer-profile',
+                      state: this.props.user
+                    }}>Profile</Link>
                   </li>
 
                   <li className="nav-item">

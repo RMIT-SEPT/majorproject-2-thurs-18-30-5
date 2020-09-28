@@ -1,23 +1,39 @@
 package com.rmit.sept.assignment.initial.service;
 
+import com.rmit.sept.assignment.initial.model.Booking;
+import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.repositories.UserRepository;
 import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
+import com.rmit.sept.assignment.initial.repositories.HoursRepository;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.stream.Collectors;
 
+/**
+ * Worker Service acts as an intermediary between the Repo and Controller classes, providing additional validation and
+ * handling of requests.
+ */
 @Service
 public class WorkerService {
+    private final BCryptPasswordEncoder encoder;
     @Autowired
     private WorkerRepository workerRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private HoursRepository hoursRepository;
+
+    public WorkerService(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
+
 
     /**
      * Service method to update or create a worker.
@@ -42,27 +58,36 @@ public class WorkerService {
         return null;
     }
 
-//    public Worker updateWorker(Worker worker) {
-//        Optional<Worker> worker1 = workerRepository.findById(worker.getId());
-//        if (worker1.isPresent()) {
-//            return workerRepository.save(worker1.get());
-//        } else {
-//            return null;
-//        }
-//        Optional<Worker> worker1 = workerRepository.findById(worker.getId());
-//
-//
-//        if (worker1.isPresent()) {
-//            return worker1.map(value -> workerRepository.save(value)).orElseGet(() -> workerRepository.save(worker));
-//        } else {
-//            Optional<User> user = userRepository.findById(worker.getId());
-//            if (user.isPresent()) {
-//                return workerRepository.save(new Worker(user.get()));
-//            } else {
-//                return workerRepository.save(new Worker(worker.getUser()));
-//            }
-//        }
-//    }
+    /**
+     * Authenticate a worker based on username and password. Also authenticates admin users
+     * @param id id of worker
+     * @param password password attept
+     * @param admin admin flag - true if auth for an admin user
+     * @return Worker object if password and admin are valid otherwise null
+     */
+    public Worker authenticateWorker(Long id, String password, boolean admin) {
+        Worker worker;
+        worker = findByIdAndAdmin(id, admin);
+        if (worker != null && worker.getUser() != null) {
+            if (encoder.matches(password, worker.getUser().getPassword())) {
+                return worker;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Overloaded authentication service to allow for filtering by username instead.
+     * Calls the above method authenticateWorker(Long id, String password, boolean admin) to carry out authentication
+     * @param username username of Worker (user object field)
+     * @param password password of Worker
+     * @param admin admin flag - true if auth for an admin
+     * @return Worker object or null if invalid
+     */
+    public Worker authenticateWorker(String username, String password, boolean admin) {
+        Worker worker = findByUsername(username);
+        return authenticateWorker(worker.getId(), password, admin);
+    }
 
     /**
      * Returns all workers
@@ -82,5 +107,81 @@ public class WorkerService {
     public Worker findById(Long id) {
         Optional<Worker> worker = workerRepository.findById(id);
         return worker.orElse(null);
+    }
+
+    /**
+     * Return a worker based on id value and admin boolean status
+     * @param id id of worker
+     * @param admin boolean admin status
+     * @return Worker if found or null
+     */
+    public Worker findByIdAndAdmin(Long id, boolean admin) {
+        Optional<Worker> worker = workerRepository.findByIdAndIsAdmin(id, admin);
+        return worker.orElse(null);
+    }
+
+    /**
+     * Returns a worker based on their username (User object)
+     * @param username username of the worker
+     * @return Worker object or null if not found
+     */
+    public Worker findByUsername(String username) {
+        Optional<Worker> worker = workerRepository.findByUserUsername(username);
+        return worker.orElse(null);
+    }
+
+    /**
+     * Returns all Workers based on their assigned Business.
+     * @param bid id of Business
+     * @return Collection of Workers assigned to that Business
+     */
+    public List<Worker> findAllByBusiness(Long bid) {
+        return new ArrayList<>(workerRepository.findAllByBusiness_Id(bid));
+    }
+
+    /**
+     * Returns all Workers based on their assigned Business. Also filters based on LocalDateTime start and end values,
+     * returning only Workers who have no existing bookings between those dates
+     * @param bid id of Business
+     * @param startDate start date-time value
+     * @param endDate end date-time value
+     * @return List of available Workers assigned to that Business
+     */
+    public List<Worker> findAllByBusiness(Long bid, LocalDateTime startDate, LocalDateTime endDate) {
+        List<Worker> workers = new ArrayList<>();
+        for (Worker worker : workerRepository.findAllByBusiness_Id(bid)) {
+            if (checkAvailability(worker.getId(), startDate, endDate)) {
+                workers.add(worker);
+            }
+        }
+        return workers;
+    }
+
+    /**
+     * Checks if a worker is available between two LocalDateTime values, by making use of the Utilities.findOverlap function.
+     * Also provides minor validation of fields before checking for an overlap with the new start/end dates
+     * @param workerId id of worker to check
+     * @param startDate start Date-time value
+     * @param endDate end Date-time value
+     * @return true if the worker is available, otherwise false
+     */
+    public boolean checkAvailability(Long workerId, LocalDateTime startDate, LocalDateTime endDate) {
+        Date start = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
+        Date end = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
+        for (Hours hours : hoursRepository.findById_WorkerId(workerId)) {
+            if (hours.getId().getDayOfWeek().compareTo(startDate.getDayOfWeek()) == 0) {
+                if ((startDate.toLocalTime().compareTo(hours.getStart()) >= 0) &&
+                        (endDate.toLocalTime().compareTo(hours.getEnd()) <= 0)) {
+                    Booking temp = new Booking();
+                    temp.setStart(start);
+                    temp.setEnd(end);
+                    List<Booking> bookings = findById(workerId).getBookings().stream()
+                            .filter(b -> b.getStatus() == Booking.BookingStatus.PENDING).collect(Collectors.toList());
+                    bookings.add(temp);  // add proposed booking dates to check for an overlap with existing bookings
+                    return !Utilities.findOverlap(bookings);
+                }
+            }
+        }
+        return false;
     }
 }

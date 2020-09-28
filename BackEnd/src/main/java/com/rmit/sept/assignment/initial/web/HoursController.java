@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import java.time.DayOfWeek;
 import java.util.Collection;
-import java.util.List;
 
+/**
+ * Hours Controller class allows access to update/retrieve/remove Hours entities
+ * Hours are use to indicate when a Worker is working, taking a composite primary key value of WorkerId (FK) and DayOfWeek
+ */
+@CrossOrigin
 @RestController
 @RequestMapping("/api/hours")
 public class HoursController {
@@ -28,7 +31,12 @@ public class HoursController {
     @Autowired
     private FieldValidationService validationService;
 
-    @GetMapping("/{workerId}")
+    /**
+     * Endpoint to return Hours for a worker
+     * @param workerId id of worker
+     * @return Collection of Hours for that worker
+     */
+    @GetMapping(value = "/{workerId}")
     public ResponseEntity<Collection<Hours>> getWorkerHours(@PathVariable Long workerId) {
         Worker worker = workerService.findById(workerId);
         if (worker != null) {
@@ -38,8 +46,14 @@ public class HoursController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Endpoint to return an Hours entity based on id
+     * @param workerId id of worker
+     * @param dayOfWeek enum value for DayOfWeek
+     * @return Hours entity if found, otherwise null
+     */
     @GetMapping(value = "/{workerId}", params = "dayOfWeek")
-    public ResponseEntity<?> getWorkerHoursByDay(@PathVariable Long workerId, @RequestParam Long dayOfWeek) {
+    public ResponseEntity<?> getWorkerHoursByDay(@PathVariable Long workerId, @RequestParam DayOfWeek dayOfWeek) {
         Worker worker = workerService.findById(workerId);
         if (worker != null) {
             Hours hours = hoursService.findById(worker, dayOfWeek);
@@ -49,11 +63,25 @@ public class HoursController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> createNewHours(@Validated @RequestBody Hours hours, BindingResult result) {
+    /**
+     * Endpoint to create hours for a worker
+     * @param workerId id of worker
+     * @param hours Hours object to update
+     * @param result field errors/validation based on Hours entity
+     * @return newly created Hours entity if successful
+     */
+    @PostMapping(value = "/{workerId}")
+    public ResponseEntity<?> createNewHours(@PathVariable Long workerId, @Validated @RequestBody Hours hours, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
-        if (errors == null) {
-            Hours hours1 = hoursService.saveOrUpdateHours(hours);
+        if (errors == null && workerId != null) {
+            Hours hours1 = null;
+            Worker w1 = workerService.findById(workerId);
+            if (w1 != null) {
+                Hours.HoursPK pk = hours.getId();
+                pk.setWorker(w1);
+                hours.setId(pk);
+                hours1 = hoursService.saveOrUpdateHours(hours);
+            }
             HttpStatus status = (hours1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
             return new ResponseEntity<>(hours1, status);
         } else {
@@ -61,8 +89,14 @@ public class HoursController {
         }
     }
 
+    /**
+     * Endpoint to delete hours for a worker
+     * @param workerId id of Worker
+     * @param dayOfWeek day of week, enum type DayOfWeek
+     * @return OK if the id values were valid, otherwise BAD_REQUEST
+     */
     @DeleteMapping(value = "/{workerId}", params = "dayOfWeek")
-    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId, @RequestParam Long dayOfWeek) {
+    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId, @RequestParam DayOfWeek dayOfWeek) {
         boolean deleteHours = false;
         if (workerId != null && dayOfWeek != null) {
             deleteHours = hoursService.deleteHours(workerId, dayOfWeek);

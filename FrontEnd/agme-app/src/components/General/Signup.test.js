@@ -17,14 +17,7 @@ describe("<Signup /> component Unit Test", () => {
 
     it("should render name label in <Signup /> component", () => {
         const name = wrapper.find(".name");
-        expect(name).toHaveLength(1);
-        expect(name.text()).toEqual("Name");
-    });
-
-    it("should render email label in <Signup /> component", () => {
-        const email = wrapper.find(".email");
-        expect(email).toHaveLength(1);
-        expect(email.text()).toEqual("Email address");
+        expect(name).toHaveLength(2);
     });
 
     it("should render username label in <Signup /> component", () => {

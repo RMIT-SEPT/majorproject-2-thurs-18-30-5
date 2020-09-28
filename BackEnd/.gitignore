@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/java/com/rmit/sept/assignment/initial/model/Test.java
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
