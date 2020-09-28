@@ -71,7 +71,7 @@ class Login extends Component {
               </div>
 
               <div className="submit-button">
-                  <button className="service-btn" type="submit">Submit</button>
+                  <button type="submit" className="btn submit">Submit</button>
               </div>
 
               <div className="forgot-pwd">
