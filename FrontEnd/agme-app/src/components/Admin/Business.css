@@ -1,0 +1,17 @@
+.edit-business {
+  position: relative;
+  top: 240px;
+}
+
+textarea {
+  resize: none;
+}
+
+.biz-pwd {
+  position: relative;
+  top: 220px;
+}
+
+.admin-pwd {
+  font-style: italic;
+}

@@ -5,29 +5,47 @@ import App from './App';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './components/General/Login';
+
 import SignUp from './components/General/Signup';
+import Login from './components/General/Login';
 import ForgotPassword from './components/General/ForgotPassword';
+
 import CustomerDashboard from './components/Customer/CustomerDashboard';
+import CustomerProfile from './components/Customer/CustomerProfile';
 import BookingPage1 from './components/Customer/BookingPage1';
 import BookingPage2 from './components/Customer/BookingPage2';
 import BookingPage3 from './components/Customer/BookingPage3';
 import ConfirmBooking from './components/Customer/ConfirmBooking';
-import CustomerProfile from './components/Customer/CustomerProfile';
+
+import AdminDashboard from './components/Admin/AdminDashboard';
+import AddWorker from './components/Admin/AddWorker';
+import Business from './components/Admin/Business';
+import UpcomingBooking from './components/Admin/UpcomingBooking';
+import PastBooking from './components/Admin/PastBooking';
+import WorkerPage from './components/Admin/WorkerPage';
 
 ReactDOM.render(
   <BrowserRouter>
        <Switch>
         <Route exact path="/" component={App} />
-        <Route path="/customer-dashboard" component={CustomerDashboard} />
         <Route path="/sign-up" component={SignUp} />
         <Route path="/sign-in" component={Login} />
         <Route path="/forgotPassword" component={ForgotPassword} />
+        
+        <Route path="/customer-dashboard" component={CustomerDashboard} />
+        <Route path="/customer-profile" component={CustomerProfile} />
         <Route path="/bookingPage1" component={BookingPage1} />
         <Route path="/bookingPage2" component={BookingPage2} />
         <Route path="/bookingPage3" component={BookingPage3} />
         <Route path="/confirmBooking" component={ConfirmBooking} />
-        <Route path="/customer-profile" component={CustomerProfile} />
+
+        <Route path="/admin-dashboard" component={AdminDashboard} />
+        <Route path="/add-worker" component={AddWorker} />
+        <Route path="/business" component={Business} />
+        <Route path="/upcoming-booking" component={UpcomingBooking} />
+        <Route path="/past-booking" component={PastBooking} />
+        <Route path="/worker-page" component={WorkerPage} />
+        
       </Switch>
   </BrowserRouter>,
   document.getElementById('root')
