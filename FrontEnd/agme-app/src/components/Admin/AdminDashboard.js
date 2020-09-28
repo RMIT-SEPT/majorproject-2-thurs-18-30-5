@@ -27,7 +27,7 @@ export default class AdminDashboard extends Component {
               <div className="worker-table-scroll">
                 <table className="table table-editable text-nowrap table-borderless table-hover worker-table">
                   <thead>
-                    <tr><th className="worker-table-title">WORKERS</th></tr>
+                    <tr><th className="worker-table-title">Workers</th></tr>
                   </thead>
                   <tbody>
                     <tr><td className="worker-table-item">Mark</td></tr>
@@ -50,19 +50,16 @@ export default class AdminDashboard extends Component {
               </div>
 
               <div className="func-add-worker">
-                <Link className="btn func-btn" to={"/add-worker"}>Add new worker</Link>
+                <Link className="btn func-btn" to={"/add-worker"}>ADD new worker</Link>
               </div>
               <div className="func-add-business">
-                <Link className="btn func-btn" to={"/business"}>Edit business</Link>
+                <Link className="btn func-btn" to={"/business"}>EDIT Business</Link>
               </div>
               <div className="func-upcoming">
-                <Link className="btn func-btn" to={"/upcoming-booking"}>Upcoming bookings</Link>
+                <Link className="btn func-btn" to={"/upcoming-booking"}>Upcoming Bookings</Link>
               </div>
               <div className="func-past">
-                <Link className="btn func-btn" to={"/past-booking"}>Past bookings</Link>
-              </div>
-              <div className="func-availability">
-                <Link className="btn func-btn" to={"/worker-availability"}>Workers availability</Link>
+                <Link className="btn func-btn" to={"/past-booking"}>Past Bookings</Link>
               </div>
 
             </div>
