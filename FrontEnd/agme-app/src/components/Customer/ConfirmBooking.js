@@ -28,7 +28,7 @@ export default class ConfirmBooking extends Component {
     };
 
     try {
-      const res = await axios.post("http://sept-backend.us-east-1.elasticbeanstalk.com/api/booking", booking);
+      const res = await axios.post("http://localhost:8080/api/booking", booking);
     } catch (err) {
       console.log(err);
     }

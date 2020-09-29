@@ -52,11 +52,11 @@
   border-radius: 15px 0px 0px 15px; 
 }
 
-.time, .service, .worker {
+.time, .service, .worker, .customer {
   background-color: rgb(209, 233, 255);
 }
 
-.customer {
+.status {
   background-color: rgb(209, 233, 255);
   border-radius: 0px 15px 15px 0px; 
 }

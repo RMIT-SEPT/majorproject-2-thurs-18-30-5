@@ -3,12 +3,30 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom"
 import AdminHeader from '../Layout/AdminHeader'
 import Footer from '../Layout/Footer'
 import './BookingSummary.css'
+import axios from "axios";
 
 export default class PastBooking extends Component {
+  state = {
+    bookings: []
+  };
+  constructor(props) {
+    super(props);
+
+    try {
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id)
+        .then(res => {
+          const bookings = res.data;
+          this.setState({bookings: bookings});
+          this.state.bookings = bookings;
+        })
+    } catch (err) {
+
+    }
+  }
   render() {
     return (
       <div>
-        <AdminHeader/>
+        <AdminHeader user={this.props.location.state} />
           <div className="admin-img">
             <div className="container book-summary-page">
               <div className="book-title">Past Bookings</div>
@@ -17,98 +35,28 @@ export default class PastBooking extends Component {
                 <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
                   <thead className="book-summary-title">
                     <tr>
-                      <th scope="col" width="15%" className="book-header date">Date</th>
-                      <th scope="col" width="20%" className="book-header time">Time</th>
-                      <th scope="col" width="25%" className="book-header service">Service</th>
-                      <th scope="col" width="20%" className="book-header worker">Worker</th>
-                      <th scope="col" width="20%" className="book-header customer">Customer</th>
+                      <th scope="col" width="16%" className="book-header date">Start Time</th>
+                      <th scope="col" width="17%" className="book-header time">End Time</th>
+                      <th scope="col" width="18%" className="book-header service">Service</th>
+                      <th scope="col" width="17%" className="book-header worker">Worker</th>
+                      <th scope="col" width="17%" className="book-header customer">Customer</th>
+                      <th scope="col" width="15%" className="book-header status">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">14 May 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td>John</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 May 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td>Alex</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 May 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td>Lisa</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">14 May 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td>John</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 May 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td>Alex</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 May 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td>Lisa</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">14 May 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td>John</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 May 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td>Alex</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 May 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td>Lisa</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">14 May 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td>John</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 May 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td>Alex</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 May 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td>Lisa</td>
-                    </tr>
+                    {
+                      this.state.bookings.map(booking =>
+                        booking.status != "PENDING" &&
+                        <tr>
+                          <th scope="row">{booking.start}</th>
+                          <td>{booking.end}</td>
+                          <td>{this.props.location.state.user.business.name}</td>
+                          <td>{booking.worker.user.firstName}</td>
+                          <td>{booking.user.firstName}</td>
+                          <td>{booking.status}</td>
+                        </tr>
+                      )
+                    }
                   </tbody>
                 </table>
               </div>

@@ -3,12 +3,42 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom"
 import AdminHeader from '../Layout/AdminHeader'
 import Footer from '../Layout/Footer'
 import './AdminDashboard.css'
+import axios from "axios";
 
 export default class AdminDashboard extends Component {
+  state = {
+    workers: [],
+    business: {}
+  };
+  constructor(props) {
+    super(props);
+
+    try {
+      axios.get("http://localhost:8080/api/worker/business/" + this.props.location.state.user.business.id)
+        .then(res => {
+          const workers = res.data;
+          this.setState({workers: workers});
+          this.state.workers = workers;
+        })
+    } catch (err) {
+
+    }
+
+    try {
+      axios.get("http://localhost:8080/api/business/" + this.props.location.state.user.business.id)
+        .then(res => {
+          const business = res.data;
+          this.setState({business: business});
+          this.state.business = business;
+        })
+    } catch (err) {
+
+    }
+  }
   render() {
     return (
       <div>
-        <AdminHeader/>
+        <AdminHeader user={this.props.location.state} />
           <div className="admin-img">
             <div className="container admin-dashboard">
               <div className="admin-title">Admin Dashboard</div>
@@ -16,12 +46,8 @@ export default class AdminDashboard extends Component {
 
             <div className="container admin-functions">
               <div className="card biz-info">
-                <div className="biz-name">Pandemic Hair</div>
-                <div className="biz-desc">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                </div>
+                <div className="biz-name">{this.state.business.name}</div>
+                <div className="biz-desc">{this.state.business.description}</div>
               </div>
 
               <div className="worker-table-scroll">
@@ -30,36 +56,51 @@ export default class AdminDashboard extends Component {
                     <tr><th className="worker-table-title">Workers</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td className="worker-table-item">Mark</td></tr>
-                    <tr><td className="worker-table-item">Sarah</td></tr>
-                    <tr><td className="worker-table-item">Peter</td></tr>
-                    <tr><td className="worker-table-item">Mark</td></tr>
-                    <tr><td className="worker-table-item">Sarah</td></tr>
-                    <tr><td className="worker-table-item">Peter</td></tr>
-                    <tr><td className="worker-table-item">Mark</td></tr>
-                    <tr><td className="worker-table-item">Sarah</td></tr>
-                    <tr><td className="worker-table-item">Peter</td></tr>
-                    <tr><td className="worker-table-item">Mark</td></tr>
-                    <tr><td className="worker-table-item">Sarah</td></tr>
-                    <tr><td className="worker-table-item">Peter</td></tr>
-                    <tr><td className="worker-table-item">Mark</td></tr>
-                    <tr><td className="worker-table-item">Sarah</td></tr>
-                    <tr><td className="worker-table-item">Peter</td></tr>
+                    {
+                      this.state.workers.map(worker =>
+                        worker.admin == false &&
+                        <tr><td className="worker-table-item"><Link to={{
+                          pathname: '/worker-page',
+                          state: {
+                            user: this.props.location.state.user, 
+                            worker: worker
+                          }
+                        }}>{worker.user.firstName}</Link></td></tr>
+                      )
+                    }
                   </tbody>
                 </table>
               </div>
 
               <div className="func-add-worker">
-                <Link className="btn func-btn" to={"/add-worker"}>ADD new worker</Link>
+                <Link className="btn func-btn" to={{
+                  pathname: '/add-worker',
+                  state: {
+                    user: this.props.location.state.user,
+                    business: this.state.business
+                  }
+                }}>ADD New Worker</Link>
               </div>
               <div className="func-add-business">
-                <Link className="btn func-btn" to={"/business"}>EDIT Business</Link>
+                <Link className="btn func-btn" to={{
+                  pathname: '/business',
+                  state: {
+                    user: this.props.location.state.user,
+                    business: this.state.business
+                  }
+                }}>EDIT Business</Link>
               </div>
               <div className="func-upcoming">
-                <Link className="btn func-btn" to={"/upcoming-booking"}>Upcoming Bookings</Link>
+                <Link className="btn func-btn" to={{
+                  pathname: '/upcoming-booking',
+                  state: this.props.location.state
+                }}>Upcoming Bookings</Link>
               </div>
               <div className="func-past">
-                <Link className="btn func-btn" to={"/past-booking"}>Past Bookings</Link>
+                <Link className="btn func-btn" to={{
+                  pathname: '/past-booking',
+                  state: this.props.location.state
+                }}>Past Bookings</Link>
               </div>
 
             </div>

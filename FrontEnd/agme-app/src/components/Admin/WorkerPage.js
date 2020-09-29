@@ -7,10 +7,15 @@ import './WorkerPage.css'
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class AddWorker extends Component {
+  constructor(props) {
+    super(props);
+
+    console.log(this.props.location.state);
+  }
   render() {
     return (
       <div>
-        <AdminHeader/>
+        <AdminHeader user={this.props.location.state} />
           <div className="admin-img">
             <div className="container profile">
               <form>
@@ -23,7 +28,8 @@ export default class AddWorker extends Component {
                       type="text" 
                       className="form-control field-input work-field" 
                       id="inputusername" 
-                      placeholder="Enter username" />
+                      value={this.props.location.state.worker.user.username}
+                      readOnly />
                   </div>
                 </div>
 
