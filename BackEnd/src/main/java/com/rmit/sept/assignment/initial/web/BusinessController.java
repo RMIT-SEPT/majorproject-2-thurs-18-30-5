@@ -90,8 +90,9 @@ public class BusinessController {
      * @param result field errors/validation based on Business entity
      * @return newly updated Business or null if errors
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateBusiness(@Validated @RequestBody Business business, Long businessId, BindingResult result) {
+    @PutMapping("/{businessId}")
+    public ResponseEntity<?> updateBusiness(@Validated @RequestBody Business business,
+                                            @PathVariable Long businessId, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
             if (getBusiness(businessId) != null) {
