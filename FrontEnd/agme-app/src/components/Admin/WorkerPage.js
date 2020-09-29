@@ -99,6 +99,10 @@ export default class AddWorker extends Component {
                     <DatePicker className="date-time select-time" placeholderText="end time" />
                   </div>
 
+                  <div className="change-hour-btn">
+                    <button className="btn check-time change-time">change time</button>
+                  </div>
+
                   <div className="card-title availability-title">Availability</div>
 
                   <div className="avail-table-scroll">
@@ -141,7 +145,7 @@ export default class AddWorker extends Component {
 
                 <div className="container edit-worker">
                   <button type="reset" className="btn cancel-changes">cancel</button>
-                  <button type="submit" className="btn save-changes">Submit</button>
+                  <button type="submit" className="btn save-changes worker-save">Submit</button>
                 </div> 
 
               </form>

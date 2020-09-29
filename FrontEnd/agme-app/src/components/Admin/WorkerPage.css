@@ -2,7 +2,7 @@
   position: absolute;
   top: 90px;
   width: 470px;
-  height: 450px;
+  height: 500px;
   left: 650px;
 
   border-radius: 30px 30px 30px 30px;
@@ -18,7 +18,7 @@
 
 .worker-admin-pwd {
   position: relative;
-  top: 148px;
+  top: 120px;
 }
 
 .date-time {
@@ -107,8 +107,22 @@
   left: 250px;
 }
 
+.change-hour-btn {
+  position: absolute;
+  left: 300px;
+  top: 190px;
+}
+
+.change-time {
+  background: #ff8989;
+}
+
+.change-time:hover {
+  background: #ff7676;
+}
+
 .availability-title {
-  top: 210px;
+  top: 250px;
   left: 30px;
 }
 
@@ -159,7 +173,7 @@
   overflow-y: auto;
 
   height: 180px;
-  top: 245px;
+  top: 290px;
   left: 30px;
   position: absolute;
   width: 410px; 
@@ -167,5 +181,10 @@
 
 .edit-worker {
   position: absolute;
-  top: 570px;
+  top: 540px;
+  left: -535px;
+}
+
+.worker-save {
+  width: 140px;
 }
