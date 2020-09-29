@@ -103,6 +103,7 @@ export default class AddWorker extends Component {
                       placeholder="Enter username" 
                       name="username"
                       spellCheck="false"
+                      required="true"
                       value= {this.state.username}
                       onChange = {this.onChange} />
                   </div>
@@ -118,6 +119,7 @@ export default class AddWorker extends Component {
                       placeholder="Enter first name" 
                       name="firstName"
                       spellCheck="false"
+                      required="true"
                       value= {this.state.firstName}
                       onChange = {this.onChange} />
                   </div>
@@ -133,6 +135,7 @@ export default class AddWorker extends Component {
                       placeholder="Enter last name" 
                       name="lastName"
                       spellCheck="false"
+                      required="true"
                       value= {this.state.lastName}
                       onChange = {this.onChange} />
                   </div>
@@ -148,6 +151,7 @@ export default class AddWorker extends Component {
                       placeholder="Enter worker password" 
                       name="password"
                       spellCheck="false"
+                      required="true"
                       value= {this.state.password}
                       onChange = {this.onChange} />
                   </div>
@@ -163,6 +167,7 @@ export default class AddWorker extends Component {
                       placeholder="Enter worker password again" 
                       name="secpass"
                       spellCheck="false"
+                      required="true"
                       value= {this.state.secpass}
                       onChange = {this.onChange} />
                   </div>
@@ -177,6 +182,7 @@ export default class AddWorker extends Component {
                       id="inputpwd" 
                       placeholder="Enter ADMIN password to confirm changes" 
                       name="adminPass"
+                      required="true"
                       value= {this.state.adminPass}
                       onChange = {this.onChange} />
                   </div>
