@@ -12,13 +12,20 @@
   border-color: transparent;
 }
 
-.work-field, .admin-pwd {
+.work-field, .edit-admin-pwd {
   width: 40%;
 }
 
 .worker-admin-pwd {
   position: relative;
   top: 120px;
+}
+
+.admin-pwd {
+  font-weight: 300;
+  font-size: 14px;
+  color: #b3b3b3;
+  font-style: italic;
 }
 
 .date-time {
@@ -187,4 +194,19 @@
 
 .worker-save {
   width: 140px;
+}
+
+.field-input:read-only {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.field-input:read-only:hover {
+  border: none;
+}
+
+.field-input {
+  font-weight: 400;
+  border-radius: 15px;
+  border-style: none;
+  text-indent: 8px;
 }

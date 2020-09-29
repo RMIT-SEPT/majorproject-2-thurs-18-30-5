@@ -1,0 +1,11 @@
+.add-worker-field::placeholder {
+  font-weight: 300;
+  font-size: 14px;
+  padding: 2px;
+  color: #b4b4b4;
+}
+
+.add-worker {
+  position: relative;
+  top: 50px;
+}

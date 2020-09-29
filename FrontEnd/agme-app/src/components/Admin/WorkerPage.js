@@ -22,7 +22,7 @@ export default class AddWorker extends Component {
                 <div className="profile-title">Worker data</div>
 
                 <div className="form-group row field-row">
-                  <label for="inputusername" className="col-sm-2 col-form-label username">Username</label>
+                  <label for="inputusername" className="col-sm-2 col-form-label">Username</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -34,7 +34,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputfname" className="col-sm-2 col-form-label fname">First name</label>
+                  <label for="inputfname" className="col-sm-2 col-form-label">First name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -45,7 +45,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputlname" className="col-sm-2 col-form-label lname">Last name</label>
+                  <label for="inputlname" className="col-sm-2 col-form-label">Last name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -67,11 +67,11 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row worker-admin-pwd">
-                  <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd">ADMIN password</label>
+                  <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd-title">ADMIN password</label>
                   <div className="col-sm-10">
                   <input 
                     type="password" 
-                    className="form-control field-input admin-pwd" 
+                    className="form-control field-input admin-pwd edit-admin-pwd" 
                     id="inputpwd" 
                     placeholder="Enter ADMIN password to confirm changes" />
                   </div>

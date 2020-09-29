@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Link } from "react-router-dom"
 import AdminHeader from '../Layout/AdminHeader'
 import Footer from '../Layout/Footer'
 import axios from "axios";
+import './AddWorker.css'
 
 export default class AddWorker extends Component {
   constructor() {
@@ -93,56 +94,91 @@ export default class AddWorker extends Component {
                 <div className="profile-title">Add new worker</div>
 
                 <div className="form-group row field-row">
-                  <label for="inputusername" className="col-sm-2 col-form-label username">Username</label>
+                  <label for="inputusername" className="col-sm-2 col-form-label">Username</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputusername" placeholder="Enter username" name="username"
-                    value= {this.state.username}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="text" 
+                      className="form-control field-input add-worker-field" 
+                      id="inputusername" 
+                      placeholder="Enter username" 
+                      name="username"
+                      spellCheck="false"
+                      value= {this.state.username}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputfirstname" className="col-sm-2 col-form-label name">First name</label>
+                  <label for="inputfirstname" className="col-sm-2 col-form-label">First name</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputfirstname" placeholder="Enter first name" name="firstName"
-                    value= {this.state.firstName}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="text" 
+                      className="form-control field-input add-worker-field" 
+                      id="inputfirstname" 
+                      placeholder="Enter first name" 
+                      name="firstName"
+                      spellCheck="false"
+                      value= {this.state.firstName}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputlastname" className="col-sm-2 col-form-label username">Last name</label>
+                  <label for="inputlastname" className="col-sm-2 col-form-label">Last name</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control field-input" id="inputlastname" placeholder="Enter last name" name="lastName"
-                    value= {this.state.lastName}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="text" 
+                      className="form-control field-input add-worker-field" 
+                      id="inputlastname" 
+                      placeholder="Enter last name" 
+                      name="lastName"
+                      spellCheck="false"
+                      value= {this.state.lastName}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputpassword" className="col-sm-2 col-form-label worker-pwd">Password</label>
+                  <label for="inputpassword" className="col-sm-2 col-form-label">Password</label>
                   <div className="col-sm-10">
-                    <input type="password" className="form-control field-input" id="inputpassword" placeholder="Enter worker password" name="password"
-                    value= {this.state.password}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="password" 
+                      className="form-control field-input add-worker-field" 
+                      id="inputpassword" 
+                      placeholder="Enter worker password" 
+                      name="password"
+                      spellCheck="false"
+                      value= {this.state.password}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputpassword" className="col-sm-2 col-form-label confirm-pwd">Confirm password</label>
+                  <label for="inputpassword" className="col-sm-2 col-form-label">Confirm password</label>
                   <div className="col-sm-10">
-                    <input type="password" className="form-control field-input" id="inputpassword" placeholder="Enter worker password again" name="secpass"
-                    value= {this.state.secpass}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="password" 
+                      className="form-control field-input add-worker-field" 
+                      id="inputpassword" 
+                      placeholder="Enter worker password again" 
+                      name="secpass"
+                      spellCheck="false"
+                      value= {this.state.secpass}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row add-worker-pwd">
-                  <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd">ADMIN password</label>
+                  <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd-title">ADMIN password</label>
                   <div className="col-sm-10">
-                    <input type="password" className="form-control field-input admin-pwd" id="inputpwd" placeholder="Enter ADMIN password to confirm changes" name="adminPass"
-                    value= {this.state.adminPass}
-                    onChange = {this.onChange} />
+                    <input 
+                      type="password" 
+                      className="form-control field-input admin-pwd" 
+                      id="inputpwd" 
+                      placeholder="Enter ADMIN password to confirm changes" 
+                      name="adminPass"
+                      value= {this.state.adminPass}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
