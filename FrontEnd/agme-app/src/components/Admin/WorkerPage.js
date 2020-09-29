@@ -5,20 +5,165 @@ import Footer from '../Layout/Footer'
 import DatePicker from "react-datepicker";
 import './WorkerPage.css'
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
 
 export default class AddWorker extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.location.state);
+    this.state = {
+      "address": "",
+      "password": "",
+      "firstName": "",
+      "lastName": "",
+      "date": "",
+      "startDate": "",
+      "endDate": ""
+    }
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.onClick1 = this.onClick1.bind(this);
+    this.onClick2 = this.onClick2.bind(this);
   }
+  onChange(e){
+    this.setState({[e.target.name]: e.target.value});
+  }
+  onSubmit = async e =>{
+      e.preventDefault();
+      const newPerson = {
+          id: this.props.location.state.worker.id,
+          username: this.props.location.state.worker.user.username,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          password: this.state.password,
+          address: this.state.address
+      }
+
+      if (this.state.firstName == "") {
+        newPerson.firstName = this.props.location.state.worker.user.firstName;
+      }
+      if (this.state.lastName == "") {
+        newPerson.lastName = this.props.location.state.worker.user.lastName;
+      }
+      if (this.state.address == "") {
+        newPerson.address = this.props.location.state.worker.user.address;
+      }
+
+      
+      try {
+        await axios.put("http://localhost:8080/api/customer", newPerson);
+        const worker = this.props.location.state.worker;
+        worker.user = newPerson;
+        this.props.history.push('/worker-page', {user: this.props.location.state.user, worker: worker});
+      } catch (err) {
+        window.alert("Incorrect password; please try again.");
+      }
+      window.location.reload(false);
+  }
+  onClick(e){
+    window.location.reload(false);
+  }
+
+  handleDateChange = date => {
+    this.setState({
+      date: date
+    });
+  };
+  handleDateSelect = date => {
+    this.setState({
+      date: date
+    });
+  };
+  onClick1(e){
+    e.preventDefault();
+    window.location.reload(false);
+  }
+
+  handleStartChange = date => {
+    this.setState({
+      startDate: date
+    });
+  };
+  handleStartSelect = date => {
+    this.setState({
+      startDate: date
+    });
+  };
+  handleEndChange = date => {
+    this.setState({
+      endDate: date
+    });
+  };
+  handleendSelect = date => {
+    this.setState({
+      endDate: date
+    });
+  };
+  onClick2 = async e =>{
+    e.preventDefault();
+    console.log(this.state);
+
+    var bad = false;
+    var diffHours = this.state.endDate.getHours() - this.state.startDate.getHours();
+    // Comparing start and end time
+    if (this.state.endDate <= this.state.startDate) {
+      window.alert("The ending time of the hours should be after starting time; please try again.");
+      bad = true;
+    }
+    else if (this.state.endDate.getDate() != this.state.startDate.getDate() || this.state.endDate.getDay() != this.state.startDate.getDay()){
+      window.alert("Date for start and end time should be the same; please try again.");
+      bad = true;
+    }
+    // Minimum working time of 2 hours
+    else if (diffHours < 1) {
+      window.alert("Minimum working time is 2 hours; please try again.");
+      bad = true;
+    }
+
+    const days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+
+    if (bad == false) {
+      console.log("HIIIIIIIIII");
+      try {
+        await axios.delete("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, { params: { dayOfWeek: days[this.state.startDate.getDay()] } });
+      } catch (err) {
+        console.log("Bad1111111111111111111111111");
+      }
+
+      try {
+        var d = this.state.startDate;
+        var formattedStart = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
+        this.state.startDate = formattedStart;
+      
+        d = this.state.endDate;
+        var formattedEnd = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
+        this.state.endDate = formattedEnd;
+        console.log(this.state.startDate);
+        const hours = {
+          start: this.state.startDate,
+          end: this.state.endDate,
+          id:{
+            dayOfWeek: this.state.startDate.getDay()
+          }
+        };
+        await axios.post("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, hours);
+        console.log(hours);
+      } catch (err) {
+        console.log("Bad222222222222222222222222222");
+      }
+    }
+
+    //window.location.reload(false);
+  }
+
   render() {
     return (
       <div>
         <AdminHeader user={this.props.location.state} />
           <div className="admin-img">
             <div className="container profile">
-              <form>
+              <form onSubmit={this.onSubmit}>
                 <div className="profile-title">Worker data</div>
 
                 <div className="form-group row field-row">
@@ -40,7 +185,9 @@ export default class AddWorker extends Component {
                       type="text" 
                       className="form-control field-input work-field" 
                       id="inputfname" 
-                      placeholder="Enter first name" />
+                      placeholder={this.props.location.state.worker.user.firstName} name="firstName"
+                      value= {this.state.firstName}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
@@ -51,7 +198,9 @@ export default class AddWorker extends Component {
                       type="text" 
                       className="form-control field-input work-field" 
                       id="inputlname" 
-                      placeholder="Enter last name" />
+                      placeholder={this.props.location.state.worker.user.lastName} name="lastName"
+                      value= {this.state.lastName}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
@@ -62,47 +211,49 @@ export default class AddWorker extends Component {
                       type="text" 
                       className="form-control field-input work-field" 
                       id="inputaddress" 
-                      placeholder="Enter address" />
+                      placeholder={this.props.location.state.worker.user.address} name="address"
+                      value= {this.state.address}
+                      onChange = {this.onChange} />
                   </div>
                 </div>
 
                 <div className="form-group row field-row worker-admin-pwd">
-                  <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd-title">ADMIN password</label>
+                  <label for="inputpwd" className="col-sm-2 col-form-label admin-pwd-title">WORKER password</label>
                   <div className="col-sm-10">
                   <input 
                     type="password" 
                     className="form-control field-input admin-pwd edit-admin-pwd" 
                     id="inputpwd" 
-                    placeholder="Enter ADMIN password to confirm changes" />
+                    placeholder="Enter WORKER password to confirm changes" name="password"
+                    value= {this.state.password}
+                    onChange= {this.onChange} />
                   </div>
                 </div>
 
+                <div className="container edit-worker">
+                  <button type="reset" className="btn cancel-changes" onClick={this.onClick}>cancel</button>
+                  <button type="submit" className="btn save-changes worker-save">Submit</button>
+                </div>
+              </form>
+
+              <form>
                 <div className="card work-info">
                   <div className="select-date">
                     <DatePicker 
                       className="date-time work-day" 
                       minDate={new Date()}
-                      placeholderText="Select a day" />
+                      maxDate={new Date(new Date().setDate(new Date().getDate()+6))}
+                      placeholderText="Select a day"
+                      selected={this.state.date}
+                      onSelect={this.handleDateSelect}
+                      onChange={this.handleDateChange}
+                      dateFormat= "yyyy-MM-dd" />
                   </div>
 
                   <div className="check-time-btn">
-                    <button className="btn check-time">check time</button>
+                    <button className="btn check-time" onClick={this.onClick1}>check time</button>
                   </div>
-                
-                  <div className="card-title working-hour-title">Working hour</div>
-
-                  <div className="select-start-time">
-                    <DatePicker className="date-time select-time" placeholderText="start time" />
-                  </div>
-
-                  <div className="select-end-time">
-                    <DatePicker className="date-time select-time" placeholderText="end time" />
-                  </div>
-
-                  <div className="change-hour-btn">
-                    <button className="btn check-time change-time">change time</button>
-                  </div>
-
+  
                   <div className="card-title availability-title">Availability</div>
 
                   <div className="avail-table-scroll">
@@ -141,11 +292,33 @@ export default class AddWorker extends Component {
                       </tbody>
                     </table>
                   </div>
-                </div>
+                  
+                  <div className="card-title working-hour-title">Working hour</div>
 
-                <div className="container edit-worker">
-                  <button type="reset" className="btn cancel-changes">cancel</button>
-                  <button type="submit" className="btn save-changes worker-save">Submit</button>
+                  <div className="select-start-time">
+                    <DatePicker className="date-time select-time" placeholderText="start time" selected={this.state.startDate}
+                      onSelect={this.handleStartSelect}
+                      onChange={this.handleStartChange}
+                      showTimeSelect
+                      dateFormat="Pp"
+                      minDate={new Date()}
+                      maxDate={new Date(new Date().setDate(new Date().getDate()+6))} />
+                  </div>
+
+                  <div className="select-end-time">
+                    <DatePicker className="date-time select-time" placeholderText="end time" selected={this.state.endDate}
+                      onSelect={this.handleEndSelect}
+                      onChange={this.handleEndChange}
+                      showTimeSelect
+                      dateFormat="Pp"
+                      minDate={new Date()}
+                      maxDate={new Date(new Date().setDate(new Date().getDate()+6))} />
+                  </div>
+
+                  <div className="change-hour-btn">
+                    <button className="btn check-time change-time" onClick={this.onClick2}>change time</button>
+                  </div>
+
                 </div> 
 
               </form>

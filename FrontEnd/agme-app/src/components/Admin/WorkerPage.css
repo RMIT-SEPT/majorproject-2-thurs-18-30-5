@@ -92,7 +92,7 @@
 }
 
 .working-hour-title {
-  top: 100px;
+  top: 350px;
   left: 30px;
 }
 
@@ -104,20 +104,20 @@
 
 .select-start-time {
   position: absolute;
-  top: 135px;
+  top: 385px;
   left: 30px;
 }
 
 .select-end-time {
   position: absolute;
-  top: 135px;
+  top: 385px;
   left: 250px;
 }
 
 .change-hour-btn {
   position: absolute;
-  left: 300px;
-  top: 190px;
+  left: 150px;
+  top: 440px;
 }
 
 .change-time {
@@ -129,7 +129,7 @@
 }
 
 .availability-title {
-  top: 250px;
+  top: 100px;
   left: 30px;
 }
 
@@ -180,7 +180,7 @@
   overflow-y: auto;
 
   height: 180px;
-  top: 290px;
+  top: 140px;
   left: 30px;
   position: absolute;
   width: 410px; 
