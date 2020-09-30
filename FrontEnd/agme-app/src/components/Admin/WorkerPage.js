@@ -20,6 +20,14 @@ export default class AddWorker extends Component {
       "startDate": "",
       "endDate": ""
     }
+
+    try {
+      var date = this.props.location.state.date;
+      this.state.date = date;
+    } catch (err) {
+
+    }
+
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -121,40 +129,41 @@ export default class AddWorker extends Component {
       bad = true;
     }
 
-    const days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+    const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
 
     if (bad == false) {
-      console.log("HIIIIIIIIII");
-      try {
-        await axios.delete("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, { params: { dayOfWeek: days[this.state.startDate.getDay()] } });
-      } catch (err) {
-        console.log("Bad1111111111111111111111111");
+      if (this.state.date == "") {
+        window.alert("Please select a day first!");
       }
+      else {
+        try {
+          await axios.delete("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, { params: { dayOfWeek: days[this.state.startDate.getDay()] } });
+        } catch (err) {
+        }
 
-      try {
-        var d = this.state.startDate;
-        var formattedStart = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
-        this.state.startDate = formattedStart;
-      
-        d = this.state.endDate;
-        var formattedEnd = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
-        this.state.endDate = formattedEnd;
-        console.log(this.state.startDate);
-        const hours = {
-          start: this.state.startDate,
-          end: this.state.endDate,
-          id:{
-            dayOfWeek: this.state.startDate.getDay()
-          }
-        };
-        await axios.post("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, hours);
-        console.log(hours);
-      } catch (err) {
-        console.log("Bad222222222222222222222222222");
+        try {
+          var d = this.state.startDate;
+          var formattedStart = (d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
+          this.state.startDate = formattedStart;
+        
+          d = this.state.endDate;
+          var formattedEnd = (d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
+          this.state.endDate = formattedEnd;
+          const hours = {
+            start: this.state.startDate,
+            end: this.state.endDate,
+            id:{
+              dayOfWeek: this.state.date.getDay()
+            }
+          };
+          await axios.post("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, hours);
+        } catch (err) {
+
+        }
       }
     }
 
-    //window.location.reload(false);
+    window.location.reload(false);
   }
 
   render() {
@@ -300,9 +309,9 @@ export default class AddWorker extends Component {
                       onSelect={this.handleStartSelect}
                       onChange={this.handleStartChange}
                       showTimeSelect
-                      dateFormat="Pp"
-                      minDate={new Date()}
-                      maxDate={new Date(new Date().setDate(new Date().getDate()+6))} />
+                      dateFormat="HH:mm"
+                      minDate={this.state.date}
+                      maxDate={this.state.date} />
                   </div>
 
                   <div className="select-end-time">
@@ -310,9 +319,9 @@ export default class AddWorker extends Component {
                       onSelect={this.handleEndSelect}
                       onChange={this.handleEndChange}
                       showTimeSelect
-                      dateFormat="Pp"
-                      minDate={new Date()}
-                      maxDate={new Date(new Date().setDate(new Date().getDate()+6))} />
+                      dateFormat="HH:mm"
+                      minDate={this.state.date}
+                      maxDate={this.state.date} />
                   </div>
 
                   <div className="change-hour-btn">
