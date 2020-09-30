@@ -38,7 +38,7 @@ export default class Business extends Component {
         await axios.get("http://localhost:8080/api/worker/auth/username/" + this.props.location.state.user.user.username, { params: { password: this.state.password, isAdmin: true } });
         
         try {
-          const res = await axios.put("http://localhost:8080/api/business/" + newBusiness.id, newBusiness);
+          const res = await axios.put("http://localhost:8080/api/business/" + this.props.location.state.user.business.id, newBusiness);
           this.props.history.push('/admin-dashboard', {user: this.props.location.state.user});
         } catch (err) {
           window.alert("Invalid info; please try again.");
