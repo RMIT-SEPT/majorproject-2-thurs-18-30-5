@@ -95,9 +95,9 @@ public class BusinessController {
                                             @PathVariable Long businessId, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            if (getBusiness(businessId) != null) {
-                Business business1 = businessService.saveOrUpdateBusiness(business);
-                HttpStatus status = (business1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+            if (businessService.findById(businessId) != null) {
+                business.setId(businessId);
+                HttpStatus status = (businessService.saveOrUpdateBusiness(business) == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
                 return new ResponseEntity<Business>(business, status);
             }
             return new ResponseEntity<>("Invalid Business ID", HttpStatus.NOT_FOUND);

@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -80,6 +81,7 @@ public class Hours {
     public static class HoursPK implements Serializable {
         @ManyToOne
         @JoinColumn(name = "worker_id")
+        @JsonIgnoreProperties({"user", "business", "bookings", "createdAt", "updatedAt", "admin"})
         private Worker worker;
         @Column(name = "day_of_week")
         private DayOfWeek dayOfWeek;
