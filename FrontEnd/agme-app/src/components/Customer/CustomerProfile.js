@@ -118,12 +118,12 @@ export default class CustomerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputpwd" className="col-sm-2 col-form-label cus-pwd">Password</label>
+                  <label htmlFor="inputpwd" className="col-sm-2 col-form-label cus-pwd-label">Password</label>
                   <div className="col-sm-10">
                     <input 
                       type="password" 
                       className="form-control field-input cus-pwd" 
-                      id="inpwd" 
+                      id="inputpwd" 
                       placeholder="Enter password to confirm changes" 
                       name="password"
                       required="true"
