@@ -39,24 +39,27 @@
 .book-summary-title {
   position: sticky;
   top: 0;
+  z-index: 1;
+  color: #0000009f;
 }
 
 .book-header {
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
   font-weight: 600;
+  font-size: 14px;
 }
 
-.date {
+.left-title {
   background-color: rgb(209, 233, 255);
   border-radius: 15px 0px 0px 15px; 
 }
 
-.time, .service, .worker {
+.mid-title {
   background-color: rgb(209, 233, 255);
 }
 
-.customer {
+.right-title {
   background-color: rgb(209, 233, 255);
   border-radius: 0px 15px 15px 0px; 
 }
