@@ -1,18 +1,22 @@
 package com.rmit.sept.assignment.initial.web;
 
+import com.rmit.sept.assignment.initial.model.Booking;
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.HoursService;
 import com.rmit.sept.assignment.initial.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Hours Controller class allows access to update/retrieve/remove Hours entities
@@ -63,6 +67,16 @@ public class HoursController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping(value = "/available/{workerId}", params = "date")
+    public ResponseEntity<?> getWorkerAvailableHours(@PathVariable Long workerId,
+                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Worker worker = workerService.findById(workerId);
+        if (worker != null && date != null) {
+            return new ResponseEntity<List<Booking>>(hoursService.findAvailableByWorker(worker, date), HttpStatus.OK);
+        }
+        return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
+    }
+
     /**
      * Endpoint to create hours for a worker
      * @param workerId id of worker
@@ -96,7 +110,8 @@ public class HoursController {
      * @return OK if the id values were valid, otherwise BAD_REQUEST
      */
     @DeleteMapping(value = "/{workerId}", params = "dayOfWeek")
-    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId, @RequestParam DayOfWeek dayOfWeek) {
+    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId,
+                                               @RequestParam DayOfWeek dayOfWeek) {
         boolean deleteHours = false;
         if (workerId != null && dayOfWeek != null) {
             deleteHours = hoursService.deleteHours(workerId, dayOfWeek);

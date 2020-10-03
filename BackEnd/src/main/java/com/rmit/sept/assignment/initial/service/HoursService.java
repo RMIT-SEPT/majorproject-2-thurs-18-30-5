@@ -1,5 +1,6 @@
 package com.rmit.sept.assignment.initial.service;
 
+import com.rmit.sept.assignment.initial.model.Booking;
 import com.rmit.sept.assignment.initial.repositories.HoursRepository;
 import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
 import com.rmit.sept.assignment.initial.model.Hours;
@@ -8,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Hours Services acts as an intermediary between the repo and controller classes
@@ -106,5 +110,17 @@ public class HoursService {
     public List<Hours> findByWorker(Worker worker) {
         if (worker == null) return null;
         return hoursRepository.findById_Worker(worker);
+    }
+
+    public List<Booking> findAvailableByWorker(Worker worker, LocalDate date) {
+        Hours hours = findById(worker, date.getDayOfWeek());
+        if (hours != null) {
+            List<Hours> hoursList;
+            List<Booking> bookings = worker.getBookings().stream()
+                    .filter(b -> b.getStatus() == Booking.BookingStatus.PENDING)
+                    .sorted(Comparator.comparing(Booking::getStart)).collect(Collectors.toList());
+            return bookings;
+        }
+        return null;
     }
 }
