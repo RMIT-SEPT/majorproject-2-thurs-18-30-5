@@ -27,6 +27,15 @@ public class Hours {
     private LocalTime end;
 
     public Hours() {
+
+    }
+
+    public Hours(DayOfWeek dayOfWeek, Worker worker) {
+        this.id = new HoursPK(worker, dayOfWeek);
+    }
+
+    public Hours(HoursPK hoursPK) {
+        this.id = hoursPK;
     }
 
     public HoursPK getId() {

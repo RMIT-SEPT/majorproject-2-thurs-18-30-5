@@ -67,14 +67,23 @@ public class HoursController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Endpoint to return a list of available hours for a worker - available hours are time-slots on a given date where
+     * the Worker has no booking, and is scheduled to be working
+     * @param workerId: id of Worker to fetch
+     * @param date: date to check
+     * @return a List of Hours, which represent the workers' available time on that date
+     */
     @GetMapping(value = "/available/{workerId}", params = "date")
     public ResponseEntity<?> getWorkerAvailableHours(@PathVariable Long workerId,
                                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Worker worker = workerService.findById(workerId);
         if (worker != null && date != null) {
-            return new ResponseEntity<List<Booking>>(hoursService.findAvailableByWorker(worker, date), HttpStatus.OK);
+            List<Hours> hoursList = hoursService.findAvailableByWorker(worker, date);
+            HttpStatus status = (hoursList == null) ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+            return new ResponseEntity<List<Hours>>(hoursList, status);
         }
-        return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<String>("Bad Request", HttpStatus.BAD_REQUEST);
     }
 
     /**
