@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,9 +44,10 @@ class BookingServiceTest {
         start.set(2020, Calendar.FEBRUARY, 2, 10, 0);
         end.set(2020, Calendar.FEBRUARY, 2, 11, 0);
 
+
         Booking b1 = new Booking(1L);
-        b1.setStart(start.getTime());
-        b1.setEnd(end.getTime());
+        b1.setStart(toLocalDateTime(start));
+        b1.setEnd(toLocalDateTime(end));
 
         b1.setWorker(w1);
         b1.setUser(u1);
@@ -69,8 +72,8 @@ class BookingServiceTest {
         end.set(2020, Calendar.FEBRUARY, 2, 11, 0);
 
         Booking b1 = new Booking(1L);
-        b1.setStart(start.getTime());
-        b1.setEnd(end.getTime());
+        b1.setStart(toLocalDateTime(start));
+        b1.setEnd(toLocalDateTime(end));
 
         b1.setWorker(w1);
         b1.setUser(u1);
@@ -88,7 +91,7 @@ class BookingServiceTest {
         assertEquals(b1.getId(), b2.getId());
 
         start.set(2020, Calendar.FEBRUARY, 2, 9, 0);
-        b2.setStart(start.getTime());
+        b2.setStart(toLocalDateTime(start));
         doReturn(b2).when(repo).save(any());
 
         Booking b3 = service.saveOrUpdateBooking(b2, false);
@@ -104,8 +107,8 @@ class BookingServiceTest {
         end.set(2020, Calendar.FEBRUARY, 2, 11, 0);
         User u2 = new User(3L, "anotheruser", "123Qwe!");
         Booking b1 = new Booking(1L);
-        b1.setStart(start.getTime());
-        b1.setEnd(end.getTime());
+        b1.setStart(toLocalDateTime(start));
+        b1.setEnd(toLocalDateTime(end));
         b1.setWorker(w1);
         b1.setUser(u2);
         b1.setStatus(Booking.BookingStatus.PENDING);
@@ -135,8 +138,8 @@ class BookingServiceTest {
         end.set(2020, Calendar.FEBRUARY, 2, 11, 0);
         User u2 = new User(3L, "anotheruser", "123Qwe!");
         Booking b1 = new Booking(1L);
-        b1.setStart(start.getTime());
-        b1.setEnd(end.getTime());
+        b1.setStart(toLocalDateTime(start));
+        b1.setEnd(toLocalDateTime(end));
         b1.setWorker(w1);
         b1.setUser(u2);
 
@@ -153,5 +156,20 @@ class BookingServiceTest {
         Booking b2 = service.saveOrUpdateBooking(b1, true);
 
         assertNotNull(b2);
+    }
+
+    /**
+     * Simple method to update testing - moved to LocalDateTime, while tests were created with Date
+     * Source: https://www.logicbig.com/how-to/java-8-date-time-api/calender-to-localdatetime.html
+     * @param calendar: calendar to update
+     * @return LocalDateTime equivalent of calendar
+     */
+    private static LocalDateTime toLocalDateTime(Calendar calendar) {
+        if (calendar == null) {
+            return null;
+        }
+        TimeZone tz = calendar.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        return LocalDateTime.ofInstant(calendar.toInstant(), zid);
     }
 }

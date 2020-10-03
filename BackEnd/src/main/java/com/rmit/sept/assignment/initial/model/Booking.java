@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -37,10 +38,10 @@ public class Booking {
 
     @NotNull(message = "Start date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date start;
+    private LocalDateTime start;
     @NotNull(message = "End date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date end;
+    private LocalDateTime end;
 
     private BookingStatus status = BookingStatus.PENDING;
 
@@ -61,7 +62,7 @@ public class Booking {
         this.id = id;
     }
 
-    public Booking(Long id, Worker worker, User user, Date start, Date end, BookingStatus status) {
+    public Booking(Long id, Worker worker, User user, LocalDateTime start, LocalDateTime end, BookingStatus status) {
         this.id = id;
         this.worker = worker;
         this.user = user;
@@ -95,20 +96,20 @@ public class Booking {
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    public Date getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    public Date getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 
