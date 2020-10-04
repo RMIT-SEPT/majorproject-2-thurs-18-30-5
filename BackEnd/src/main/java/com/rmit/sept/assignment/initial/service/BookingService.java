@@ -95,7 +95,7 @@ public class BookingService {
      * @return Collection of Bookings made for that Worker
      */
     public Collection<Booking> findByWorker(@NotNull Long workerId) {
-        return bookingRepository.findAllByWorker_Id(workerId);
+        return bookingRepository.findAllByWorker_IdAndStatusOrStatus(workerId, Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED);
     }
 
     /**
