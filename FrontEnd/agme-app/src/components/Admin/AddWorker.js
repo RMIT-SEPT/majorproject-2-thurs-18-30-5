@@ -56,7 +56,9 @@ export default class AddWorker extends Component {
                     const newWorker = {
                       id: res.data.id,
                       user_id: res.data.id,
-                      business_id: this.props.location.state.business.id
+                      business: {
+                        id: this.props.location.state.business.id
+                      }
                     };
 
                     await axios.post("http://localhost:8080/api/worker", newWorker);

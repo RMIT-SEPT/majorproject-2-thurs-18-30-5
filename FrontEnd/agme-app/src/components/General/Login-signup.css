@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
 
 * {
   box-sizing: border-box;
@@ -52,6 +51,9 @@ body, html, .App, #root, .auth-wrapper {
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
   transition: all .3s;
+
+  position: relative;
+  top: 10px;
 }
 
 .forgot-pwd {
@@ -74,14 +76,24 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .form-input {
-  font-weight: 300;
+  font-weight: 400;
   font-family: 'Montserrat', sans-serif;
   background-color: rgba(255, 255, 255, 0.788);
+  border-style: none;
+  border-radius: 18px;
   letter-spacing: -0.3px;
+  text-indent: 10px;
 }
 
 .form-input:hover {
   border: 2px solid rgb(156, 199, 255);
+}
+
+.form-input::placeholder {
+  font-weight: 300;
+  font-size: 14px;
+  padding: 1px;
+  color: #b3b3b3;
 }
 
 .auth-wrapper {

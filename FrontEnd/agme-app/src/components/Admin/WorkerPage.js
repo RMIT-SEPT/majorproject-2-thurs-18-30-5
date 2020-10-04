@@ -11,6 +11,7 @@ export default class AddWorker extends Component {
   constructor(props) {
     super(props);
 
+    console.log (this.props);
     this.state = {
       "address": "",
       "password": "",
@@ -18,7 +19,8 @@ export default class AddWorker extends Component {
       "lastName": "",
       "date": "",
       "startDate": "",
-      "endDate": ""
+      "endDate": "",
+      "hoursList":[]
     }
 
     try {
@@ -28,10 +30,23 @@ export default class AddWorker extends Component {
 
     }
 
+    try {
+      var d = this.state.date;
+      var formattedDate = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString());
+      axios.get("http://localhost:8080/api/hours/available/" + this.props.location.state.worker.user.id, { params: { date: formattedDate } })
+        .then(res => {
+          const hoursList = res.data;
+          this.setState({hoursList: hoursList});
+          this.state.hoursList = hoursList;
+        })
+    } catch (err) {
+
+    }
+
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit1 = this.onSubmit1.bind(this);
     this.onClick = this.onClick.bind(this);
-    this.onClick1 = this.onClick1.bind(this);
     this.onClick2 = this.onClick2.bind(this);
   }
   onChange(e){
@@ -83,8 +98,13 @@ export default class AddWorker extends Component {
       date: date
     });
   };
-  onClick1(e){
+  onSubmit1(e){
     e.preventDefault();
+    this.props.history.push('/worker-page', {
+      user: this.props.location.state.user, 
+      worker: this.props.location.state.worker,
+      date: this.state.date
+    });
     window.location.reload(false);
   }
 
@@ -110,7 +130,6 @@ export default class AddWorker extends Component {
   };
   onClick2 = async e =>{
     e.preventDefault();
-    console.log(this.state);
 
     var bad = false;
     var diffHours = this.state.endDate.getHours() - this.state.startDate.getHours();
@@ -153,7 +172,7 @@ export default class AddWorker extends Component {
             start: this.state.startDate,
             end: this.state.endDate,
             id:{
-              dayOfWeek: this.state.date.getDay()
+              dayOfWeek: (this.state.date.getDay() + 6) % 7
             }
           };
           await axios.post("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, hours);
@@ -245,7 +264,7 @@ export default class AddWorker extends Component {
                 </div>
               </form>
 
-              <form>
+              <form onSubmit={this.onSubmit1}>
                 <div className="card work-info">
                   <div className="select-date">
                     <DatePicker 
@@ -260,7 +279,7 @@ export default class AddWorker extends Component {
                   </div>
 
                   <div className="check-time-btn">
-                    <button className="btn check-time" onClick={this.onClick1}>check time</button>
+                    <button type="submit" className="btn check-time">check time</button>
                   </div>
   
                   <div className="card-title availability-title">Availability</div>
@@ -274,35 +293,19 @@ export default class AddWorker extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>10.00am</td>
-                          <td>11.00am</td>
-                        </tr>
-                        <tr>
-                          <td>12.30pm</td>
-                          <td>2.30pm</td>
-                        </tr>
-                        <tr>
-                          <td>4.00pm</td>
-                          <td>6.00pm</td>
-                        </tr>
-                        <tr>
-                          <td>10.00am</td>
-                          <td>11.00am</td>
-                        </tr>
-                        <tr>
-                          <td>12.30pm</td>
-                          <td>2.30pm</td>
-                        </tr>
-                        <tr>
-                          <td>4.00pm</td>
-                          <td>6.00pm</td>
-                        </tr>
+                        {
+                          this.state.hoursList.map(hours =>
+                            <tr>
+                              <td> {hours.start} </td>
+                              <td> {hours.end} </td>
+                            </tr>
+                          )
+                        }
                       </tbody>
                     </table>
                   </div>
                   
-                  <div className="card-title working-hour-title">Working hour</div>
+                  <div className="card-title working-hour-title">New working hours</div>
 
                   <div className="select-start-time">
                     <DatePicker className="date-time select-time" placeholderText="start time" selected={this.state.startDate}

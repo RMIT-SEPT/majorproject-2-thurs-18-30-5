@@ -35,12 +35,12 @@ export default class PastBooking extends Component {
                 <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
                   <thead className="book-summary-title">
                     <tr>
-                      <th scope="col" width="16%" className="book-header date">Start Time</th>
-                      <th scope="col" width="17%" className="book-header time">End Time</th>
-                      <th scope="col" width="18%" className="book-header service">Service</th>
-                      <th scope="col" width="17%" className="book-header worker">Worker</th>
-                      <th scope="col" width="17%" className="book-header customer">Customer</th>
-                      <th scope="col" width="15%" className="book-header status">Status</th>
+                      <th scope="col" width="16%" className="book-header left-title">Start Time</th>
+                      <th scope="col" width="17%" className="book-header mid-title">End Time</th>
+                      <th scope="col" width="18%" className="book-header mid-title">Service</th>
+                      <th scope="col" width="17%" className="book-header mid-title">Worker</th>
+                      <th scope="col" width="17%" className="book-header mid-title">Customer</th>
+                      <th scope="col" width="15%" className="book-header right-title">Status</th>
                     </tr>
                   </thead>
                   <tbody>
