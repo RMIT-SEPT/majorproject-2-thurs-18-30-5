@@ -14,7 +14,7 @@ export default class AdminDashboard extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/worker/business/" + this.props.location.state.user.business.id)
+      axios.get("http://localhost:8080/api/worker/business/" + this.props.location.state.user.business.id, { params: { isAdmin: false } })
         .then(res => {
           const workers = res.data;
           this.setState({workers: workers});

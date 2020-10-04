@@ -30,7 +30,7 @@ export default class ConfirmBooking extends Component {
     try {
       const res = await axios.post("http://localhost:8080/api/booking", booking);
     } catch (err) {
-      console.log(err);
+      window.alert("This booking has conflict with your other bookings; please try again.");
     }
     this.props.history.push('/customer-dashboard', {user: this.props.location.state.user});
   }
