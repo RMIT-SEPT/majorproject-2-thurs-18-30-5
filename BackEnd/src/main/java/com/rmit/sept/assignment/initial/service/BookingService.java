@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.rmit.sept.assignment.initial.service.Utilities.findOverlap;
@@ -53,9 +54,9 @@ public class BookingService {
         }
         List<Booking> userBookings = new ArrayList<>(this.findByUser(userId, Booking.BookingStatus.PENDING));
         List<Booking> workerBookings = new ArrayList<>(this.findByWorker(workerId, Booking.BookingStatus.PENDING));
-        Date start = booking.getStart();
-        Date end = booking.getEnd();
-        if (start == null || end == null || !end.after(start)) {
+        LocalDateTime start = booking.getStart();
+        LocalDateTime end = booking.getEnd();
+        if (start == null || end == null || !end.isAfter(start)) {
             return null;  // validate that the end and start values are logically correct
         } else {
             if (create) {  // append new booking and check for an overlap
