@@ -16,4 +16,5 @@ public interface WorkerRepository extends CrudRepository<Worker, Long> {
     Optional<Worker> findByIdAndIsAdmin(Long aLong, boolean admin);
     List<Worker> findAllByBusiness(Business business);
     List<Worker> findAllByBusiness_Id(Long businessId);
+    List<Worker> findAllByBusiness_IdAndIsAdmin (Long businessId, Boolean isAdmin);
 }

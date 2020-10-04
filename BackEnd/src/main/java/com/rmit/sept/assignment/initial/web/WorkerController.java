@@ -106,14 +106,15 @@ public class WorkerController {
     @GetMapping("/business/{businessId}")
     public ResponseEntity<List<Worker>> getWorkersByBusiness(
             @PathVariable Long businessId,
+            @RequestParam(required = false) Boolean isAdmin,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime start,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime end) {
         List<Worker> workers;
         if (start != null && end != null) {
             System.out.println("START AND END");
-            workers = workerService.findAllByBusiness(businessId, start, end);
+            workers = workerService.findAllByBusiness(businessId, start, end, isAdmin);
         } else {
-            workers = workerService.findAllByBusiness(businessId);
+            workers = workerService.findAllByBusiness(businessId, isAdmin);
         }
         HttpStatus status = (workers.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(workers, status);

@@ -135,7 +135,10 @@ public class WorkerService {
      * @param bid id of Business
      * @return Collection of Workers assigned to that Business
      */
-    public List<Worker> findAllByBusiness(Long bid) {
+    public List<Worker> findAllByBusiness(Long bid, Boolean isAdmin) {
+        if (isAdmin != null) {
+            return new ArrayList<>(workerRepository.findAllByBusiness_IdAndIsAdmin(bid, isAdmin));
+        }
         return new ArrayList<>(workerRepository.findAllByBusiness_Id(bid));
     }
 
@@ -147,9 +150,9 @@ public class WorkerService {
      * @param endDate end date-time value
      * @return List of available Workers assigned to that Business
      */
-    public List<Worker> findAllByBusiness(Long bid, LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Worker> findAllByBusiness(Long bid, LocalDateTime startDate, LocalDateTime endDate, Boolean isAdmin) {
         List<Worker> workers = new ArrayList<>();
-        for (Worker worker : workerRepository.findAllByBusiness_Id(bid)) {
+        for (Worker worker : findAllByBusiness(bid, isAdmin)) {
             if (checkAvailability(worker.getId(), startDate, endDate)) {
                 workers.add(worker);
             }
