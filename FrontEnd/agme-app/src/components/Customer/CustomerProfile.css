@@ -23,6 +23,7 @@
   line-height: 100px;
   font-weight: 600;
   font-family: 'Montserrat', sans-serif;
+  color: #000000b4;
 }
 
 .field-row {
@@ -31,21 +32,42 @@
 
 .field-input {
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-family: 'Poppins', sans-serif;
   background-color: rgba(255, 255, 255, 0.651);
-  border-radius: 12px;
+  border-radius: 15px;
   border-style: none;
   width: 50%;
+  text-indent: 8px;
 }
 
 .field-input:hover {
   border: 2px solid rgb(156, 199, 255);
 }
 
+.field-input:read-only {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.field-input:read-only:hover {
+  border: none;
+}
+
+.cus-pwd-label {
+  font-style: italic;
+}
+
+.cus-pwd::placeholder {
+  font-weight: 300;
+  font-size: 14px;
+  padding: 2px;
+  color: #b6b6b6;
+  font-style: italic;
+}
+
 .edit-action {
   position: relative;
-  top: 25px;
+  top: 120px;
 }
 
 .save-changes {

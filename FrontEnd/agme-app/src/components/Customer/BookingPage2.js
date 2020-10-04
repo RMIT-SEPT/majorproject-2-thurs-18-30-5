@@ -45,21 +45,21 @@ export default class BookingPage2 extends Component {
     var diffHours = this.state.endDate.getHours() - this.state.startDate.getHours();
     // Comparing start and end time
     if (this.state.endDate <= this.state.startDate) {
-      window.alert("The ending time of the booking should be after starting time; please try again.");
+      window.alert("Ending time of the booking must be after starting time. Please try again.");
       bad = true;
     }
     else if (this.state.endDate.getDate() != this.state.startDate.getDate() || this.state.endDate.getDay() != this.state.startDate.getDay()){
-      window.alert("Booking date for start and end time should be the same; please try again.");
+      window.alert("Booking date for start & end time must be the same. Please try again.");
       bad = true;
     }
     // Booking for maximum of 2 hours
     else if (diffHours > 2 || (diffHours == 2 && this.state.endDate.getMinutes() > this.state.startDate.getMinutes())) {
-      window.alert("Maximum booking time is 2 hours; please try again.");
+      window.alert("Maximum booking duration is 2 hours. Please try again.");
       bad = true;
     }
     // Booking date should be in the future
     else if (this.state.startDate < new Date()) {
-      window.alert("Booking time cannot be in the past; please try again.");
+      window.alert("Booking time cannot be in the past. Please try again.");
       bad = true;
     }
 
@@ -81,36 +81,32 @@ export default class BookingPage2 extends Component {
                 <h3 className="date-h3">Choose date and time</h3>
                 <hr/>
                 <br/>
-                <br/>
-                <div> Start time: </div>
+                <div className="time-title">Start time</div>
                 <div>
                   <DatePicker className="datePicker"
                       selected={this.state.startDate}
                       onSelect={this.handleStartSelect}
                       onChange={this.handleStartChange}
                       showTimeSelect
-                      dateFormat="Pp"
-                  />
+                      dateFormat="Pp"/>
                 </div>
 
-                <br/>
-                <br/>
-                <div> End time: </div>
+                <br/><br/>
+
+                <div className="time-title">End time</div>
                 <div>
                   <DatePicker className="datePicker"
                       selected={this.state.endDate}
                       onSelect={this.handleEndSelect}
                       onChange={this.handleEndChange}
                       showTimeSelect
-                      dateFormat="Pp"
-                  />
+                      dateFormat="Pp"/>
                 </div>
                 
-                <br/>
-                <br/>
+                <br/><br/><br/>
 
-                <div className="btn-div">
-                    <button type="submit" className="mybtn btn-primary">Show available workers</button> 
+                <div>
+                    <button type="submit" className="booking-btn proceed-btn">Choose worker</button> 
                 </div>
             </form>
 

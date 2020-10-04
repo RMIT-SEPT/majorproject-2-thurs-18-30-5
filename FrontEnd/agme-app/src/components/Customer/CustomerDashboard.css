@@ -25,55 +25,54 @@
   font-weight: 600;
   font-family: 'Montserrat', sans-serif;
 
-  color: #000000;
+  color: #000000b4;
 }
 
-.upcoming-booking {
-  position: relative;
-  top: 200px;
+.booking-title {
+  font-style: normal;
+  font-size: 20px;
+  line-height: 40px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #000000a4;
+  position: absolute;
 }
 
 .upcoming-title {
-  position: absolute;
-  float: left;
-
-  font-style: normal;
-  font-size: 20px;
-  line-height: 40px;
-  font-weight: 600;
-  font-family: 'Montserrat', sans-serif;
-
-  color: #000000;
+  top: 65px;
 }
 
-.past-booking {
-  position: relative;
-  top: 210px;
+.cus-up-book-scroll {
+  overflow-x: hidden; 
+  overflow-y: auto;
+
+  position: absolute;
+  height: 192px;
+  top: 110px;
 }
 
 .past-title {
-  position: relative;
-  float: left;
+  top: 325px;
+}
 
-  font-style: normal;
-  font-size: 20px;
-  line-height: 40px;
-  font-weight: 600;
-  font-family: 'Montserrat', sans-serif;
+.cus-pa-book-scroll {
+  overflow-x: hidden; 
+  overflow-y: auto;
 
-  color: #000000;
+  position: absolute;
+  height: 192px;
+  top: 370px;
 }
 
 .booking-table {
-  box-shadow: 0px 10px 40px rgba(41, 41, 54, 0.2);
   background-color: #ffffff33;
-  border-radius: 15px 60px 10px 10px;
-
+  border-radius: 15px 15px 15px 15px;
   table-layout: fixed;
 
   font-style: normal;
   font-weight: 400;
   font-family: 'Raleway', sans-serif;
+  letter-spacing: 0.5px;
 }
 
 th, td {
@@ -81,12 +80,8 @@ th, td {
   text-overflow: ellipsis;
 }
 
-.booking-tableble tr td:last-child {
+.booking-table tr td:last-child {
   max-width: 5px;
-}
-
-.cancel-booking {
-  align-self: center;
 }
 
 .book-btn {
@@ -153,4 +148,41 @@ th, td {
   border: transparent;
   border-radius: 16px;
   transition: linear;
+}
+
+.close {
+  z-index: -1;
+}
+
+.no-booking-card {
+  position: absolute;
+  width: 1121px;
+  height: 192px;
+
+  border-radius: 30px 30px 30px 30px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.05);
+  transition: 0.3s;
+  background-color: #ffffff11;
+  border-color: transparent;
+}
+
+.upcoming-card {
+  top: 110px;
+}
+
+.past-card {
+  top: 370px;
+}
+
+.no-booking-msg {
+  font-weight: 400;
+  font-style: italic;
+  font-family: 'Montserrat', sans-serif;
+  color: rgba(0, 0, 0, 0.377);
+  
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  top: 45%;
+  text-align: center;
 }
