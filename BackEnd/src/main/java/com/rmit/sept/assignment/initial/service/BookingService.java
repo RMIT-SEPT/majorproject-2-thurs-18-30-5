@@ -51,8 +51,10 @@ public class BookingService {
         if (!worker1.isPresent() || !user1.isPresent() || userIsWorker.isPresent()) {
             return null; // check if user/worker are invalid, or if the user is also a worker (not allowed - invalid)
         }
-        List<Booking> userBookings = new ArrayList<>(this.findByUser(userId, Booking.BookingStatus.PENDING));
-        List<Booking> workerBookings = new ArrayList<>(this.findByWorker(workerId, Booking.BookingStatus.PENDING));
+        List<Booking> userBookings = new ArrayList<>(
+                this.findByUser(userId, Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED));
+        List<Booking> workerBookings = new ArrayList<>(
+                this.findByWorker(workerId, Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED));
         Date start = booking.getStart();
         Date end = booking.getEnd();
         if (start == null || end == null || !end.after(start)) {
@@ -95,17 +97,28 @@ public class BookingService {
      * @return Collection of Bookings made for that Worker
      */
     public Collection<Booking> findByWorker(@NotNull Long workerId) {
-        return bookingRepository.findAllByWorker_IdAndStatusOrStatus(workerId, Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED);
+        return bookingRepository.findAllByWorker_Id(workerId);
     }
 
     /**
      * Return Bookings based on Worker id and Booking status
      * @param workerId id of Worker
-     * @param status BookingStatus of Booking (PENDING, COMPLETED, CANCELLED)
+     * @param status BookingStatus of Booking (PENDING, CONFIRMED, COMPLETED, CANCELLED)
      * @return Collection of Bookings
      */
     public Collection<Booking> findByWorker(@NotNull Long workerId, Booking.BookingStatus status) {
         return bookingRepository.findAllByWorker_IdAndStatus(workerId, status);
+    }
+
+    /**
+     * Return Bookings based on Worker id and two Booking statuses
+     * @param workerId id of Worker
+     * @param status1 BookingStatus of Booking (PENDING, CONFIRMED, COMPLETED, CANCELLED)
+     * @param status2 BookingStatus of Booking (PENDING, CONFIRMED, COMPLETED, CANCELLED)
+     * @return Collection of Bookings
+     */
+    public Collection<Booking> findByWorker(@NotNull Long workerId, Booking.BookingStatus status1, Booking.BookingStatus status2) {
+        return bookingRepository.findAllByWorker_IdAndStatusOrStatus(workerId, status1, status2);
     }
 
     /**
@@ -120,11 +133,22 @@ public class BookingService {
     /**
      * Return Bookings based on User and BookingStatus
      * @param userId id of User
-     * @param status BookingsStatus value (PENDING, COMPLETED, CANCELLED)
+     * @param status BookingsStatus value (PENDING, CONFIRMED, COMPLETED, CANCELLED)
      * @return Collection of Booking entities
      */
     public Collection<Booking> findByUser(@NotNull Long userId, @NotNull Booking.BookingStatus status) {
         return bookingRepository.findAllByUser_IdAndStatus(userId, status);
+    }
+
+    /**
+     * Return Bookings based on User and two BookingStatuses
+     * @param userId id of User
+     * @param status1 BookingStatus value (PENDING, CONFIRMED, COMPLETED, CANCELLED)
+     * @param status2 BookingStatus value (PENDING, CONFIRMED, COMPLETED, CANCELLED)
+     * @return Collection of Booking entities
+     */
+    public Collection<Booking> findByUser(@NotNull Long userId, @NotNull Booking.BookingStatus status1, Booking.BookingStatus status2) {
+        return bookingRepository.findAllByUser_IdAndStatusOrStatus(userId, status1, status2);
     }
 
     /**
