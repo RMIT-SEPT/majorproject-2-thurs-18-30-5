@@ -1,18 +1,22 @@
 package com.rmit.sept.assignment.initial.web;
 
+import com.rmit.sept.assignment.initial.model.Booking;
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.HoursService;
 import com.rmit.sept.assignment.initial.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Hours Controller class allows access to update/retrieve/remove Hours entities
@@ -64,6 +68,25 @@ public class HoursController {
     }
 
     /**
+     * Endpoint to return a list of available hours for a worker - available hours are time-slots on a given date where
+     * the Worker has no booking, and is scheduled to be working
+     * @param workerId: id of Worker to fetch
+     * @param date: date to check
+     * @return a List of Hours, which represent the workers' available time on that date
+     */
+    @GetMapping(value = "/available/{workerId}", params = "date")
+    public ResponseEntity<?> getWorkerAvailableHours(@PathVariable Long workerId,
+                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Worker worker = workerService.findById(workerId);
+        if (worker != null && date != null) {
+            List<Hours> hoursList = hoursService.findAvailableByWorker(worker, date);
+            HttpStatus status = (hoursList == null) ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+            return new ResponseEntity<List<Hours>>(hoursList, status);
+        }
+        return new ResponseEntity<String>("Bad Request", HttpStatus.BAD_REQUEST);
+    }
+
+    /**
      * Endpoint to create hours for a worker
      * @param workerId id of worker
      * @param hours Hours object to update
@@ -96,7 +119,8 @@ public class HoursController {
      * @return OK if the id values were valid, otherwise BAD_REQUEST
      */
     @DeleteMapping(value = "/{workerId}", params = "dayOfWeek")
-    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId, @RequestParam DayOfWeek dayOfWeek) {
+    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId,
+                                               @RequestParam DayOfWeek dayOfWeek) {
         boolean deleteHours = false;
         if (workerId != null && dayOfWeek != null) {
             deleteHours = hoursService.deleteHours(workerId, dayOfWeek);

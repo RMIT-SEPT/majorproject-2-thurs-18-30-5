@@ -169,15 +169,15 @@ public class WorkerService {
      * @return true if the worker is available, otherwise false
      */
     public boolean checkAvailability(Long workerId, LocalDateTime startDate, LocalDateTime endDate) {
-        Date start = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
-        Date end = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
+//        Date start = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
+//        Date end = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
         for (Hours hours : hoursRepository.findById_WorkerId(workerId)) {
             if (hours.getId().getDayOfWeek().compareTo(startDate.getDayOfWeek()) == 0) {
                 if ((startDate.toLocalTime().compareTo(hours.getStart()) >= 0) &&
                         (endDate.toLocalTime().compareTo(hours.getEnd()) <= 0)) {
                     Booking temp = new Booking();
-                    temp.setStart(start);
-                    temp.setEnd(end);
+                    temp.setStart(startDate);
+                    temp.setEnd(endDate);
                     List<Booking> bookings = findById(workerId).getBookings().stream()
                             .filter(b -> b.getStatus() == Booking.BookingStatus.PENDING).collect(Collectors.toList());
                     bookings.add(temp);  // add proposed booking dates to check for an overlap with existing bookings
