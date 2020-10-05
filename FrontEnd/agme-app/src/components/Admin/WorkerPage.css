@@ -2,7 +2,7 @@
   position: absolute;
   top: 90px;
   width: 470px;
-  height: 450px;
+  height: 500px;
   left: 650px;
 
   border-radius: 30px 30px 30px 30px;
@@ -12,13 +12,20 @@
   border-color: transparent;
 }
 
-.work-field, .admin-pwd {
+.work-field, .edit-admin-pwd {
   width: 40%;
 }
 
 .worker-admin-pwd {
   position: relative;
-  top: 148px;
+  top: 120px;
+}
+
+.admin-pwd {
+  font-weight: 300;
+  font-size: 14px;
+  color: #b3b3b3;
+  font-style: italic;
 }
 
 .date-time {
@@ -85,7 +92,7 @@
 }
 
 .working-hour-title {
-  top: 100px;
+  top: 350px;
   left: 30px;
 }
 
@@ -97,18 +104,32 @@
 
 .select-start-time {
   position: absolute;
-  top: 135px;
+  top: 385px;
   left: 30px;
 }
 
 .select-end-time {
   position: absolute;
-  top: 135px;
+  top: 385px;
   left: 250px;
 }
 
+.change-hour-btn {
+  position: absolute;
+  left: 150px;
+  top: 440px;
+}
+
+.change-time {
+  background: #ff8989;
+}
+
+.change-time:hover {
+  background: #ff7676;
+}
+
 .availability-title {
-  top: 210px;
+  top: 100px;
   left: 30px;
 }
 
@@ -159,7 +180,7 @@
   overflow-y: auto;
 
   height: 180px;
-  top: 245px;
+  top: 140px;
   left: 30px;
   position: absolute;
   width: 410px; 
@@ -167,5 +188,25 @@
 
 .edit-worker {
   position: absolute;
-  top: 570px;
+  top: 540px;
+  left: -535px;
+}
+
+.worker-save {
+  width: 140px;
+}
+
+.field-input:read-only {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.field-input:read-only:hover {
+  border: none;
+}
+
+.field-input {
+  font-weight: 400;
+  border-radius: 15px;
+  border-style: none;
+  text-indent: 8px;
 }

@@ -28,11 +28,17 @@ class Login extends Component {
       }
 
       try {
-        const res = await axios.get("http://sept-backend.us-east-1.elasticbeanstalk.com/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
+        const res = await axios.get("http://localhost:8080/api/worker/auth/username/" + this.state.username, { params: { password: this.state.password, isAdmin: true } });
         this.person = res.data;
-        this.props.history.push('/customer-dashboard', {user: this.person});
+        this.props.history.push('/admin-dashboard', {user: this.person});
       } catch (err) {
-        window.location.reload(false);
+        try {
+          const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
+          this.person = res.data;
+          this.props.history.push('/customer-dashboard', {user: this.person});
+        } catch (err2) {
+          window.location.reload(false);
+        }
       }
   }
   render() {
@@ -47,21 +53,33 @@ class Login extends Component {
               <br/>
 
               <div className="form-group">
-                <label className="email-username">Username</label>
-                <input type="text" className="form-control form-input" placeholder="Enter username" name="username"
-                value= {this.state.username}
-                onChange = {this.onChange} />
+                <label>Username</label>
+                <input 
+                  type="text" 
+                  className="form-control form-input" 
+                  placeholder="Enter username" 
+                  name="username"
+                  spellCheck="false"
+                  required="true"
+                  value= {this.state.username}
+                  onChange = {this.onChange} />
               </div>
 
               <div className="form-group">
-                <label className="pwd">Password</label>
-                <input type="password" className="form-control form-input" placeholder="Enter password" name="password"
-                value= {this.state.password}
-                onChange = {this.onChange} />
+                <label>Password</label>
+                <input 
+                  type="password" 
+                  className="form-control form-input"
+                  placeholder="Enter password" 
+                  name="password"
+                  spellCheck="false"
+                  required="true"
+                  value= {this.state.password}
+                  onChange = {this.onChange} />
               </div>
 
               <div className="submit-button">
-                  <button className="service-btn" type="submit">Submit</button>
+                  <button type="submit" className="btn submit">Submit</button>
               </div>
 
               <div className="forgot-pwd">

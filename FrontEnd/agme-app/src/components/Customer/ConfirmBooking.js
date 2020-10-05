@@ -28,9 +28,9 @@ export default class ConfirmBooking extends Component {
     };
 
     try {
-      const res = await axios.post("http://sept-backend.us-east-1.elasticbeanstalk.com/api/booking", booking);
+      const res = await axios.post("http://localhost:8080/api/booking", booking);
     } catch (err) {
-      console.log(err);
+      window.alert("This booking has conflict with your other bookings; please try again.");
     }
     this.props.history.push('/customer-dashboard', {user: this.props.location.state.user});
   }
@@ -45,23 +45,25 @@ export default class ConfirmBooking extends Component {
                 <h3>Booking details</h3>
                 <hr/>
                 <br/>
-                <br/>
-                <h6>Service:</h6>
-                <h5 className="hCol">{this.state.service.name}</h5>
-                <br/>
-                <h6>Start date & time:</h6>
-                <h5 className="hCol">{this.state.startDate.toString()}</h5>
-                <br/>
-                <h6>End date & time:</h6>
-                <h5 className="hCol">{this.state.endDate.toString()}</h5>
-                <br/>
-                <h6>Worker:</h6>
-                <h5 className="hCol">{this.state.worker.user.firstName}</h5>
-                <br/>
+
+                <div className="booking-label">Service</div>
+                <div className="booking-detail">{this.state.service.name}</div>
                 <br/>
 
-                <div className="btn2-div">
-                    <button type="submit" className="mybtn btn-primary">Confirm booking</button> 
+                <div className="booking-label">Start date & time</div>
+                <div className="booking-detail">{this.state.startDate.toString()}</div>
+                <br/>
+
+                <div className="booking-label">End date & time</div>
+                <div className="booking-detail">{this.state.endDate.toString()}</div>
+                <br/>
+
+                <div className="booking-label">Worker</div>
+                <div className="booking-detail">{this.state.worker.user.firstName}</div>
+                <br/><br/>
+
+                <div>
+                    <button type="submit" className="booking-btn proceed-btn">Confirm booking</button> 
                 </div>
             </form>
 

@@ -31,36 +31,30 @@ class SignUp extends Component {
       }
       if (this.state.password == ""){
         window.alert("Password field cannot be empty; please try again.");
-      }
-      else if (this.state.password == this.state.secpass) {
+      } else if (this.state.password == this.state.secpass) {
         if (this.state.firstName != "") {
           if (this.state.lastName != "") {
             if (this.state.username.length < 6) {
               window.alert("The size of the username should be at least 6 characters; please try again.");
-            }
-            else {
+            } else {
               if (this.state.username.length > 15) {
                 window.alert("The size of the username should be at most 15 characters; please try again.");
-              }
-              else {
+              } else {
                 try {
-                  const res = await axios.post("http://sept-backend.us-east-1.elasticbeanstalk.com/api/customer", newPerson);
+                  const res = await axios.post("http://localhost:8080/api/customer", newPerson);
                   this.props.history.push('/sign-in');
                 } catch (err) {
                   window.alert("Username already exists; please try again.");      
                 }
               }
             }
-          }
-          else{
+          } else{
             window.alert("Last name field cannot be empty; please try again.");
           }
-        }
-        else {
+        } else {
           window.alert("First name field cannot be empty; please try again.");
         }
-      } 
-      else {
+      } else {
         window.alert("The passwords do not match; please try again.");
       }
   }
@@ -74,38 +68,68 @@ class SignUp extends Component {
                 <h3 className="signup">Sign Up</h3>
 
                 <div className="form-group">
-                  <label className="name">First name</label>
-                  <input type="text" className="form-control form-input" placeholder="Enter first name" name="firstName"
-                  value= {this.state.firstName}
-                  onChange = {this.onChange} />
+                  <label>First name</label>
+                  <input 
+                    type="text" 
+                    className="form-control form-input" 
+                    placeholder="Enter first name" 
+                    name="firstName"
+                    spellCheck="false"
+                    required="true"
+                    value= {this.state.firstName}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="form-group">
-                  <label className="name">Last name</label>
-                  <input type="text" className="form-control form-input" placeholder="Enter last name" name="lastName"
-                  value= {this.state.lastName}
-                  onChange = {this.onChange} />
+                  <label>Last name</label>
+                  <input 
+                    type="text" 
+                    className="form-control form-input" 
+                    placeholder="Enter last name" 
+                    name="lastName"
+                    spellCheck="false"
+                    required="true"
+                    value= {this.state.lastName}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="form-group">
-                  <label className="username">Username</label>
-                  <input type="text" className="form-control form-input" placeholder="Enter username" name="username"
-                  value= {this.state.username}
-                  onChange = {this.onChange} />
+                  <label>Username</label>
+                  <input 
+                    type="text" 
+                    className="form-control form-input" 
+                    placeholder="Enter username" 
+                    name="username"
+                    spellCheck="false"
+                    required="true"
+                    value= {this.state.username}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="form-group">
-                  <label className="password">Password</label>
-                  <input type="password" className="form-control form-input" placeholder="Enter password" name="password"
-                  value= {this.state.password}
-                  onChange = {this.onChange} />
+                  <label>Password</label>
+                  <input 
+                    type="password" 
+                    className="form-control form-input" 
+                    placeholder="Enter password" 
+                    name="password"
+                    spellCheck="false"
+                    required="true"
+                    value= {this.state.password}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="form-group">
-                  <label className="pwd-confirm">Password confirmation</label>
-                  <input type="password" className="form-control form-input" placeholder="Enter password again" name="secpass"
-                  value= {this.state.secpass}
-                  onChange = {this.onChange} />
+                  <label>Password confirmation</label>
+                  <input 
+                    type="password" 
+                    className="form-control form-input" 
+                    placeholder="Enter password again" 
+                    name="secpass"
+                    spellCheck="false"
+                    required="true"
+                    value= {this.state.secpass}
+                    onChange = {this.onChange} />
                 </div>
 
                 <div className="submit-button">

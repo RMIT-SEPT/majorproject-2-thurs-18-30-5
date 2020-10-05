@@ -12,7 +12,7 @@ export default class BookingPage1 extends Component {
   constructor() {
     super();
 
-    axios.get("http://sept-backend.us-east-1.elasticbeanstalk.com/api/business/all")
+    axios.get("http://localhost:8080/api/business/all")
       .then(res => {
         const businesses = res.data;
         this.setState({ businesses });
@@ -26,15 +26,31 @@ export default class BookingPage1 extends Component {
             <CustomerHeader user={this.props.location.state} />
 
             <form className="service-form">
-                <h3 className="service-h3">Choose a service</h3>
-                <hr/>
-                <br/>
-                <br/>
-                {this.state.businesses.map(business => <div><div className="service-div"><Link to={{
-                  pathname: '/bookingPage2',
-                  state: {user: this.props.location.state.user,
-                          service: business}
-                }}><button className="service-btn" type="submit">{business.name}</button></Link></div><br/><br/></div>)}
+              <h3 className="service-h3">Choose a service</h3>
+              <hr/>
+
+              <div className="service-table-scroll">
+                <table className="table text-nowrap table-borderless service-table">
+                  <tbody>
+                    {
+                      this.state.businesses.map(business => 
+                      <tr>
+                        <div className="service-div">
+                          <Link to={{
+                            pathname: '/bookingPage2',
+                            state: {user: this.props.location.state.user,
+                                    service: business}
+                          }}>
+                            <button className="booking-btn service-btn" type="submit">{business.name}</button>
+                          </Link>
+                        <br/><br/>
+                        </div>
+                      </tr>)
+                    }
+                  </tbody>
+                </table>
+              </div>
+              <br/><br/>
             </form>
 
           </div>
