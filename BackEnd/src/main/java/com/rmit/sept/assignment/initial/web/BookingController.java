@@ -34,7 +34,7 @@ public class BookingController {
      * @return a Collection of Booking entities
      */
     @GetMapping("/all")
-    public ResponseEntity<Collection<Booking>> getBookings(@RequestParam(required = false)Booking.BookingStatus bookingStatus) {
+    public ResponseEntity<Collection<Booking>> getBookings(@RequestParam(required = false) Booking.BookingStatus bookingStatus) {
         if (bookingStatus == null)
             return new ResponseEntity<>(bookingService.findAll(), HttpStatus.OK);
         else
