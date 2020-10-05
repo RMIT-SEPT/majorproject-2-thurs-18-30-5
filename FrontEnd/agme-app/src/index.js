@@ -24,6 +24,9 @@ import UpcomingBooking from './components/Admin/UpcomingBooking';
 import PastBooking from './components/Admin/PastBooking';
 import WorkerPage from './components/Admin/WorkerPage';
 
+import WorkerDashboard from './components/Worker/WorkerDashboard';
+import WorkerProfile from './components/Worker/WorkerProfile';
+
 ReactDOM.render(
   <BrowserRouter>
        <Switch>
@@ -45,6 +48,9 @@ ReactDOM.render(
         <Route path="/upcoming-booking" component={UpcomingBooking} />
         <Route path="/past-booking" component={PastBooking} />
         <Route path="/worker-page" component={WorkerPage} />
+
+        <Route path="/worker-dashboard" component={WorkerDashboard} />
+        <Route path="/worker-profile" component={WorkerProfile} />
         
       </Switch>
   </BrowserRouter>,
