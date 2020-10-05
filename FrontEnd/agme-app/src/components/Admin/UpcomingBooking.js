@@ -35,23 +35,25 @@ export default class UpcomingBooking extends Component {
                 <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
                   <thead className="book-summary-title">
                     <tr>
-                      <th scope="col" width="15%" className="book-header left-title">Start Time</th>
-                      <th scope="col" width="20%" className="book-header mid-title">End Time</th>
-                      <th scope="col" width="25%" className="book-header mid-title">Service</th>
-                      <th scope="col" width="20%" className="book-header mid-title">Worker</th>
-                      <th scope="col" width="20%" className="book-header right-title">Customer</th>
+                      <th scope="col" width="16%" className="book-header left-title">Start Time</th>
+                      <th scope="col" width="17%" className="book-header mid-title">End Time</th>
+                      <th scope="col" width="18%" className="book-header mid-title">Service</th>
+                      <th scope="col" width="17%" className="book-header mid-title">Worker</th>
+                      <th scope="col" width="17%" className="book-header mid-title">Customer</th>
+                      <th scope="col" width="15%" className="book-header right-title">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
                       this.state.bookings.map(booking =>
-                        booking.status == "PENDING" &&
+                        (booking.status == "PENDING" || booking.status == "CONFIRMED") &&
                         <tr>
                           <th scope="row">{booking.start}</th>
                           <td>{booking.end}</td>
                           <td>{this.props.location.state.user.business.name}</td>
                           <td>{booking.worker.user.firstName}</td>
                           <td>{booking.user.firstName}</td>
+                          <td>{booking.status}</td>
                         </tr>
                       )
                     }

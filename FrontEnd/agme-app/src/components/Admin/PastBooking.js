@@ -46,7 +46,7 @@ export default class PastBooking extends Component {
                   <tbody>
                     {
                       this.state.bookings.map(booking =>
-                        booking.status != "PENDING" &&
+                        (booking.status == "COMPLETED" || booking.status == "CANCELLED") &&
                         <tr>
                           <th scope="row">{booking.start}</th>
                           <td>{booking.end}</td>
