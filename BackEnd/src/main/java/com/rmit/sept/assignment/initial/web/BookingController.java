@@ -34,8 +34,11 @@ public class BookingController {
      * @return a Collection of Booking entities
      */
     @GetMapping("/all")
-    public ResponseEntity<Collection<Booking>> getBookings() {
-        return new ResponseEntity<>(bookingService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Collection<Booking>> getBookings(@RequestParam(required = false)Booking.BookingStatus bookingStatus) {
+        if (bookingStatus == null)
+            return new ResponseEntity<>(bookingService.findAll(), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(bookingService.findAll(bookingStatus), HttpStatus.OK);
     }
 
     /**
@@ -56,8 +59,13 @@ public class BookingController {
      * @return Collection of Bookings made for that Worker
      */
     @GetMapping("/all/worker/{id}")
-    public ResponseEntity<Collection<Booking>> getBookingsByWorker(@PathVariable Long id) {
-        Collection<Booking> bookings = bookingService.findByWorker(id);
+    public ResponseEntity<Collection<Booking>> getBookingsByWorker(@PathVariable Long id,
+                                                                   @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
+        Collection<Booking> bookings;
+        if (bookingStatus == null)
+            bookings = bookingService.findByWorker(id);
+        else
+            bookings = bookingService.findByWorker(id, bookingStatus);
         HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(bookings, status);
     }
@@ -68,8 +76,13 @@ public class BookingController {
      * @return Collection of Bookings for the Business
      */
     @GetMapping("/all/business/{id}")
-    public ResponseEntity<Collection<Booking>> getBookingsByBusiness(@PathVariable Long id) {
-        Collection<Booking> bookings = bookingService.findByBusiness(id);
+    public ResponseEntity<Collection<Booking>> getBookingsByBusiness(@PathVariable Long id,
+                                                                     @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
+        Collection<Booking> bookings;
+        if (bookingStatus == null)
+            bookings = bookingService.findByBusiness(id);
+        else
+            bookings = bookingService.findByBusiness(id, bookingStatus);
         HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(bookings, status);
     }
