@@ -22,6 +22,7 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
     List<Booking> findAllByWorker_Id(Long workerId);
     List<Booking> findAllByWorker_IdAndStatus(Long workerId, Booking.BookingStatus status);
     List<Booking> findAllByWorker_Business_Id(Long businessId);
+    List<Booking> findAllByWorker_Business_IdAndStatus(Long businessId, Booking.BookingStatus status);
     List<Booking> findAllByStartAfter(Date date);
     List<Booking> findAllByStatus(Booking.BookingStatus status);
     List<Booking> findAllByWorker_IdAndStatusOrStatus (Long workerId, Booking.BookingStatus status1, Booking.BookingStatus status2);

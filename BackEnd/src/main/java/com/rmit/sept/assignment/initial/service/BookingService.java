@@ -83,6 +83,15 @@ public class BookingService {
     }
 
     /**
+     * Overloaded method to optionally filter all bookings by status
+     * @param status status to filter
+     * @return Collection of Bookings with that status
+     */
+    public Collection<Booking> findAll(Booking.BookingStatus status) {
+        return bookingRepository.findAllByStatus(status);
+    }
+
+    /**
      * Return a Booking based on booking id
      * @param bookingId Booking id value
      * @return Booking object if found, otherwise null
@@ -158,6 +167,16 @@ public class BookingService {
      */
     public Collection<Booking> findByBusiness(@NotNull Long businessId) {
         return bookingRepository.findAllByWorker_Business_Id(businessId);
+    }
+
+    /**
+     * Overloaded method to filter Bookings for a Business by status
+     * @param businessId id of business to search for
+     * @param status status to filter by
+     * @return Collection of Bookings for business with that status value
+     */
+    public Collection<Booking> findByBusiness(@NotNull Long businessId, @NotNull Booking.BookingStatus status) {
+        return bookingRepository.findAllByWorker_Business_IdAndStatus(businessId, status);
     }
 
 
