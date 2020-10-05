@@ -87,6 +87,8 @@ export default class BookingPage2 extends Component {
                       selected={this.state.startDate}
                       onSelect={this.handleStartSelect}
                       onChange={this.handleStartChange}
+                      minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+                      maxDate={new Date(new Date().setDate(new Date().getDate() + 7))}
                       showTimeSelect
                       dateFormat="Pp"/>
                 </div>
@@ -99,6 +101,8 @@ export default class BookingPage2 extends Component {
                       selected={this.state.endDate}
                       onSelect={this.handleEndSelect}
                       onChange={this.handleEndChange}
+                      minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+                      maxDate={new Date(new Date().setDate(new Date().getDate() + 7))}
                       showTimeSelect
                       dateFormat="Pp"/>
                 </div>

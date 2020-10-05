@@ -3,12 +3,30 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom"
 import AdminHeader from '../Layout/AdminHeader'
 import Footer from '../Layout/Footer'
 import './BookingSummary.css'
+import axios from "axios";
 
 export default class UpcomingBooking extends Component {
+  state = {
+    bookings: []
+  };
+  constructor(props) {
+    super(props);
+
+    try {
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id)
+        .then(res => {
+          const bookings = res.data;
+          this.setState({bookings: bookings});
+          this.state.bookings = bookings;
+        })
+    } catch (err) {
+
+    }
+  }
   render() {
     return (
       <div>
-        <AdminHeader/>
+        <AdminHeader user={this.props.location.state} />
           <div className="admin-img">
             <div className="container book-summary-page">
               <div className="book-title">Upcoming Bookings</div>
@@ -17,99 +35,26 @@ export default class UpcomingBooking extends Component {
                 <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
                   <thead className="book-summary-title">
                     <tr>
-                      <th scope="col" width="15%" className="book-header left-title">Date</th>
-                      <th scope="col" width="20%" className="book-header mid-title">Time</th>
+                      <th scope="col" width="15%" className="book-header left-title">Start Time</th>
+                      <th scope="col" width="20%" className="book-header mid-title">End Time</th>
                       <th scope="col" width="25%" className="book-header mid-title">Service</th>
                       <th scope="col" width="20%" className="book-header mid-title">Worker</th>
                       <th scope="col" width="20%" className="book-header right-title">Customer</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">14 Oct 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td>John</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 Oct 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td>Alex</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 Oct 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td>Lisa</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">14 Oct 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td>John</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 Oct 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td>Alex</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 Oct 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td>Lisa</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">14 Oct 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td>John</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 Oct 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td>Alex</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 Oct 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td>Lisa</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">14 Oct 2020</th>
-                      <td>4pm - 6pm</td>
-                      <td>Gym</td>
-                      <td>Mark</td>
-                      <td>John</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">18 Oct 2020</th>
-                      <td>1pm - 2pm</td>
-                      <td>Hairdressing</td>
-                      <td>Sarah</td>
-                      <td>Alex</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">22 Oct 2020</th>
-                      <td>10am - 11am</td>
-                      <td>Dentist</td>
-                      <td>Peter</td>
-                      <td>Lisa</td>
-                    </tr>
-                    
+                    {
+                      this.state.bookings.map(booking =>
+                        booking.status == "PENDING" &&
+                        <tr>
+                          <th scope="row">{booking.start}</th>
+                          <td>{booking.end}</td>
+                          <td>{this.props.location.state.user.business.name}</td>
+                          <td>{booking.worker.user.firstName}</td>
+                          <td>{booking.user.firstName}</td>
+                        </tr>
+                      )
+                    }
                   </tbody>
                 </table>
               </div>
