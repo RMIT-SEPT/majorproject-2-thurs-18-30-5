@@ -56,9 +56,9 @@ public class BookingService {
                 this.findByUser(userId, Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED));
         List<Booking> workerBookings = new ArrayList<>(
                 this.findByWorker(workerId, Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED));
-        Date start = booking.getStart();
-        Date end = booking.getEnd();
-        if (start == null || end == null || !end.after(start)) {
+        LocalDateTime start = booking.getStart();
+        LocalDateTime end = booking.getEnd();
+        if (start == null || end == null || !end.isAfter(start)) {
             return null;  // validate that the end and start values are logically correct
         } else {
             if (create) {  // append new booking and check for an overlap
