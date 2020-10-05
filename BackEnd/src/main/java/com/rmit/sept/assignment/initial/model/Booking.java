@@ -20,6 +20,7 @@ import java.util.Objects;
 public class Booking {
     public enum BookingStatus {
         PENDING,
+        CONFIRMED,
         COMPLETED,
         CANCELLED
     }
