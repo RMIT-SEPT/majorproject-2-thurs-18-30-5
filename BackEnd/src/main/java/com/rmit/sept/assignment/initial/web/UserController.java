@@ -1,14 +1,22 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.User;
+import com.rmit.sept.assignment.initial.security.JwtAuthUtils;
+import com.rmit.sept.assignment.initial.security.JwtResponse;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sun.plugin.liveconnect.SecurityContextHelper;
+
 import java.util.Collection;
 
 /**
@@ -23,6 +31,12 @@ public class UserController {
 
     @Autowired
     private FieldValidationService validationService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtAuthUtils jwtAuthUtils;
 
     /**
      * Returns a list of users
@@ -52,12 +66,19 @@ public class UserController {
      * @param password: password of user
      * @return User object of authentication was successful
      */
-    @GetMapping("/auth/{username}")
+    @PostMapping("/auth/{username}")
     public ResponseEntity<?> authenticateUser(@PathVariable String username, @RequestParam String password) {
         if (username != null && password != null) {
-            User user = userService.authenticateUser(username, password);
-            HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-            return new ResponseEntity<>(user, status);
+//            User user = userService.authenticateUser(username, password);
+//            HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password));
+            System.err.println(authentication.toString());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtAuthUtils.generateJwtToken(authentication);
+
+            User userDetails = (User) authentication.getPrincipal();
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername()));
         } else {
             return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
