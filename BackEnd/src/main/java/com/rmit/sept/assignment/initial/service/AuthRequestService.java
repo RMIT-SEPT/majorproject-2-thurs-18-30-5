@@ -25,49 +25,63 @@ public class AuthRequestService {
     private JwtAuthUtils jwtAuthUtils;
 
     public boolean authUserRequest(String token, User user) {
-        String username = usernameFromToken(token);
-        if (username == null || user == null || user.getUsername() == null)
+        try {
+            String username = usernameFromToken(token);
+            String userUsername = user.getUsername();
+            if (userUsername == null) {
+                Long userId = user.getId();
+                userUsername = userService.findById(userId).getUsername();
+            }
+            return username.compareTo(userUsername) == 0;
+        } catch (NullPointerException e) {
             return false;
-        return username.compareTo(user.getUsername()) == 0;
+        }
     }
 
     public boolean authWorkerRequest(String token, Worker worker) {
+        if (worker == null) return false;
         String username = usernameFromToken(token);
-        if (worker == null)
+        return (sameWorker(username, worker) || sameBusiness(username, worker));
+    }
+
+    private boolean sameWorker(String username, Worker worker) {
+        try {
+            Long workerId = worker.getId();
+            User user = userService.findById(workerId);
+            return (username.compareTo(user.getUsername()) == 0);
+        } catch (NullPointerException e) {
             return false;
-        Long workerId = worker.getId();
-        if (workerId == null)
-            return false;
-        User user = userService.findById(workerId);
-        if (user == null)
-            return false;
-        if (username.compareTo(user.getUsername()) == 0) {
-            return true;
-        } else {
-            Business business = worker.getBusiness();
-            if (business == null || business.getId() == null)
-                return false;
-            Worker temp = workerService.findByUsername(username);
-            if (temp != null) {
-                return temp.getBusiness().getId().equals(worker.getBusiness().getId());
-            }
         }
-        return false;
     }
 
-    public boolean authBusinessRequest(String token, Worker worker) {
-        String username = usernameFromToken(token);
-        return false;
+    private boolean sameBusiness(String username, Worker worker) {
+        try {
+            Business business = worker.getBusiness();
+            Worker temp = workerService.findByUsername(username);
+            return temp.getBusiness().getId().equals(business.getId());
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
-    public boolean authHoursRequest(String token, Worker worker) {
+    public boolean authCreateBusinessRequest(String token) {
         String username = usernameFromToken(token);
-        return false;
+        Worker worker = workerService.findByUsername(username);
+        if (worker == null) return false;
+        return worker.getAdmin();
+    }
+
+    public boolean authUpdateBusinessRequest(String token, Long businessId) {
+        String username = usernameFromToken(token);
+        Worker worker = workerService.findByUsername(username);
+        if (worker == null || !worker.getAdmin()) return false;
+        Business business = worker.getBusiness();
+        if (business == null) return false;
+        return (business.getId().equals(businessId));
     }
 
     public boolean authBookingRequest(String token, User user, Worker worker) {
-        String username = usernameFromToken(token);
-        return false;
+        return (authUserRequest(token, user) || authWorkerRequest(token, worker));
     }
 
     public JwtResponse getJwtResponse(String username, String password) {

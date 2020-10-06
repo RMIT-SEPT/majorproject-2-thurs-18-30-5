@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Booking;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.BookingService;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
+import static com.rmit.sept.assignment.initial.security.SecurityConstant.*;
+
 /**
  * Booking Controller class allows access to update retrieve and create Booking objects. Bookings are made between User
  * entities and Workers.
@@ -23,6 +26,9 @@ import java.util.Collection;
 public class BookingController {
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private AuthRequestService authService;
 
     @Autowired
     private FieldValidationService validationService;
@@ -112,16 +118,19 @@ public class BookingController {
      * @return newly created Booking if successful, otherwise null
      */
     @PostMapping("")
-    public ResponseEntity<?> createBooking(@Validated @RequestBody Booking booking, BindingResult result) {
+    public ResponseEntity<?> createBooking(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                           @Validated @RequestBody Booking booking,
+                                           BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            Booking booking1 = bookingService.saveOrUpdateBooking(booking, true);
-            HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-            return new ResponseEntity<Booking>(booking1, status);
-        } else {
-            return errors;
+            if (authService.authBookingRequest(token, booking.getUser(), booking.getWorker())) {
+                Booking booking1 = bookingService.saveOrUpdateBooking(booking, true);
+                HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+                return new ResponseEntity<Booking>(booking1, status);
+            }
+            return new ResponseEntity<String>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
         }
-
+        return errors;
     }
 
     /**
@@ -132,18 +141,23 @@ public class BookingController {
      * @return Booking created if the process was successful, or null otherwise
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBooking(@Validated @RequestBody Booking booking, @PathVariable Long id, BindingResult result) {
+    public ResponseEntity<?> updateBooking(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                           @Validated @RequestBody Booking booking,
+                                           @PathVariable Long id, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            if (bookingService.findById(id) != null) {
-                booking.setId(id);  // TODO: why is this required? postman sending id as field is ignored somehow
-                Booking booking1 = bookingService.saveOrUpdateBooking(booking, false);
-                HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.OK;
-                return new ResponseEntity<Booking>(booking1, status);
+            Booking temp = bookingService.findById(id);
+            if (temp != null) {
+                if (authService.authBookingRequest(token, temp.getUser(), temp.getWorker())) {
+                    booking.setId(id);
+                    Booking booking1 = bookingService.saveOrUpdateBooking(booking, false);
+                    HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.OK;
+                    return new ResponseEntity<Booking>(booking1, status);
+                }
+                return new ResponseEntity<String>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
             }
-            return new ResponseEntity<>("Invalid Booking ID", HttpStatus.NOT_FOUND);
-        } else {
-            return errors;
+            return new ResponseEntity<String>("Invalid Booking ID", HttpStatus.NOT_FOUND);
         }
+        return errors;
     }
 }

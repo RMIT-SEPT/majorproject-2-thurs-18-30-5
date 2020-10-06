@@ -77,9 +77,8 @@ public class UserController {
             JwtResponse response = authService.getJwtResponse(username, password);
             HttpStatus status = response != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
             return new ResponseEntity<>(response, status);
-        } else {
-            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -95,9 +94,8 @@ public class UserController {
             User user1 = userService.saveOrUpdateUser(user, true);
             HttpStatus status = (user1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
             return new ResponseEntity<User>(user1, status);
-        } else {
-            return errors;
         }
+        return errors;
     }
 
     /**
@@ -116,8 +114,7 @@ public class UserController {
                 return new ResponseEntity<User>(user1, status);
             }
             return new ResponseEntity<>("Invalid User Credentials", HttpStatus.NOT_FOUND);
-        } else {
-            return errors;
         }
+        return errors;
     }
 }

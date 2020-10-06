@@ -170,18 +170,17 @@ public class WorkerController {
                                           BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {  // no invalid fields/entity errors
-            if (authService.authWorkerRequest(token, worker)) {
-                if (workerService.findById(worker.getId()) != null) {
+            Worker temp = workerService.findById(worker.getId());
+            if (temp != null) {
+                if (authService.authWorkerRequest(token, worker)) {
                     Worker worker1 = workerService.saveOrUpdateWorker(worker);
                     HttpStatus status = (worker1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
                     return new ResponseEntity<Worker>(worker1, status);
                 }
-                return new ResponseEntity<>("Invalid Worker ID", HttpStatus.NOT_FOUND);
-            } else {
                 return new ResponseEntity<>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
             }
-        } else {
-            return errors;
+            return new ResponseEntity<>("Invalid Worker ID", HttpStatus.NOT_FOUND);
         }
+        return errors;
     }
 }
