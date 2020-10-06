@@ -86,6 +86,7 @@ export default class WorkerJobs extends Component {
               <div className="welcome-msg">Pending Jobs</div>
               
               {
+                this.state.pendingBookings.length > 0 &&
                 <div className="pending-jobs-scroll">
                   <table className="table table-editable text-nowrap table-borderless table-hover booking-table job-table">
                     <thead className="book-summary-title">
@@ -117,6 +118,12 @@ export default class WorkerJobs extends Component {
                       }
                     </tbody>
                   </table>
+                </div>
+              }
+              {
+                this.state.pendingBookings.length == 0 &&
+                <div className="card no-pending-card">
+                  <div className="no-booking-msg">No pending jobs at the moment.</div>
                 </div>
               }
             </div>

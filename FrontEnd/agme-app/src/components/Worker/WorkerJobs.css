@@ -49,3 +49,16 @@
 .decline-job:hover {
   background: #ff9090;
 }
+
+.no-pending-card {
+  position: absolute;
+  top: 80px;
+  width: 1121px;
+  height: 490px;
+
+  border-radius: 30px 30px 30px 30px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.05);
+  transition: 0.3s;
+  background-color: #ffffff11;
+  border-color: transparent;
+}
