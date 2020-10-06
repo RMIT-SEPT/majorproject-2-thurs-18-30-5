@@ -1,0 +1,51 @@
+.pending-jobs-scroll {
+  overflow-x: hidden; 
+  overflow-y: auto;
+
+  position: absolute;
+  height: 490px;
+  top: 80px;
+}
+
+.job-table {
+  line-height: 26px;
+}
+
+.job-action {
+  text-transform: uppercase;
+  border-radius: 50px;
+  display: inline-block;
+  border: none;
+  transition: all 0.2s ease 0s;
+  height: 30px;
+  width: 110px;
+
+  font-weight: 500;
+  font-size: 12px;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.job-action:hover {
+  color: #ffffffc7;
+  text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease 0s;
+}
+
+.accept-job {
+  color: #2a9b34;
+  background: #8ae2bd;
+}
+
+.accept-job:hover {
+  background: #4dd19a;
+}
+
+.decline-job {
+  color: #ce4f4f;
+  background: #ffafaf;
+}
+
+.decline-job:hover {
+  background: #ff9090;
+}
