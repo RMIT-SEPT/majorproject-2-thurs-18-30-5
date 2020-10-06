@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Link } from "react-router-dom"
 import WorkerHeader from '../Layout/WorkerHeader'
 import Footer from '../Layout/Footer'
-import './WorkerProfile.css'
 import axios from "axios";
 
 export default class WorkerProfile extends Component {

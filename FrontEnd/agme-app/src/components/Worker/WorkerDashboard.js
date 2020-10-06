@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import WorkerHeader from '../Layout/WorkerHeader';
 import Footer from '../Layout/Footer';
-import './WorkerDashboard.css';
 import axios from "axios";
 
 export default class WorkerDashboard extends Component {
@@ -44,9 +43,9 @@ export default class WorkerDashboard extends Component {
             <div className="container customer-title">
               <div className="welcome-msg">G'day, {this.props.location.state.user.user.firstName}!</div>
               <Link className="btn book-btn" to={{
-                pathname: '/bookingPage1',
+                pathname: '/worker-jobs',
                 state: this.props.location.state
-              }}>Pending jobs</Link>
+              }}>Pending Jobs</Link>
               
               <div className="booking-title upcoming-title">Upcoming bookings</div>
               {
@@ -58,8 +57,7 @@ export default class WorkerDashboard extends Component {
                         <th scope="col" width="5%" className="book-header left-title"></th>
                         <th scope="col" width="17%" className="book-header mid-title">Start time</th>
                         <th scope="col" width="17%" className="book-header mid-title">End time</th>
-                        <th scope="col" width="19%" className="book-header mid-title">Service</th>
-                        <th scope="col" width="19%" className="book-header mid-title">Worker</th>
+                        <th scope="col" width="19%" className="book-header mid-title">Customer</th>
                         <th scope="col" width="19%" className="book-header mid-title">Status</th>
                         <th scope="col" width="5%" className="book-header right-title"></th>
                       </tr>
