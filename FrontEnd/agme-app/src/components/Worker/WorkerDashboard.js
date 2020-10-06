@@ -54,12 +54,13 @@ export default class WorkerDashboard extends Component {
                   <table className="table table-editable text-nowrap table-borderless table-hover booking-table">
                     <thead className="book-summary-title">
                       <tr>
-                        <th scope="col" width="5%" className="book-header left-title"></th>
-                        <th scope="col" width="17%" className="book-header mid-title">Start time</th>
-                        <th scope="col" width="17%" className="book-header mid-title">End time</th>
-                        <th scope="col" width="19%" className="book-header mid-title">Customer</th>
-                        <th scope="col" width="19%" className="book-header mid-title">Status</th>
-                        <th scope="col" width="5%" className="book-header right-title"></th>
+                      <th scope="col" width="5%" className="book-header left-title"></th>
+                      <th scope="col" width="17%" className="book-header mid-title">Start time</th>
+                      <th scope="col" width="17%" className="book-header mid-title">End time</th>
+                      <th scope="col" width="19%" className="book-header mid-title">Service</th>
+                      <th scope="col" width="19%" className="book-header mid-title">Customer</th>
+                      <th scope="col" width="19%" className="book-header mid-title">Status</th>
+                      <th scope="col" width="5%" className="book-header right-title"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -70,11 +71,8 @@ export default class WorkerDashboard extends Component {
                             <td>{booking.start}</td>
                             <td>{booking.end}</td>
                             <td>{booking.worker.business.name}</td>
-                            <td>{booking.worker.user.firstName}</td>
+                            <td>{booking.user.firstName}</td>
                             <td>{booking.status}</td>
-                            <td className="table-remove text-center">
-                              <button type="button" className="close" onClick={() => this.handleClick(booking)}>&times;</button>
-                            </td>
                           </tr>
                         )
                       }
@@ -100,7 +98,7 @@ export default class WorkerDashboard extends Component {
                       <th scope="col" width="17%" className="book-header mid-title">Start time</th>
                       <th scope="col" width="17%" className="book-header mid-title">End time</th>
                       <th scope="col" width="19%" className="book-header mid-title">Service</th>
-                      <th scope="col" width="19%" className="book-header mid-title">Worker</th>
+                      <th scope="col" width="19%" className="book-header mid-title">Customer</th>
                       <th scope="col" width="19%" className="book-header mid-title">Status</th>
                       <th scope="col" width="5%" className="book-header right-title"></th>
                       </tr>
@@ -113,7 +111,7 @@ export default class WorkerDashboard extends Component {
                             <td>{booking.start}</td>
                             <td>{booking.end}</td>
                             <td>{booking.worker.business.name}</td>
-                            <td>{booking.worker.user.firstName}</td>
+                            <td>{booking.user.firstName}</td>
                             <td>{booking.status}</td>
                           </tr>
                         )
