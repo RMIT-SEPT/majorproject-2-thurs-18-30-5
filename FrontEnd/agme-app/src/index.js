@@ -26,6 +26,7 @@ import WorkerPage from './components/Admin/WorkerPage';
 
 import WorkerDashboard from './components/Worker/WorkerDashboard';
 import WorkerProfile from './components/Worker/WorkerProfile';
+import WorkerJobs from './components/Worker/WorkerJobs';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -51,6 +52,7 @@ ReactDOM.render(
 
         <Route path="/worker-dashboard" component={WorkerDashboard} />
         <Route path="/worker-profile" component={WorkerProfile} />
+        <Route path="/worker-jobs" component={WorkerJobs} />
         
       </Switch>
   </BrowserRouter>,
