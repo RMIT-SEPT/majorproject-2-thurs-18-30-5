@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.rmit.sept.assignment.initial.security.SecurityConstant.*;
+
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     JwtAuthUtils jwtUtils;
@@ -45,10 +47,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
+        String headerAuth = request.getHeader(HEADER_NAME);
 
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7, headerAuth.length());
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(TOKEN_PREFIX)) {
+            return headerAuth.substring(TOKEN_PREFIX.length(), headerAuth.length());
         }
 
         return null;

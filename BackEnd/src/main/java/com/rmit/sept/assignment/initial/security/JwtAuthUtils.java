@@ -4,9 +4,9 @@ import com.rmit.sept.assignment.initial.model.User;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
@@ -22,6 +22,15 @@ public class JwtAuthUtils {
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, KEY)
+                .compact();
+    }
+
+    public String generateJwtToken(String username) {
+        return Jwts.builder()
+                .setSubject((username))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, KEY)
@@ -49,5 +58,13 @@ public class JwtAuthUtils {
         }
 
         return false;
+    }
+
+    public String parseJwt(String token) {
+        if (StringUtils.hasText(HEADER_NAME) && token.startsWith(TOKEN_PREFIX)) {
+            return token.substring(TOKEN_PREFIX.length(), token.length());
+        } else {
+            return null;
+        }
     }
 }

@@ -3,19 +3,15 @@ package com.rmit.sept.assignment.initial.web;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.security.JwtAuthUtils;
 import com.rmit.sept.assignment.initial.security.JwtResponse;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import sun.plugin.liveconnect.SecurityContextHelper;
 
 import java.util.Collection;
 
@@ -33,7 +29,7 @@ public class UserController {
     private FieldValidationService validationService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthRequestService authService;
 
     @Autowired
     private JwtAuthUtils jwtAuthUtils;
@@ -53,10 +49,19 @@ public class UserController {
      * @return User object with HttpStatus.OK, or null and HttpStatus.NOT_FOUND if not found
      */
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        User user = userService.findById(id);
-        // if the service return null this means no user was found
-        HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+    public ResponseEntity<User> getUser(@PathVariable Long id,
+                                        @RequestHeader(value = "Authorization", required = false) String token) {
+        HttpStatus status;
+        User user = userService.findById(id);  // if the service returns null this means no user was found
+//        if (authService.authUserRequest(token, user)) {
+//            status = HttpStatus.OK;
+//        } else if (user == null) {
+//            status = HttpStatus.NOT_FOUND;
+//        } else {
+//            status = HttpStatus.UNAUTHORIZED;
+//            user = null;
+//        }
+        status = user == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
         return new ResponseEntity<>(user, status);
     }
 
@@ -66,19 +71,12 @@ public class UserController {
      * @param password: password of user
      * @return User object of authentication was successful
      */
-    @PostMapping("/auth/{username}")
+    @GetMapping("/auth/{username}")
     public ResponseEntity<?> authenticateUser(@PathVariable String username, @RequestParam String password) {
         if (username != null && password != null) {
-//            User user = userService.authenticateUser(username, password);
-//            HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password));
-            System.err.println(authentication.toString());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtAuthUtils.generateJwtToken(authentication);
-
-            User userDetails = (User) authentication.getPrincipal();
-            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername()));
+            JwtResponse response = authService.getJwtResponse(username, password);
+            HttpStatus status = response != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(response, status);
         } else {
             return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
