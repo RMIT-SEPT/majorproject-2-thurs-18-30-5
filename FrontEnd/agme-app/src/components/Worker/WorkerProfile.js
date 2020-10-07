@@ -31,6 +31,18 @@ export default class WorkerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
+                  <label htmlFor="inputbizname" className="col-sm-2 col-form-label">Business</label>
+                  <div className="col-sm-10">
+                    <input 
+                      type="text" 
+                      className="form-control field-input" 
+                      id="inputbizname" 
+                      value={this.props.location.state.user.user.username} 
+                      readOnly />
+                  </div>
+                </div>
+
+                <div className="form-group row field-row">
                   <label htmlFor="inputfname" className="col-sm-2 col-form-label">First name</label>
                   <div className="col-sm-10">
                     <input 

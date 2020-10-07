@@ -47,19 +47,19 @@ export default class WorkerDashboard extends Component {
                 state: this.props.location.state
               }}>Pending Jobs</Link>
               
-              <div className="booking-title upcoming-title">Upcoming bookings</div>
+              <div className="booking-title upcoming-title">Confirmed bookings</div>
               {
                 this.state.confirmedBookings.length > 0 &&
                 <div className="cus-up-book-scroll">
-                  <table className="table table-editable text-nowrap table-borderless table-hover booking-table">
+                  <table className="table table-editable text-nowrap table-borderless table-hover booking-table job-table">
                     <thead className="book-summary-title">
                       <tr>
                       <th scope="col" width="5%" className="book-header left-title"></th>
-                      <th scope="col" width="17%" className="book-header mid-title">Start time</th>
-                      <th scope="col" width="17%" className="book-header mid-title">End time</th>
-                      <th scope="col" width="19%" className="book-header mid-title">Service</th>
-                      <th scope="col" width="19%" className="book-header mid-title">Customer</th>
+                      <th scope="col" width="18%" className="book-header mid-title">Start time</th>
+                      <th scope="col" width="18%" className="book-header mid-title">End time</th>
+                      <th scope="col" width="20%" className="book-header mid-title">Customer</th>
                       <th scope="col" width="19%" className="book-header mid-title">Status</th>
+                      <th scope="col" width="15%" className="book-header mid-title"></th>
                       <th scope="col" width="5%" className="book-header right-title"></th>
                       </tr>
                     </thead>
@@ -70,9 +70,12 @@ export default class WorkerDashboard extends Component {
                             <td></td>
                             <td>{booking.start}</td>
                             <td>{booking.end}</td>
-                            <td>{booking.worker.business.name}</td>
                             <td>{booking.user.firstName}</td>
                             <td>{booking.status}</td>
+                            <td>
+                              <button type="button" className="btn job-action accept-job">complete</button>
+                            </td>
+                            <td></td>
                           </tr>
                         )
                       }
@@ -83,7 +86,7 @@ export default class WorkerDashboard extends Component {
               {
                 this.state.confirmedBookings.length == 0 &&
                 <div className="card no-booking-card upcoming-card">
-                  <div className="no-booking-msg">No upcoming bookings at the moment.</div>
+                  <div className="no-booking-msg">No confirmed bookings at the moment.</div>
                 </div>
               }
               
@@ -95,11 +98,11 @@ export default class WorkerDashboard extends Component {
                   <thead className="book-summary-title">
                       <tr>
                       <th scope="col" width="5%" className="book-header left-title"></th>
-                      <th scope="col" width="17%" className="book-header mid-title">Start time</th>
-                      <th scope="col" width="17%" className="book-header mid-title">End time</th>
-                      <th scope="col" width="19%" className="book-header mid-title">Service</th>
-                      <th scope="col" width="19%" className="book-header mid-title">Customer</th>
+                      <th scope="col" width="18%" className="book-header mid-title">Start time</th>
+                      <th scope="col" width="18%" className="book-header mid-title">End time</th>
+                      <th scope="col" width="20%" className="book-header mid-title">Customer</th>
                       <th scope="col" width="19%" className="book-header mid-title">Status</th>
+                      <th scope="col" width="15%" className="book-header mid-title"></th>
                       <th scope="col" width="5%" className="book-header right-title"></th>
                       </tr>
                     </thead>
@@ -110,9 +113,10 @@ export default class WorkerDashboard extends Component {
                             <td></td>
                             <td>{booking.start}</td>
                             <td>{booking.end}</td>
-                            <td>{booking.worker.business.name}</td>
                             <td>{booking.user.firstName}</td>
                             <td>{booking.status}</td>
+                            <td></td>
+                            <td></td>
                           </tr>
                         )
                       }

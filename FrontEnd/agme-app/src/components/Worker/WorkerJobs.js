@@ -53,7 +53,7 @@ export default class WorkerJobs extends Component {
   }
 
   onClick2 = async booking => {
-    if (window.confirm("Are you sure you want to reject the booking?")) {
+    if (window.confirm("Are you sure you want to decline the booking?")) {
       // Set the booking status to cancelled
       var changedBooking = {
         id: booking.id,
