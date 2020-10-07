@@ -126,6 +126,7 @@ export default class CustomerDashboard extends Component {
                             <td>{booking.end}</td>
                             <td>{booking.worker.business.name}</td>
                             <td>{booking.worker.user.firstName}</td>
+                            <td>{booking.status}</td>
                             <td className="table-remove text-center">
                               <button type="button" className="close" onClick={() => this.handleClick(booking)}>&times;</button>
                             </td>
