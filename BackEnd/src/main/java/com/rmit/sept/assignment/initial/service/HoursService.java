@@ -134,8 +134,8 @@ public class HoursService {
         Hours hours = findById(worker, date.getDayOfWeek());
         if (hours != null) {
             List<Booking> bookings = worker.getBookings().stream()
-                    .filter(b -> b.getStatus() == Booking.BookingStatus.PENDING)
-                    .filter(b -> b.getStart().getDayOfWeek() == date.getDayOfWeek())
+                    .filter(b -> b.getStatus() == Booking.BookingStatus.PENDING || b.getStatus() == Booking.BookingStatus.CONFIRMED)
+                    .filter(b -> b.getStart().toLocalDate().compareTo(date) == 0)
                     .sorted(Comparator.comparing(Booking::getStart)).collect(Collectors.toList());
             List<Hours> availableHours = new ArrayList<>();
             if (bookings.size() > 0) {
