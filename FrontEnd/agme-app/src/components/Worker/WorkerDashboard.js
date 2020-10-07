@@ -98,7 +98,7 @@ export default class WorkerDashboard extends Component {
                             <td>{booking.start}</td>
                             <td>{booking.end}</td>
                             <td>{booking.user.firstName}</td>
-                            <td>{booking.status}</td>
+                            <td className="booking-status">{booking.status}</td>
                             <td>
                               <button type="button" className="btn job-action accept-job" onClick={() => this.onClick(booking)}>complete</button>
                             </td>
@@ -117,7 +117,7 @@ export default class WorkerDashboard extends Component {
                 </div>
               }
               
-              <div className="booking-title past-title">Past bookings</div>
+              <div className="booking-title past-title">Completed bookings</div>
               {
                 this.state.completedBookings.length > 0 &&
                 <div className="cus-pa-book-scroll">
@@ -141,7 +141,7 @@ export default class WorkerDashboard extends Component {
                             <td>{booking.start}</td>
                             <td>{booking.end}</td>
                             <td>{booking.user.firstName}</td>
-                            <td>{booking.status}</td>
+                            <td className="booking-status">{booking.status}</td>
                             <td></td>
                             <td></td>
                           </tr>
@@ -154,7 +154,7 @@ export default class WorkerDashboard extends Component {
               {
                 this.state.completedBookings.length == 0 &&
                 <div className="card no-booking-card past-card">
-                  <div className="no-booking-msg">No past bookings recorded.</div>
+                  <div className="no-booking-msg">No completed bookings recorded.</div>
                 </div>
               }
               

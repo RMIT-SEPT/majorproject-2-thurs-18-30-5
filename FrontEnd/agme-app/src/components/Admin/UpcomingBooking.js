@@ -68,7 +68,7 @@ export default class UpcomingBooking extends Component {
                             <td>{booking.end}</td>
                             <td>{booking.worker.user.firstName}</td>
                             <td>{booking.user.firstName}</td>
-                            <td>{booking.status}</td>
+                            <td className="booking-status">{booking.status}</td>
                             <td></td>
                           </tr>
                         )
@@ -82,7 +82,7 @@ export default class UpcomingBooking extends Component {
                             <td>{booking.end}</td>
                             <td>{booking.worker.user.firstName}</td>
                             <td>{booking.user.firstName}</td>
-                            <td>{booking.status}</td>
+                            <td className="booking-status">{booking.status}</td>
                             <td></td>
                           </tr>
                         )

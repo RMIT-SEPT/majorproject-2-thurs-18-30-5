@@ -186,3 +186,8 @@ th, td {
   top: 45%;
   text-align: center;
 }
+
+.booking-status {
+  font-size: 14px;
+  line-height: 22px;
+}
