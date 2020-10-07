@@ -94,12 +94,12 @@ export default class CustomerDashboard extends Component {
                     <thead className="book-summary-title">
                       <tr>
                         <th scope="col" width="5%" className="book-header left-title"></th>
-                        <th scope="col" width="17%" className="book-header mid-title">Start time</th>
-                        <th scope="col" width="17%" className="book-header mid-title">End time</th>
-                        <th scope="col" width="19%" className="book-header mid-title">Service</th>
+                        <th scope="col" width="19%" className="book-header mid-title">Start time</th>
+                        <th scope="col" width="19%" className="book-header mid-title">End time</th>
+                        <th scope="col" width="23%" className="book-header mid-title">Service</th>
                         <th scope="col" width="19%" className="book-header mid-title">Worker</th>
-                        <th scope="col" width="19%" className="book-header mid-title">Status</th>
-                        <th scope="col" width="5%" className="book-header right-title"></th>
+                        <th scope="col" width="15%" className="book-header mid-title">Status</th>
+                        <th scope="col" width="2%" className="book-header right-title"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -149,14 +149,15 @@ export default class CustomerDashboard extends Component {
                 this.state.completedBookings.length > 0 &&
                 <div className="cus-pa-book-scroll">
                   <table className="table table-editable text-nowrap table-borderless table-hover booking-table">
-                  <thead className="book-summary-title">
+                    <thead className="book-summary-title">
                       <tr>
-                      <th scope="col" width="5%" className="book-header left-title"></th>
-                        <th scope="col" width="20%" className="book-header mid-title">Start time</th>
-                        <th scope="col" width="20%" className="book-header mid-title">End time</th>
-                        <th scope="col" width="25%" className="book-header mid-title">Service</th>
-                        <th scope="col" width="25%" className="book-header mid-title">Worker</th>
-                        <th scope="col" width="5%" className="book-header right-title"></th>
+                        <th scope="col" width="5%" className="book-header left-title"></th>
+                        <th scope="col" width="19%" className="book-header mid-title">Start time</th>
+                        <th scope="col" width="19%" className="book-header mid-title">End time</th>
+                        <th scope="col" width="23%" className="book-header mid-title">Service</th>
+                        <th scope="col" width="19%" className="book-header mid-title">Worker</th>
+                        <th scope="col" width="15%" className="book-header mid-title"></th>
+                        <th scope="col" width="2%" className="book-header right-title"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -168,6 +169,7 @@ export default class CustomerDashboard extends Component {
                             <td>{booking.end}</td>
                             <td>{booking.worker.business.name}</td>
                             <td>{booking.worker.user.firstName}</td>
+                            <td></td>
                             <td></td>
                           </tr>
                         )
