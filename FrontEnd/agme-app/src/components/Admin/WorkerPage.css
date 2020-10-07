@@ -32,6 +32,21 @@
   color: #b3b3b3;
 }
 
+.no-date-msg {
+  position: absolute;
+  top: 110px;
+  left: 37px;
+  width: 80%;
+}
+
+.unavailable-msg {
+  position: absolute;
+  top: 140px;
+  left: 40px;
+  width: 321px;
+  text-align: left;
+}
+
 .date-time {
   font-style: normal;
   font-weight: 300;

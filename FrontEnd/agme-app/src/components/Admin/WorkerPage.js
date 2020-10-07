@@ -20,12 +20,20 @@ export default class AddWorker extends Component {
       "date": "",
       "startDate": "",
       "endDate": "",
-      "hoursList":[]
+      "hoursList":[],
+      "is_day_selected": false
     }
 
     try {
       var date = this.props.location.state.date;
       this.state.date = date;
+    } catch (err) {
+
+    }
+
+    try {
+      var is_day_selected = this.props.location.state.is_day_selected;
+      this.state.is_day_selected = is_day_selected;
     } catch (err) {
 
     }
@@ -103,7 +111,8 @@ export default class AddWorker extends Component {
     this.props.history.push('/worker-page', {
       user: this.props.location.state.user, 
       worker: this.props.location.state.worker,
-      date: this.state.date
+      date: this.state.date,
+      is_day_selected: true
     });
     window.location.reload(false);
   }
@@ -241,7 +250,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputaddress" className="col-sm-2 col-form-label address">Address</label>
+                  <label for="inputaddress" className="col-sm-2 col-form-label">Address</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -283,6 +292,7 @@ export default class AddWorker extends Component {
                       maxDate={new Date(new Date().setDate(new Date().getDate()+6))}
                       placeholderText="Select a day"
                       selected={this.state.date}
+                      required="true"
                       onSelect={this.handleDateSelect}
                       onChange={this.handleDateChange}
                       dateFormat= "yyyy-MM-dd" />
@@ -292,59 +302,77 @@ export default class AddWorker extends Component {
                     <button type="submit" className="btn check-time">check time</button>
                   </div>
                   
-                  <div className="card-title availability-title">Availability</div>
-                  
-                  <div className="avail-table-scroll">
-                    <table className="table table-editable text-nowrap table-borderless table-hover avail-table">
-                      <thead className="avail-title">
-                        <tr>
-                          <th scope="col" className="avail-header avail-from">from</th>
-                          <th scope="col" className="avail-header avail-to">to</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {
-                          this.state.hoursList.map(hours =>
-                            <tr>
-                              <td> {hours.start} </td>
-                              <td> {hours.end} </td>
-                            </tr>
-                          )
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                  
-                  <div className="card-title working-hour-title">Working hours</div>
+                  {
+                    this.state.date != null && this.state.is_day_selected == true &&
+                    <div>
+                      <div className="card-title availability-title">Availability</div>
+                      
+                      {
+                        this.state.hoursList.length > 0 &&
+                        <div className="avail-table-scroll">
+                          <table className="table table-editable text-nowrap table-borderless table-hover avail-table">
+                            <thead className="avail-title">
+                              <tr>
+                                <th scope="col" className="avail-header avail-from">from</th>
+                                <th scope="col" className="avail-header avail-to">to</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {
+                                this.state.hoursList.map(hours =>
+                                  <tr>
+                                    <td> {hours.start} </td>
+                                    <td> {hours.end} </td>
+                                  </tr>
+                                )
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                      }
+                      {
+                        this.state.hoursList.length == 0 &&
+                        <div className="no-booking-msg unavailable-msg">
+                          Worker is not available on this day. Please update working hours below.
+                        </div>
+                      }
+                      
+                      <div className="card-title working-hour-title">Working hours</div>
 
-                  <div className="select-start-time">
-                    <DatePicker className="date-time select-time" 
-                      placeholderText="start time" 
-                      selected={this.state.startDate}
-                      onSelect={this.handleStartSelect}
-                      onChange={this.handleStartChange}
-                      showTimeSelect
-                      dateFormat="HH:mm"
-                      minDate={this.state.date}
-                      maxDate={this.state.date} />
-                  </div>
+                      <div className="select-start-time">
+                        <DatePicker className="date-time select-time" 
+                          placeholderText="start time" 
+                          selected={this.state.startDate}
+                          onSelect={this.handleStartSelect}
+                          onChange={this.handleStartChange}
+                          showTimeSelect
+                          dateFormat="HH:mm"
+                          minDate={this.state.date}
+                          maxDate={this.state.date} />
+                      </div>
 
-                  <div className="select-end-time">
-                    <DatePicker className="date-time select-time" 
-                      placeholderText="end time" 
-                      selected={this.state.endDate}
-                      onSelect={this.handleEndSelect}
-                      onChange={this.handleEndChange}
-                      showTimeSelect
-                      dateFormat="HH:mm"
-                      minDate={this.state.date}
-                      maxDate={this.state.date} />
-                  </div>
+                      <div className="select-end-time">
+                        <DatePicker className="date-time select-time" 
+                          placeholderText="end time" 
+                          selected={this.state.endDate}
+                          onSelect={this.handleEndSelect}
+                          onChange={this.handleEndChange}
+                          showTimeSelect
+                          dateFormat="HH:mm"
+                          minDate={this.state.date}
+                          maxDate={this.state.date} />
+                      </div>
 
-                  <div className="change-hour-btn">
-                    <button className="btn check-time change-time" onClick={this.onClick2}>update working hours</button>
-                  </div>
+                      <div className="change-hour-btn">
+                        <button className="btn check-time change-time" onClick={this.onClick2}>update working hours</button>
+                      </div>
 
+                    </div>
+                }
+                {
+                  this.state.date == null &&
+                  <div className="no-booking-msg no-date-msg">Select a day and click 'CHECK TIME' to view availability and working hour</div>
+                }
                 </div> 
 
               </form>
