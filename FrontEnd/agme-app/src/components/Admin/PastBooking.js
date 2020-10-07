@@ -7,17 +7,29 @@ import axios from "axios";
 
 export default class PastBooking extends Component {
   state = {
-    bookings: []
+    completedBookings: [],
+    cancelledBookings: []
   };
   constructor(props) {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id)
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { params: {bookingStatus: "COMPLETED"} })
         .then(res => {
           const bookings = res.data;
-          this.setState({bookings: bookings});
-          this.state.bookings = bookings;
+          this.setState({completedBookings: bookings});
+          this.state.compltedBookings = bookings;
+        })
+    } catch (err) {
+
+    }
+
+    try {
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { params: {bookingStatus: "CANCELLED"} })
+        .then(res => {
+          const bookings = res.data;
+          this.setState({cancelledBookings: bookings});
+          this.state.cancelledBookings = bookings;
         })
     } catch (err) {
 
@@ -32,6 +44,7 @@ export default class PastBooking extends Component {
               <div className="book-title">Past Bookings</div>
 
               {
+                this.state.completedBookings.length + this.state.cancelledBookings.length > 0 &&
                 <div className="book-summary-scroll">
                   <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
                     <thead className="book-summary-title">
@@ -47,7 +60,21 @@ export default class PastBooking extends Component {
                     </thead>
                     <tbody>
                       {
-                        this.state.bookings.map(booking =>
+                        this.state.completedBookings.map(booking =>
+                          (booking.status == "COMPLETED" || booking.status == "CANCELLED") &&
+                          <tr>
+                            <td></td>
+                            <td>{booking.start}</td>
+                            <td>{booking.end}</td>
+                            <td>{booking.worker.user.firstName}</td>
+                            <td>{booking.user.firstName}</td>
+                            <td>{booking.status}</td>
+                            <td></td>
+                          </tr>
+                        )
+                      }
+                      {
+                        this.state.cancelledBookings.map(booking =>
                           (booking.status == "COMPLETED" || booking.status == "CANCELLED") &&
                           <tr>
                             <td></td>
@@ -65,7 +92,7 @@ export default class PastBooking extends Component {
                 </div>
               }
               {
-                
+                this.state.completedBookings.length == 0 && this.state.cancelledBookings.length == 0 &&
                 <div className="card admin-booking-card">
                   <div className="no-booking-msg">No upcoming bookings at the moment.</div>
                 </div>

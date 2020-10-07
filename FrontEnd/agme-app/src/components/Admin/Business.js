@@ -76,7 +76,7 @@ export default class Business extends Component {
                       type="text" 
                       className="form-control field-input" 
                       id="inputbizdesc" 
-                      placeholder={this.props.location.state.user.business.description} 
+                      placeholder={this.props.location.state.business.description} 
                       rows="10"
                       maxLength="380" name="description"
                       value= {this.state.description}
