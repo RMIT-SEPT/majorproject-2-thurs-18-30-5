@@ -261,6 +261,7 @@ export default class AddWorker extends Component {
                     type="password" 
                     className="form-control field-input admin-pwd edit-admin-pwd" 
                     id="inputpwd" 
+                    required="true"
                     placeholder="Enter WORKER password to confirm changes" name="password"
                     value= {this.state.password}
                     onChange= {this.onChange} />
