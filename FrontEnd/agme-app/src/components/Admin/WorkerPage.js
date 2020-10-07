@@ -131,40 +131,46 @@ export default class AddWorker extends Component {
   onClick2 = async e =>{
     e.preventDefault();
 
-    var bad = false;
-    var diffHours = this.state.endDate.getHours() - this.state.startDate.getHours();
-    // Comparing start and end time
-    if (this.state.endDate <= this.state.startDate) {
-      window.alert("The ending time of the hours should be after starting time; please try again.");
-      bad = true;
+    if (this.state.endDate == "" || this.state.startDate == "") {
+      window.alert("Please select start and end time!");
     }
-    else if (this.state.endDate.getDate() != this.state.startDate.getDate() || this.state.endDate.getDay() != this.state.startDate.getDay()){
-      window.alert("Date for start and end time should be the same; please try again.");
-      bad = true;
-    }
-    // Minimum working time of 2 hours
-    else if (diffHours < 1) {
-      window.alert("Minimum working time is 2 hours; please try again.");
-      bad = true;
-    }
-
-    const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
-
-    if (bad == false) {
-      if (this.state.date == "") {
+    else {
+      console.log(this.state.date);
+      var bad = false;
+      var diffHours = this.state.endDate.getHours() - this.state.startDate.getHours();
+      // Comparing start and end time
+      if (this.state.date == null) {
         window.alert("Please select a day first!");
+        bad = true;
       }
-      else {
+      else if (this.state.endDate <= this.state.startDate) {
+        window.alert("The ending time of the hours should be after starting time; please try again.");
+        bad = true;
+      }
+      else if (this.state.endDate.getDate() != this.state.startDate.getDate() || this.state.endDate.getDay() != this.state.startDate.getDay()){
+        window.alert("Date for start and end time should be the same; please try again.");
+        bad = true;
+      }
+      // Minimum working time of 2 hours
+      else if (diffHours < 1) {
+        window.alert("Minimum working time is 2 hours; please try again.");
+        bad = true;
+      }
+
+      const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+
+      if (bad == false) {
         try {
           await axios.delete("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, { params: { dayOfWeek: days[this.state.startDate.getDay()] } });
         } catch (err) {
+        
         }
 
         try {
           var d = this.state.startDate;
           var formattedStart = (d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
           this.state.startDate = formattedStart;
-        
+          
           d = this.state.endDate;
           var formattedEnd = (d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
           this.state.endDate = formattedEnd;
@@ -284,9 +290,9 @@ export default class AddWorker extends Component {
                   <div className="check-time-btn">
                     <button type="submit" className="btn check-time">check time</button>
                   </div>
-  
+                  
                   <div className="card-title availability-title">Availability</div>
-
+                  
                   <div className="avail-table-scroll">
                     <table className="table table-editable text-nowrap table-borderless table-hover avail-table">
                       <thead className="avail-title">
