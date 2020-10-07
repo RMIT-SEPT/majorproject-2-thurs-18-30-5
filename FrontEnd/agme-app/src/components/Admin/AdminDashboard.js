@@ -57,27 +57,36 @@ export default class AdminDashboard extends Component {
                 <div className="biz-desc">{this.state.business.description}</div>
               </div>
 
-              <div className="worker-table-scroll">
-                <table className="table table-editable text-nowrap table-borderless table-hover worker-table">
-                  <thead>
-                    <tr><th className="worker-table-title">Workers</th></tr>
-                  </thead>
-                  <tbody>
-                    {
-                      this.state.workers.map(worker =>
-                        worker.admin == false &&
-                        <tr><td className="worker-table-item"><Link to={{
-                          pathname: '/worker-page',
-                          state: {
-                            user: this.props.location.state.user, 
-                            worker: worker
-                          }
-                        }}>{worker.user.firstName}</Link></td></tr>
-                      )
-                    }
-                  </tbody>
-                </table>
-              </div>
+              {
+                this.state.workers.length > 0 &&
+                <div className="worker-table-scroll">
+                  <table className="table table-editable text-nowrap table-borderless table-hover worker-table">
+                    <thead>
+                      <tr><th className="worker-table-title">Workers</th></tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.state.workers.map(worker =>
+                          worker.admin == false &&
+                          <tr><td className="worker-table-item"><Link to={{
+                            pathname: '/worker-page',
+                            state: {
+                              user: this.props.location.state.user, 
+                              worker: worker
+                            }
+                          }}>{worker.user.firstName}</Link></td></tr>
+                        )
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+              {
+                this.state.workers.length == 0 &&
+                <div className="card no-booking-card worker-card">
+                  <div className="no-booking-msg">No workers added</div>
+                </div>
+              }
 
               <div className="func-add-worker">
                 <Link className="btn func-btn" to={{
