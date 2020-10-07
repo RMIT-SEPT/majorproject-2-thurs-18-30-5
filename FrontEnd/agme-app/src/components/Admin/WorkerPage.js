@@ -213,6 +213,7 @@ export default class AddWorker extends Component {
                       type="text" 
                       className="form-control field-input work-field" 
                       id="inputfname" 
+                      spellCheck="false"
                       placeholder={this.props.location.state.worker.user.firstName} name="firstName"
                       value= {this.state.firstName}
                       onChange = {this.onChange} />
@@ -226,6 +227,7 @@ export default class AddWorker extends Component {
                       type="text" 
                       className="form-control field-input work-field" 
                       id="inputlname" 
+                      spellCheck="false"
                       placeholder={this.props.location.state.worker.user.lastName} name="lastName"
                       value= {this.state.lastName}
                       onChange = {this.onChange} />
@@ -239,6 +241,7 @@ export default class AddWorker extends Component {
                       type="text" 
                       className="form-control field-input work-field" 
                       id="inputaddress" 
+                      spellCheck="false"
                       placeholder={this.props.location.state.worker.user.address} name="address"
                       value= {this.state.address}
                       onChange = {this.onChange} />
