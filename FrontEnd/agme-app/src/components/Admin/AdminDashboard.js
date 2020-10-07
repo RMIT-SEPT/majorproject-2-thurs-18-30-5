@@ -80,7 +80,7 @@ export default class AdminDashboard extends Component {
                     user: this.props.location.state.user,
                     business: this.state.business
                   }
-                }}>ADD New Worker</Link>
+                }}>Add New Worker</Link>
               </div>
               <div className="func-add-business">
                 <Link className="btn func-btn" to={{
@@ -89,7 +89,7 @@ export default class AdminDashboard extends Component {
                     user: this.props.location.state.user,
                     business: this.state.business
                   }
-                }}>EDIT Business</Link>
+                }}>Edit Business</Link>
               </div>
               <div className="func-upcoming">
                 <Link className="btn func-btn" to={{
