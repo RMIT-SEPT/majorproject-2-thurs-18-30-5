@@ -19,6 +19,7 @@ export default class AddWorker extends Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value});
@@ -85,6 +86,9 @@ export default class AddWorker extends Component {
       else {
         window.alert("The passwords do not match; please try again.");
       }
+  }
+  onClick(e) {
+    window.location.reload(false);
   }
   render() {
     return (
@@ -191,7 +195,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="container add-worker">
-                  <button type="reset" className="btn cancel-changes">cancel</button>
+                  <button type="reset" className="btn cancel-changes" onClick={this.onClick}>cancel</button>
                   <button type="submit" className="btn save-changes">Submit</button>
                 </div> 
 

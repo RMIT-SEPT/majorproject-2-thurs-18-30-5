@@ -16,6 +16,7 @@ export default class Business extends Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value});
@@ -48,6 +49,9 @@ export default class Business extends Component {
         window.alert("Incorrect admin password; please try again.");
       }
       window.location.reload(false);
+  }
+  onClick(e) {
+    window.location.reload(false);
   }
   render() {
     return (
@@ -90,7 +94,7 @@ export default class Business extends Component {
                 </div>
 
                 <div className="container edit-business">
-                  <button type="reset" className="btn cancel-changes">cancel</button>
+                  <button type="reset" className="btn cancel-changes" onClick={this.onClick}>cancel</button>
                   <button type="submit" className="btn save-changes">Save changes</button>
                 </div> 
 
