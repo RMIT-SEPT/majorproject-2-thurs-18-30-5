@@ -37,7 +37,7 @@ export default class WorkerProfile extends Component {
                       type="text" 
                       className="form-control field-input" 
                       id="inputbizname" 
-                      value={this.props.location.state.user.user.username} 
+                      value={this.props.location.state.user.business.name} 
                       readOnly />
                   </div>
                 </div>

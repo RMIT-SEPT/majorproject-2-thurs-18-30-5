@@ -33,8 +33,35 @@ export default class WorkerDashboard extends Component {
     } catch (err) {
 
     }
+
+    this.onClick = this.onClick.bind(this);
   }
   
+  onClick = async booking => {
+    if (window.confirm("Are you sure you completed the booking?")) {
+      // Set the booking status to cancelled
+      var changedBooking = {
+        id: booking.id,
+        user: {
+          id: booking.user.id
+        },
+        worker: {
+          id: booking.worker.id
+        },
+        start: booking.start,
+        end: booking.end,
+        status: "COMPLETED"
+      };
+
+      try {
+        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking);
+      } catch (err) {
+
+      }
+      window.location.reload(false);
+    }
+  }
+
   render() {
     return (
       <div>
@@ -73,7 +100,7 @@ export default class WorkerDashboard extends Component {
                             <td>{booking.user.firstName}</td>
                             <td>{booking.status}</td>
                             <td>
-                              <button type="button" className="btn job-action accept-job">complete</button>
+                              <button type="button" className="btn job-action accept-job" onClick={() => this.onClick(booking)}>complete</button>
                             </td>
                             <td></td>
                           </tr>
