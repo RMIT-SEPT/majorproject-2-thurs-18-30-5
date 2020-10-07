@@ -31,35 +31,45 @@ export default class PastBooking extends Component {
             <div className="container book-summary-page">
               <div className="book-title">Past Bookings</div>
 
-              <div className="book-summary-scroll">
-                <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
-                  <thead className="book-summary-title">
-                    <tr>
-                      <th scope="col" width="16%" className="book-header left-title">Start Time</th>
-                      <th scope="col" width="17%" className="book-header mid-title">End Time</th>
-                      <th scope="col" width="18%" className="book-header mid-title">Service</th>
-                      <th scope="col" width="17%" className="book-header mid-title">Worker</th>
-                      <th scope="col" width="17%" className="book-header mid-title">Customer</th>
-                      <th scope="col" width="15%" className="book-header right-title">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      this.state.bookings.map(booking =>
-                        (booking.status == "COMPLETED" || booking.status == "CANCELLED") &&
-                        <tr>
-                          <th scope="row">{booking.start}</th>
-                          <td>{booking.end}</td>
-                          <td>{this.props.location.state.user.business.name}</td>
-                          <td>{booking.worker.user.firstName}</td>
-                          <td>{booking.user.firstName}</td>
-                          <td>{booking.status}</td>
-                        </tr>
-                      )
-                    }
-                  </tbody>
-                </table>
-              </div>
+              {
+                <div className="book-summary-scroll">
+                  <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
+                    <thead className="book-summary-title">
+                      <tr>
+                        <th scope="col" width="5%" className="book-header left-title"></th>
+                        <th scope="col" width="19%" className="book-header mid-title">Start Time</th>
+                        <th scope="col" width="19%" className="book-header mid-title">End Time</th>
+                        <th scope="col" width="19%" className="book-header mid-title">Worker</th>
+                        <th scope="col" width="19%" className="book-header mid-title">Customer</th>
+                        <th scope="col" width="14%" className="book-header mid-title">Status</th>
+                        <th scope="col" width="5%" className="book-header right-title"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.state.bookings.map(booking =>
+                          (booking.status == "COMPLETED" || booking.status == "CANCELLED") &&
+                          <tr>
+                            <td></td>
+                            <td>{booking.start}</td>
+                            <td>{booking.end}</td>
+                            <td>{booking.worker.user.firstName}</td>
+                            <td>{booking.user.firstName}</td>
+                            <td>{booking.status}</td>
+                            <td></td>
+                          </tr>
+                        )
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+              {
+                
+                <div className="card admin-booking-card">
+                  <div className="no-booking-msg">No upcoming bookings at the moment.</div>
+                </div>
+              }
 
             </div>
           </div>
