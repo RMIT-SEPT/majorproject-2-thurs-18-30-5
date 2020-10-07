@@ -305,10 +305,12 @@ export default class AddWorker extends Component {
                     </table>
                   </div>
                   
-                  <div className="card-title working-hour-title">New working hours</div>
+                  <div className="card-title working-hour-title">Working hours</div>
 
                   <div className="select-start-time">
-                    <DatePicker className="date-time select-time" placeholderText="start time" selected={this.state.startDate}
+                    <DatePicker className="date-time select-time" 
+                      placeholderText="start time" 
+                      selected={this.state.startDate}
                       onSelect={this.handleStartSelect}
                       onChange={this.handleStartChange}
                       showTimeSelect
@@ -318,7 +320,9 @@ export default class AddWorker extends Component {
                   </div>
 
                   <div className="select-end-time">
-                    <DatePicker className="date-time select-time" placeholderText="end time" selected={this.state.endDate}
+                    <DatePicker className="date-time select-time" 
+                      placeholderText="end time" 
+                      selected={this.state.endDate}
                       onSelect={this.handleEndSelect}
                       onChange={this.handleEndChange}
                       showTimeSelect
@@ -328,7 +332,7 @@ export default class AddWorker extends Component {
                   </div>
 
                   <div className="change-hour-btn">
-                    <button className="btn check-time change-time" onClick={this.onClick2}>change time</button>
+                    <button className="btn check-time change-time" onClick={this.onClick2}>update working hours</button>
                   </div>
 
                 </div> 
