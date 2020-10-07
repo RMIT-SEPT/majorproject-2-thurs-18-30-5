@@ -48,30 +48,49 @@ export default class AdminDashboard extends Component {
             <div className="container admin-functions">
               <div className="card biz-info">
                 <div className="biz-name">{this.state.business.name}</div>
+                {
+                  this.state.business.description == "" &&
+                  <div className="no-booking-msg biz-desc-msg">
+                    Add a business description in 'Edit Business'
+                  </div>
+                }
                 <div className="biz-desc">{this.state.business.description}</div>
               </div>
 
-              <div className="worker-table-scroll">
-                <table className="table table-editable text-nowrap table-borderless table-hover worker-table">
-                  <thead>
-                    <tr><th className="worker-table-title">Workers</th></tr>
-                  </thead>
-                  <tbody>
-                    {
-                      this.state.workers.map(worker =>
-                        worker.admin == false &&
-                        <tr><td className="worker-table-item"><Link to={{
-                          pathname: '/worker-page',
-                          state: {
-                            user: this.props.location.state.user, 
-                            worker: worker
-                          }
-                        }}>{worker.user.firstName}</Link></td></tr>
-                      )
-                    }
-                  </tbody>
-                </table>
-              </div>
+              {
+                this.state.workers.length > 0 &&
+                <div className="worker-table-scroll">
+                  <table className="table table-editable text-nowrap table-borderless table-hover worker-table">
+                    <thead>
+                      <tr><th className="worker-table-title">Workers</th></tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.state.workers.map(worker =>
+                          worker.admin == false &&
+                          <tr>
+                            <td className="worker-table-item">
+                              <Link className="worker-link" to={{
+                                pathname: '/worker-page',
+                                state: {
+                                  user: this.props.location.state.user, 
+                                  worker: worker
+                                }
+                              }}>{worker.user.firstName}</Link>
+                            </td>
+                          </tr>
+                        )
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+              {
+                this.state.workers.length == 0 &&
+                <div className="card no-booking-card worker-card">
+                  <div className="no-booking-msg">No workers added</div>
+                </div>
+              }
 
               <div className="func-add-worker">
                 <Link className="btn func-btn" to={{
@@ -80,7 +99,7 @@ export default class AdminDashboard extends Component {
                     user: this.props.location.state.user,
                     business: this.state.business
                   }
-                }}>ADD New Worker</Link>
+                }}>Add New Worker</Link>
               </div>
               <div className="func-add-business">
                 <Link className="btn func-btn" to={{
@@ -89,7 +108,7 @@ export default class AdminDashboard extends Component {
                     user: this.props.location.state.user,
                     business: this.state.business
                   }
-                }}>EDIT Business</Link>
+                }}>Edit Business</Link>
               </div>
               <div className="func-upcoming">
                 <Link className="btn func-btn" to={{

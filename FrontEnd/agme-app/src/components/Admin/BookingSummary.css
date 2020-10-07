@@ -19,9 +19,8 @@
 }
 
 .book-summary-table {
-  box-shadow: 0px 10px 40px rgba(41, 41, 54, 0.2);
   background-color: #ffffff33;
-  border-radius: 15px 60px 10px 10px;
+  border-radius: 15px 15px 15px 15px;
 
   table-layout: fixed;
   position: absolute;
@@ -72,4 +71,17 @@
   top: 100px;
   position: absolute;
   width: 97%; 
+}
+
+.admin-booking-card {
+  position: absolute;
+  top: 100px;
+  width: 97%; 
+  height: 450px;
+
+  border-radius: 30px 30px 30px 30px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.05);
+  transition: 0.3s;
+  background-color: #ffffff11;
+  border-color: transparent;
 }

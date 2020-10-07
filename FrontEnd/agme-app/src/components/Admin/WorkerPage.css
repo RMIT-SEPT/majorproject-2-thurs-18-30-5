@@ -1,9 +1,9 @@
 .work-info {
   position: absolute;
   top: 90px;
-  width: 470px;
+  width: 400px;
   height: 500px;
-  left: 650px;
+  left: 720px;
 
   border-radius: 30px 30px 30px 30px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
@@ -13,7 +13,7 @@
 }
 
 .work-field, .edit-admin-pwd {
-  width: 40%;
+  width: 45%;
 }
 
 .worker-admin-pwd {
@@ -24,8 +24,27 @@
 .admin-pwd {
   font-weight: 300;
   font-size: 14px;
-  color: #b3b3b3;
+  
+}
+
+.admin-pwd::placeholder {
   font-style: italic;
+  color: #b3b3b3;
+}
+
+.no-date-msg {
+  position: absolute;
+  top: 110px;
+  left: 37px;
+  width: 80%;
+}
+
+.unavailable-msg {
+  position: absolute;
+  top: 140px;
+  left: 40px;
+  width: 321px;
+  text-align: left;
 }
 
 .date-time {
@@ -43,20 +62,20 @@
 }
 
 .work-day {
-  width: 250px;
-  text-indent: 10px;
+  width: 180px;
+  text-align: center;
   border-radius: 12px;
 }
 
 .select-date {
   position: absolute;
-  left: 30px;
+  left: 40px;
   top: 30px;
 }
 
 .check-time-btn {
   position: absolute;
-  left: 300px;
+  left: 240px;
   top: 30px;
 }
 
@@ -69,7 +88,7 @@
   border: none;
   transition: all 0.2s ease 0s;
   height: 36px;
-  width: 140px;
+  width: 120px;
 
   font-weight: 500;
   font-size: 12px;
@@ -93,11 +112,11 @@
 
 .working-hour-title {
   top: 350px;
-  left: 30px;
+  left: 40px;
 }
 
 .select-time {
-  width: 190px;
+  width: 150px;
   text-align: center;
   border-radius: 50px;
 }
@@ -105,22 +124,23 @@
 .select-start-time {
   position: absolute;
   top: 385px;
-  left: 30px;
+  left: 40px;
 }
 
 .select-end-time {
   position: absolute;
   top: 385px;
-  left: 250px;
+  left: 210px;
 }
 
 .change-hour-btn {
   position: absolute;
-  left: 150px;
+  left: 40px;
   top: 440px;
 }
 
 .change-time {
+  width: 321px;
   background: #ff8989;
 }
 
@@ -130,13 +150,12 @@
 
 .availability-title {
   top: 100px;
-  left: 30px;
+  left: 40px;
 }
 
 .avail-table {
-  box-shadow: 0px 10px 40px rgba(41, 41, 54, 0.2);
   background-color: #ffffff33;
-  border-radius: 15px 60px 10px 10px;
+  border-radius: 15px 15px 15px 15px;
 
   table-layout: fixed;
   position: absolute;
@@ -181,15 +200,15 @@
 
   height: 180px;
   top: 140px;
-  left: 30px;
+  left: 40px;
   position: absolute;
-  width: 410px; 
+  width: 320px; 
 }
 
 .edit-worker {
   position: absolute;
   top: 540px;
-  left: -535px;
+  left: -490px;
 }
 
 .worker-save {

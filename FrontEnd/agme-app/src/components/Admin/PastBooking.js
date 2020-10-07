@@ -7,17 +7,29 @@ import axios from "axios";
 
 export default class PastBooking extends Component {
   state = {
-    bookings: []
+    completedBookings: [],
+    cancelledBookings: []
   };
   constructor(props) {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id)
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { params: {bookingStatus: "COMPLETED"} })
         .then(res => {
           const bookings = res.data;
-          this.setState({bookings: bookings});
-          this.state.bookings = bookings;
+          this.setState({completedBookings: bookings});
+          this.state.compltedBookings = bookings;
+        })
+    } catch (err) {
+
+    }
+
+    try {
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { params: {bookingStatus: "CANCELLED"} })
+        .then(res => {
+          const bookings = res.data;
+          this.setState({cancelledBookings: bookings});
+          this.state.cancelledBookings = bookings;
         })
     } catch (err) {
 
@@ -31,35 +43,60 @@ export default class PastBooking extends Component {
             <div className="container book-summary-page">
               <div className="book-title">Past Bookings</div>
 
-              <div className="book-summary-scroll">
-                <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
-                  <thead className="book-summary-title">
-                    <tr>
-                      <th scope="col" width="16%" className="book-header left-title">Start Time</th>
-                      <th scope="col" width="17%" className="book-header mid-title">End Time</th>
-                      <th scope="col" width="18%" className="book-header mid-title">Service</th>
-                      <th scope="col" width="17%" className="book-header mid-title">Worker</th>
-                      <th scope="col" width="17%" className="book-header mid-title">Customer</th>
-                      <th scope="col" width="15%" className="book-header right-title">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      this.state.bookings.map(booking =>
-                        (booking.status == "COMPLETED" || booking.status == "CANCELLED") &&
-                        <tr>
-                          <th scope="row">{booking.start}</th>
-                          <td>{booking.end}</td>
-                          <td>{this.props.location.state.user.business.name}</td>
-                          <td>{booking.worker.user.firstName}</td>
-                          <td>{booking.user.firstName}</td>
-                          <td>{booking.status}</td>
-                        </tr>
-                      )
-                    }
-                  </tbody>
-                </table>
-              </div>
+              {
+                this.state.completedBookings.length + this.state.cancelledBookings.length > 0 &&
+                <div className="book-summary-scroll">
+                  <table className="table table-editable text-nowrap table-borderless table-hover book-summary-table">
+                    <thead className="book-summary-title">
+                      <tr>
+                        <th scope="col" width="5%" className="book-header left-title"></th>
+                        <th scope="col" width="19%" className="book-header mid-title">Start Time</th>
+                        <th scope="col" width="19%" className="book-header mid-title">End Time</th>
+                        <th scope="col" width="19%" className="book-header mid-title">Worker</th>
+                        <th scope="col" width="19%" className="book-header mid-title">Customer</th>
+                        <th scope="col" width="14%" className="book-header mid-title">Status</th>
+                        <th scope="col" width="5%" className="book-header right-title"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.state.completedBookings.map(booking =>
+                          (booking.status == "COMPLETED" || booking.status == "CANCELLED") &&
+                          <tr>
+                            <td></td>
+                            <td>{booking.start}</td>
+                            <td>{booking.end}</td>
+                            <td>{booking.worker.user.firstName}</td>
+                            <td>{booking.user.firstName}</td>
+                            <td className="booking-status">{booking.status}</td>
+                            <td></td>
+                          </tr>
+                        )
+                      }
+                      {
+                        this.state.cancelledBookings.map(booking =>
+                          (booking.status == "COMPLETED" || booking.status == "CANCELLED") &&
+                          <tr>
+                            <td></td>
+                            <td>{booking.start}</td>
+                            <td>{booking.end}</td>
+                            <td>{booking.worker.user.firstName}</td>
+                            <td>{booking.user.firstName}</td>
+                            <td className="booking-status">{booking.status}</td>
+                            <td></td>
+                          </tr>
+                        )
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+              {
+                this.state.completedBookings.length == 0 && this.state.cancelledBookings.length == 0 &&
+                <div className="card admin-booking-card">
+                  <div className="no-booking-msg">No upcoming bookings at the moment.</div>
+                </div>
+              }
 
             </div>
           </div>
