@@ -68,13 +68,17 @@ export default class AdminDashboard extends Component {
                       {
                         this.state.workers.map(worker =>
                           worker.admin == false &&
-                          <tr><td className="worker-table-item"><Link to={{
-                            pathname: '/worker-page',
-                            state: {
-                              user: this.props.location.state.user, 
-                              worker: worker
-                            }
-                          }}>{worker.user.firstName}</Link></td></tr>
+                          <tr>
+                            <td className="worker-table-item">
+                              <Link className="worker-link" to={{
+                                pathname: '/worker-page',
+                                state: {
+                                  user: this.props.location.state.user, 
+                                  worker: worker
+                                }
+                              }}>{worker.user.firstName}</Link>
+                            </td>
+                          </tr>
                         )
                       }
                     </tbody>

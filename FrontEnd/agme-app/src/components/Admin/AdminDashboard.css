@@ -210,6 +210,16 @@
   text-indent: 2em;
 }
 
+.worker-link {
+  color: #00000088;
+}
+
+.worker-link:hover {
+  font-style: italic;
+  color: #0000004b;
+  text-decoration: none;
+}
+
 .worker-table-scroll { 
   overflow-x: hidden; 
   overflow-y: auto;
