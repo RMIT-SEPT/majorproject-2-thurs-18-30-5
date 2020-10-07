@@ -32,13 +32,19 @@ class Login extends Component {
         this.person = res.data;
         this.props.history.push('/admin-dashboard', {user: this.person});
       } catch (err) {
-        try {
-          const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
-          this.person = res.data;
-          this.props.history.push('/customer-dashboard', {user: this.person});
-        } catch (err2) {
-          window.location.reload(false);
-        }
+          try {
+            const res = await axios.get("http://localhost:8080/api/worker/auth/username/" + this.state.username, { params: { password: this.state.password, isAdmin: false } });
+            this.person = res.data;
+            this.props.history.push('/worker-dashboard', {user: this.person});
+          } catch (err2) {
+            try {
+              const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
+              this.person = res.data;
+              this.props.history.push('/customer-dashboard', {user: this.person});
+            } catch (err3) {
+              window.location.reload(false);
+            }
+          }
       }
   }
   render() {
