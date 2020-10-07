@@ -48,6 +48,12 @@ export default class AdminDashboard extends Component {
             <div className="container admin-functions">
               <div className="card biz-info">
                 <div className="biz-name">{this.state.business.name}</div>
+                {
+                  this.state.business.description == "" &&
+                  <div className="no-booking-msg biz-desc-msg">
+                    Add a business description in 'Edit Business'
+                  </div>
+                }
                 <div className="biz-desc">{this.state.business.description}</div>
               </div>
 
