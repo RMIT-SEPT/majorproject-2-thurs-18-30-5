@@ -13,7 +13,7 @@
 }
 
 .work-field, .edit-admin-pwd {
-  width: 40%;
+  width: 45%;
 }
 
 .worker-admin-pwd {
@@ -24,8 +24,12 @@
 .admin-pwd {
   font-weight: 300;
   font-size: 14px;
-  color: #b3b3b3;
+  
+}
+
+.admin-pwd::placeholder {
   font-style: italic;
+  color: #b3b3b3;
 }
 
 .date-time {
@@ -189,7 +193,7 @@
 .edit-worker {
   position: absolute;
   top: 540px;
-  left: -535px;
+  left: -490px;
 }
 
 .worker-save {
