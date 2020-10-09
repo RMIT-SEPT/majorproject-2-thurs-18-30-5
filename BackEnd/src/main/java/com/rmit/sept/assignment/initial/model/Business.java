@@ -28,7 +28,7 @@ public class Business {
     private String description;
 
     @OneToMany(targetEntity=Worker.class, mappedBy="business", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("business")
+    @JsonIgnoreProperties({"business", "bookings"})
     private List<Worker> workers;
 
     @CreationTimestamp

@@ -1,8 +1,6 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Booking;
-import com.rmit.sept.assignment.initial.model.Business;
-import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.BookingService;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
@@ -101,7 +99,7 @@ public class BookingController {
     public ResponseEntity<Collection<Booking>> getBookingsByBusiness(@RequestHeader(value = HEADER_NAME, required = false) String token,
                                                                      @PathVariable Long id,
                                                                      @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
-        if (authService.authGetBusinessBookingRequest(token, id)){
+        if (authService.authGetBusinessEntitiesRequest(token, id)){
             Collection<Booking> bookings;
             if (bookingStatus == null)
                 bookings = bookingService.findByBusiness(id);

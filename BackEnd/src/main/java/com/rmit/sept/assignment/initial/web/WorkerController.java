@@ -119,19 +119,22 @@ public class WorkerController {
      */
     @GetMapping("/business/{businessId}")
     public ResponseEntity<List<Worker>> getWorkersByBusiness(
+            @RequestHeader(value = HEADER_NAME, required = false) String token,
             @PathVariable Long businessId,
             @RequestParam(required = false) Boolean isAdmin,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime start,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime end) {
-        List<Worker> workers;
-        if (start != null && end != null) {
-            System.out.println("START AND END");
-            workers = workerService.findAllByBusiness(businessId, start, end, isAdmin);
-        } else {
-            workers = workerService.findAllByBusiness(businessId, isAdmin);
-        }
-        HttpStatus status = (workers.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(workers, status);
+//        if (authService.authGetBusinessEntitiesRequest(token, businessId)) {
+            List<Worker> workers;
+            if (start != null && end != null) {
+                workers = workerService.findAllByBusiness(businessId, start, end, isAdmin);
+            } else {
+                workers = workerService.findAllByBusiness(businessId, isAdmin);
+            }
+            HttpStatus status = (workers.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(workers, status);
+//        }
+//        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -141,8 +144,8 @@ public class WorkerController {
      * @return Worker object and corresponding status code (CREATED or BAD_REQUEST)
      */
     @PostMapping("")
-    public ResponseEntity<?> createNewWorker(@Validated @RequestBody Worker worker,
-                                             @RequestHeader(value = HEADER_NAME, required = false) String token,
+    public ResponseEntity<?> createNewWorker(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                             @Validated @RequestBody Worker worker,
                                              BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {  // no invalid fields/entity errors
@@ -165,8 +168,8 @@ public class WorkerController {
      * @return ResponseEntity with updated Worker object and corresponding status code (CREATED, BAD_REQUEST)
      */
     @PutMapping("")
-    public ResponseEntity<?> updateWorker(@Validated @RequestBody Worker worker,
-                                          @RequestHeader(value = HEADER_NAME, required = false) String token,
+    public ResponseEntity<?> updateWorker(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                          @Validated @RequestBody Worker worker,
                                           BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {  // no invalid fields/entity errors

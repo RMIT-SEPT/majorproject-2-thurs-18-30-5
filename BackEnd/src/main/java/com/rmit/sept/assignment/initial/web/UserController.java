@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+import static com.rmit.sept.assignment.initial.security.SecurityConstant.HEADER_NAME;
+
 /**
  * User Controller class - allows access/updates on User entities
  */
@@ -97,10 +99,13 @@ public class UserController {
      * @return ResponseEntity with updated User object and corresponding status code (CREATED, BAD_REQUEST)
      */
     @PutMapping("")
-    public ResponseEntity<?> updateUser(@Validated @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> updateUser(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                        @Validated @RequestBody User user, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            if (userService.authenticateUser(user.getId(), user.getPassword()) != null) {
+            // authenticate that session token belongs to the user being edited,
+            // ..or the admin of their business (if they are a worker)
+            if (authService.authUserRequest(token, user) || authService.authWorkerRequest(token, user.getId())) {
                 User user1 = userService.saveOrUpdateUser(user, false);
                 HttpStatus status = (user1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
                 return new ResponseEntity<User>(user1, status);

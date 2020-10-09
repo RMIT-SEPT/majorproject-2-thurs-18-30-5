@@ -97,7 +97,7 @@ public class AuthRequestService {
         return (business.getId().equals(businessId));
     }
 
-    public boolean authGetBusinessBookingRequest(String token, Long businessId) {
+    public boolean authGetBusinessEntitiesRequest(String token, Long businessId) {
         String username = usernameFromToken(token);
         Worker worker = workerService.findByUsername(username);
         if (worker == null) return false;
@@ -107,6 +107,12 @@ public class AuthRequestService {
     }
 
     public boolean authBookingRequest(String token, User user, Worker worker) {
+        return (authUserRequest(token, user) || authWorkerRequest(token, worker));
+    }
+
+    public boolean authBookingRequest(String token, Long userId, Long workerId) {
+        User user = userService.findById(userId);
+        Worker worker = workerService.findById(workerId);
         return (authUserRequest(token, user) || authWorkerRequest(token, worker));
     }
 

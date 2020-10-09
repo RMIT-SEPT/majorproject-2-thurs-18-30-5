@@ -135,7 +135,7 @@ public class HoursController {
                                                @RequestParam DayOfWeek dayOfWeek) {
         boolean deleteHours = false;
         if (workerId != null && dayOfWeek != null) {
-            if (authService.authWorkerRequest(token, workerService.findById(workerId))) {
+            if (authService.authWorkerRequest(token, workerId)) {
                 deleteHours = hoursService.deleteHours(workerId, dayOfWeek);
             }
         }
