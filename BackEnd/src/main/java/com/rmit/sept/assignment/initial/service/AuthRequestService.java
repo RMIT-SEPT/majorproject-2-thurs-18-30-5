@@ -38,9 +38,26 @@ public class AuthRequestService {
         }
     }
 
+    public boolean authUserRequest(String token, Long userId) {
+        try {
+            String username = usernameFromToken(token);
+            User user = userService.findByUsername(username);
+            return user.getId().equals(userId);
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
     public boolean authWorkerRequest(String token, Worker worker) {
         if (worker == null) return false;
         String username = usernameFromToken(token);
+        return (sameWorker(username, worker) || sameBusiness(username, worker));
+    }
+
+    public boolean authWorkerRequest(String token, Long workerId) {
+        if (workerId == null) return false;
+        String username = usernameFromToken(token);
+        Worker worker = workerService.findById(workerId);
         return (sameWorker(username, worker) || sameBusiness(username, worker));
     }
 
@@ -75,6 +92,15 @@ public class AuthRequestService {
         String username = usernameFromToken(token);
         Worker worker = workerService.findByUsername(username);
         if (worker == null || !worker.getAdmin()) return false;
+        Business business = worker.getBusiness();
+        if (business == null) return false;
+        return (business.getId().equals(businessId));
+    }
+
+    public boolean authGetBusinessBookingRequest(String token, Long businessId) {
+        String username = usernameFromToken(token);
+        Worker worker = workerService.findByUsername(username);
+        if (worker == null) return false;
         Business business = worker.getBusiness();
         if (business == null) return false;
         return (business.getId().equals(businessId));

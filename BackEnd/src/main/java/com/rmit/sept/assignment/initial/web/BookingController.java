@@ -1,9 +1,12 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Booking;
+import com.rmit.sept.assignment.initial.model.Business;
+import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.BookingService;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
+import com.rmit.sept.assignment.initial.service.WorkerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ import static com.rmit.sept.assignment.initial.security.SecurityConstant.*;
 public class BookingController {
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private WorkerService workerService;
 
     @Autowired
     private AuthRequestService authService;
@@ -53,10 +59,16 @@ public class BookingController {
      * @return Booking entity if found otherwise null
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> getBooking(@PathVariable Long id) {
+    public ResponseEntity<?> getBooking(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                        @PathVariable Long id) {
         Booking booking = bookingService.findById(id);
-        HttpStatus status = booking != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(booking, status);
+        if (booking != null) {
+            if (authService.authBookingRequest(token, booking.getUser(), booking.getWorker())) {
+                return new ResponseEntity<Booking>(booking, HttpStatus.OK);
+            }
+            return new ResponseEntity<String>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<String>("Invalid booking id", HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -65,15 +77,19 @@ public class BookingController {
      * @return Collection of Bookings made for that Worker
      */
     @GetMapping("/all/worker/{id}")
-    public ResponseEntity<Collection<Booking>> getBookingsByWorker(@PathVariable Long id,
+    public ResponseEntity<Collection<Booking>> getBookingsByWorker(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                                                   @PathVariable Long id,
                                                                    @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
-        Collection<Booking> bookings;
-        if (bookingStatus == null)
-            bookings = bookingService.findByWorker(id);
-        else
-            bookings = bookingService.findByWorker(id, bookingStatus);
-        HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(bookings, status);
+        if (authService.authWorkerRequest(token, id)) {
+            Collection<Booking> bookings;
+            if (bookingStatus == null)
+                bookings = bookingService.findByWorker(id);
+            else
+                bookings = bookingService.findByWorker(id, bookingStatus);
+            HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(bookings, status);
+        }
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -82,15 +98,19 @@ public class BookingController {
      * @return Collection of Bookings for the Business
      */
     @GetMapping("/all/business/{id}")
-    public ResponseEntity<Collection<Booking>> getBookingsByBusiness(@PathVariable Long id,
+    public ResponseEntity<Collection<Booking>> getBookingsByBusiness(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                                                     @PathVariable Long id,
                                                                      @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
-        Collection<Booking> bookings;
-        if (bookingStatus == null)
-            bookings = bookingService.findByBusiness(id);
-        else
-            bookings = bookingService.findByBusiness(id, bookingStatus);
-        HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(bookings, status);
+        if (authService.authGetBusinessBookingRequest(token, id)){
+            Collection<Booking> bookings;
+            if (bookingStatus == null)
+                bookings = bookingService.findByBusiness(id);
+            else
+                bookings = bookingService.findByBusiness(id, bookingStatus);
+            HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(bookings, status);
+        }
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -100,15 +120,19 @@ public class BookingController {
      * @return Collection of Booking entities
      */
     @GetMapping("/all/user/{id}")
-    public ResponseEntity<Collection<Booking>> getBookingsByUser(@PathVariable Long id,
+    public ResponseEntity<Collection<Booking>> getBookingsByUser(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                                                 @PathVariable Long id,
                                                                  @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
-        Collection<Booking> bookings;
-        if (bookingStatus == null)
-            bookings = bookingService.findByUser(id);
-        else
-            bookings = bookingService.findByUser(id, bookingStatus);
-        HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(bookings, status);
+        if (authService.authUserRequest(token, id)){
+            Collection<Booking> bookings;
+            if (bookingStatus == null)
+                bookings = bookingService.findByUser(id);
+            else
+                bookings = bookingService.findByUser(id, bookingStatus);
+            HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(bookings, status);
+        }
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
     /**

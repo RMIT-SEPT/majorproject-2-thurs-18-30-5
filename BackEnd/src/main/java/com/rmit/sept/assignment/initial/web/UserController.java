@@ -53,14 +53,6 @@ public class UserController {
                                         @RequestHeader(value = "Authorization", required = false) String token) {
         HttpStatus status;
         User user = userService.findById(id);  // if the service returns null this means no user was found
-//        if (authService.authUserRequest(token, user)) {
-//            status = HttpStatus.OK;
-//        } else if (user == null) {
-//            status = HttpStatus.NOT_FOUND;
-//        } else {
-//            status = HttpStatus.UNAUTHORIZED;
-//            user = null;
-//        }
         status = user == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
         return new ResponseEntity<>(user, status);
     }
