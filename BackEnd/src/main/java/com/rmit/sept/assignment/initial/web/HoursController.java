@@ -83,6 +83,7 @@ public class HoursController {
     public ResponseEntity<?> getWorkerAvailableHours(@PathVariable Long workerId,
                                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Worker worker = workerService.findById(workerId);
+        System.err.println(date);
         if (worker != null && date != null) {
             List<Hours> hoursList = hoursService.findAvailableByWorker(worker, date);
             HttpStatus status = (hoursList == null) ? HttpStatus.NOT_FOUND : HttpStatus.OK;
