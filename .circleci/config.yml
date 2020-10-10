@@ -63,7 +63,7 @@ jobs:
   update-backend:
     docker:
       - image: circleci/openjdk:8-jdk
-      steps:
+    steps:
       - run:
           name: Install dependencies for AWS
           command: |
@@ -101,17 +101,18 @@ jobs:
       - run: npm test
 
 workflows:
-  build-deploy-qa:
+  build-backend-qa:
     jobs:
       - build-and-push-backend:
           filters:
             branches:
-              only: develop
+              only: feature/backend-cd
       - update-backend:
           requires:
-            - build_and_deploy
-          branches:
-            only: develop
+            - build-and-push-backend
+          filters:
+            branches:
+              only: feature/backend-cd
 
   build-frontend-qa:
     jobs:
