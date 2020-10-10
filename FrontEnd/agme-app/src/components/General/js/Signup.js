@@ -68,7 +68,7 @@ class SignUp extends Component {
                 <h3 className="signup">Sign Up</h3>
 
                 <div className="form-group">
-                  <label>First name</label>
+                  <label className="signup-fname">First name</label>
                   <input 
                     type="text" 
                     className="form-control form-input" 
@@ -81,7 +81,7 @@ class SignUp extends Component {
                 </div>
 
                 <div className="form-group">
-                  <label>Last name</label>
+                  <label className="signup-lname">Last name</label>
                   <input 
                     type="text" 
                     className="form-control form-input" 
@@ -94,7 +94,7 @@ class SignUp extends Component {
                 </div>
 
                 <div className="form-group">
-                  <label>Username</label>
+                  <label className="signup-uname">Username</label>
                   <input 
                     type="text" 
                     className="form-control form-input" 
@@ -107,7 +107,7 @@ class SignUp extends Component {
                 </div>
 
                 <div className="form-group">
-                  <label>Password</label>
+                  <label className="signup-pwd">Password</label>
                   <input 
                     type="password" 
                     className="form-control form-input" 
@@ -120,7 +120,7 @@ class SignUp extends Component {
                 </div>
 
                 <div className="form-group">
-                  <label>Password confirmation</label>
+                  <label className="signup-pwd-confirm">Password confirmation</label>
                   <input 
                     type="password" 
                     className="form-control form-input" 

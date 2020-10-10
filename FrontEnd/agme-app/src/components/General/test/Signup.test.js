@@ -15,27 +15,34 @@ describe("<Signup /> component Unit Test", () => {
         expect(signup.text()).toEqual("Sign Up");
     });
 
-    it("should render name label in <Signup /> component", () => {
-        const name = wrapper.find(".name");
-        expect(name).toHaveLength(2);
+    it("should render first name label in <Signup /> component", () => {
+        const firstName = wrapper.find(".signup-fname");
+        expect(firstName).toHaveLength(1);
+        expect(firstName.text()).toEqual("First name");
+    });
+
+    it("should render last name label in <Signup /> component", () => {
+        const lastName = wrapper.find(".signup-lname");
+        expect(lastName).toHaveLength(1);
+        expect(lastName.text()).toEqual("Last name");
     });
 
     it("should render username label in <Signup /> component", () => {
-        const username = wrapper.find(".username");
+        const username = wrapper.find(".signup-uname");
         expect(username).toHaveLength(1);
         expect(username.text()).toEqual("Username");
     });
 
     it("should render password label in <Signup /> component", () => {
-        const password = wrapper.find(".password");
-        expect(password).toHaveLength(1);
-        expect(password.text()).toEqual("Password");
+        const pwd = wrapper.find(".signup-pwd");
+        expect(pwd).toHaveLength(1);
+        expect(pwd.text()).toEqual("Password");
     });
 
     it("should render password confirmation label in <Signup /> component", () => {
-        const pwd_confirm = wrapper.find(".pwd-confirm");
-        expect(pwd_confirm).toHaveLength(1);
-        expect(pwd_confirm.text()).toEqual("Password confirmation");
+        const pwdConfirm = wrapper.find(".signup-pwd-confirm");
+        expect(pwdConfirm).toHaveLength(1);
+        expect(pwdConfirm.text()).toEqual("Password confirmation");
     });
 
     it("should render submit button in <Signup /> component", () => {
