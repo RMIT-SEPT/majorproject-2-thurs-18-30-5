@@ -64,7 +64,7 @@ export default class BookingPage2 extends Component {
     }
 
     if (bad == false) {
-      this.props.history.push('/bookingPage3', {service: this.state.service,
+      this.props.history.push('/choose-worker', {service: this.state.service,
                                                 startDate: this.state.startDate,
                                                 endDate: this.state.endDate,
                                                 user: this.props.location.state.user,

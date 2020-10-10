@@ -83,7 +83,7 @@ export default class CustomerDashboard extends Component {
             <div className="container customer-title">
               <div className="welcome-msg">G'day, {this.props.location.state.user.firstName}!</div>
               <Link className="btn book-btn" to={{
-                pathname: '/bookingPage1',
+                pathname: '/choose-service',
                 state: this.props.location.state
               }}>Book a service</Link>
             

@@ -37,7 +37,7 @@ export default class BookingPage1 extends Component {
                       <tr>
                         <div className="service-div">
                           <Link to={{
-                            pathname: '/bookingPage2',
+                            pathname: '/choose-time',
                             state: {user: this.props.location.state.user,
                                     service: business,
                                     auth: this.props.location.state.auth}

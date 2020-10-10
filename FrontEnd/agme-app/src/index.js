@@ -12,9 +12,9 @@ import ForgotPassword from './components/General/ForgotPassword';
 
 import CustomerDashboard from './components/Customer/CustomerDashboard';
 import CustomerProfile from './components/Customer/CustomerProfile';
-import BookingPage1 from './components/Customer/BookingPage1';
-import BookingPage2 from './components/Customer/BookingPage2';
-import BookingPage3 from './components/Customer/BookingPage3';
+import ChooseService from './components/Customer/ChooseService';
+import ChooseTime from './components/Customer/ChooseTime';
+import ChooseWorker from './components/Customer/ChooseWorker';
 import ConfirmBooking from './components/Customer/ConfirmBooking';
 
 import AdminDashboard from './components/Admin/AdminDashboard';
@@ -38,9 +38,9 @@ ReactDOM.render(
         
         <Route path="/customer-dashboard" component={CustomerDashboard} />
         <Route path="/customer-profile" component={CustomerProfile} />
-        <Route path="/bookingPage1" component={BookingPage1} />
-        <Route path="/bookingPage2" component={BookingPage2} />
-        <Route path="/bookingPage3" component={BookingPage3} />
+        <Route path="/choose-service" component={ChooseService} />
+        <Route path="/choose-time" component={ChooseTime} />
+        <Route path="/choose-worker" component={ChooseWorker} />
         <Route path="/confirmBooking" component={ConfirmBooking} />
 
         <Route path="/admin-dashboard" component={AdminDashboard} />
