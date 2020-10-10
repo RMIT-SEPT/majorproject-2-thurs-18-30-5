@@ -63,7 +63,7 @@ jobs:
   update-backend:
     docker:
       - image: circleci/openjdk:8-jdk
-      steps:
+    steps:
       - run:
           name: Install dependencies for AWS
           command: |
