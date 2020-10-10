@@ -16,14 +16,14 @@ export default class CustomerHeader extends Component {
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
-                    <Link className="nav-link" to={{
+                    <Link className="nav-link head-cust-profile" to={{
                       pathname: '/customer-profile',
                       state: this.props.state
                     }}>Profile</Link>
                   </li>
 
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/"}>Logout</Link>
+                    <Link className="nav-link head-cust-logout" to={"/"}>Logout</Link>
                   </li>
                 </ul>
 							</div>

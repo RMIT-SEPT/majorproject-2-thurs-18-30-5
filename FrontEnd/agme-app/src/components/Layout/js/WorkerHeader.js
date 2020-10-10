@@ -16,14 +16,14 @@ export default class WorkerHeader extends Component {
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
-                    <Link className="nav-link" to={{
+                    <Link className="nav-link head-worker-profile" to={{
                       pathname: '/worker-profile',
                       state: this.props.state
                     }}>Profile</Link>
                   </li>
 
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/"}>Logout</Link>
+                    <Link className="nav-link head-worker-logout" to={"/"}>Logout</Link>
                   </li>
                 </ul>
 							</div>
