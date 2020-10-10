@@ -106,13 +106,13 @@ workflows:
       - build-and-push-backend:
           filters:
             branches:
-              only: develop
+              only: backend-cd
       - update-backend:
           requires:
             - build-and-push-backend
           filters:
             branches:
-              only: develop
+              only: backend-cd
 
   build-frontend-qa:
     jobs:
