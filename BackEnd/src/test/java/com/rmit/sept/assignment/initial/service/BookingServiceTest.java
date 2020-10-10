@@ -122,8 +122,10 @@ class BookingServiceTest {
         List<Booking> workerBookigns = new ArrayList<>();
         workerBookigns.add(b1);
 
-        doReturn(new ArrayList<>()).when(repo).findAllByUser_IdAndStatus(u1.getId(), Booking.BookingStatus.PENDING);  // empty list => no overlap
-        doReturn(workerBookigns).when(repo).findAllByWorker_IdAndStatus(w1.getId(), Booking.BookingStatus.PENDING);  // NON-EMPTY list (with overlap) overlap
+        doReturn(new ArrayList<>()).when(repo).findAllByWorker_IdAndStatusOrStatus(
+                u1.getId(), Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED);  // empty list => no overlap
+        doReturn(workerBookigns).when(repo).findAllByWorker_IdAndStatusOrStatus(
+                w1.getId(), Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED);  // NON-EMPTY list (with overlap) overlap
 
         b1.setUser(u1);
         Booking b2 = service.saveOrUpdateBooking(b1, true);
