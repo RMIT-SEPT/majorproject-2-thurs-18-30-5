@@ -67,7 +67,8 @@ export default class BookingPage2 extends Component {
       this.props.history.push('/bookingPage3', {service: this.state.service,
                                                 startDate: this.state.startDate,
                                                 endDate: this.state.endDate,
-                                                user: this.props.location.state.user});
+                                                user: this.props.location.state.user,
+                                                auth: this.props.location.state.auth});
     }
   }
   render() {
@@ -75,7 +76,7 @@ export default class BookingPage2 extends Component {
       <div className="img-bg">
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <CustomerHeader user={this.props.location.state} />
+            <CustomerHeader state={this.props.location.state} />
 
             <form className="date-form" onSubmit={this.onSubmit}>
                 <h3 className="date-h3">Choose date and time</h3>

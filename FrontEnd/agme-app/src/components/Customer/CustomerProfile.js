@@ -29,8 +29,7 @@ export default class CustomerProfile extends Component {
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           password: this.state.password,
-          address: this.state.address,
-          bookings: this.props.location.state.user.bookings
+          address: this.state.address
       }
 
       if (this.state.firstName == "") {
@@ -44,8 +43,10 @@ export default class CustomerProfile extends Component {
       }
       
       try {
-        const res = await axios.put("http://localhost:8080/api/customer", newPerson);
-        this.props.history.push('/customer-profile', {user: newPerson});
+        console.log(this.props.location.state.auth);
+        console.log(newPerson);
+        await axios.put("http://localhost:8080/api/customer", newPerson, { headers: {Authorization: this.props.location.state.auth} });
+        this.props.history.push('/customer-profile', {user: newPerson, auth: this.props.location.state.auth});
       } catch (err) {
         window.alert("Incorrect password; please try again.");
       }
@@ -57,7 +58,7 @@ export default class CustomerProfile extends Component {
   render() {
     return (
       <div>
-        <CustomerHeader user={this.props.location.state} />
+        <CustomerHeader state={this.props.location.state} />
           <div className="cust-img">
             <div className="container profile">
               <form onSubmit={this.onSubmit}>

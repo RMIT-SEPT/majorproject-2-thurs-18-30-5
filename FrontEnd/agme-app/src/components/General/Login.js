@@ -29,18 +29,21 @@ class Login extends Component {
 
       try {
         const res = await axios.get("http://localhost:8080/api/worker/auth/username/" + this.state.username, { params: { password: this.state.password, isAdmin: true } });
-        this.person = res.data;
-        this.props.history.push('/admin-dashboard', {user: this.person});
+        const res2 = await axios.get("http://localhost:8080/api/worker/" + res.data.id, { headers: { Authorization: res.data.tokenType + " " + res.data.accessToken } });
+        this.person = res2.data;
+        this.props.history.push('/admin-dashboard', {user: this.person, auth: res.data.tokenType + " " + res.data.accessToken});
       } catch (err) {
           try {
             const res = await axios.get("http://localhost:8080/api/worker/auth/username/" + this.state.username, { params: { password: this.state.password, isAdmin: false } });
-            this.person = res.data;
-            this.props.history.push('/worker-dashboard', {user: this.person});
+            const res2 = await axios.get("http://localhost:8080/api/worker/" + res.data.id, { headers: { Authorization: res.data.tokenType + " " + res.data.accessToken } });
+            this.person = res2.data;
+            this.props.history.push('/worker-dashboard', {user: this.person, auth: res.data.tokenType + " " + res.data.accessToken});
           } catch (err2) {
             try {
               const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
-              this.person = res.data;
-              this.props.history.push('/customer-dashboard', {user: this.person});
+              const res2 = await axios.get("http://localhost:8080/api/customer/" + res.data.id, { headers: { Authorization: res.data.tokenType + " " + res.data.accessToken } });
+              this.person = res2.data;
+              this.props.history.push('/customer-dashboard', {user: this.person, auth: res.data.tokenType + " " + res.data.accessToken});
             } catch (err3) {
               window.location.reload(false);
             }

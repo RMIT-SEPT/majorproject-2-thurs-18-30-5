@@ -13,9 +13,10 @@ export default class CustomerDashboard extends Component {
   };
   constructor(props) {
     super(props);
+    console.log(this.props.location.state);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "PENDING"} })
+      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
         .then(res => {
           const bookings = res.data;
           this.setState({pendingBookings: bookings});
@@ -26,7 +27,7 @@ export default class CustomerDashboard extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "CONFIRMED"} })
+      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "CONFIRMED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({confirmedBookings: bookings});
@@ -37,7 +38,7 @@ export default class CustomerDashboard extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { params: {bookingStatus: "COMPLETED"} })
+      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "COMPLETED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({completedBookings: bookings});
@@ -65,11 +66,11 @@ export default class CustomerDashboard extends Component {
       };
 
       try {
-        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking);
+        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking, { headers: {Authorization: this.props.location.state.auth} });
       } catch (err) {
 
       }
-      this.props.history.push('/customer-dashboard', {user: this.props.location.state.user});
+      this.props.history.push('/customer-dashboard', this.props.location.state);
       window.location.reload(false);
     }
   }
@@ -77,7 +78,7 @@ export default class CustomerDashboard extends Component {
   render() {
     return (
       <div>
-        <CustomerHeader user={this.props.location.state} />
+        <CustomerHeader state={this.props.location.state} />
           <div className="cust-img">
             <div className="container customer-title">
               <div className="welcome-msg">G'day, {this.props.location.state.user.firstName}!</div>
