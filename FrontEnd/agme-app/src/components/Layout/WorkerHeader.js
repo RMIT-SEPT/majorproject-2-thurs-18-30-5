@@ -11,14 +11,14 @@ export default class WorkerHeader extends Component {
             <div className="container">
 							<Link className="navbar-brand" to={{
                 pathname: '/worker-dashboard',
-                state: this.props.user
+                state: this.props.state
               }}>AGME</Link>
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
                     <Link className="nav-link" to={{
                       pathname: '/worker-profile',
-                      state: this.props.user
+                      state: this.props.state
                     }}>Profile</Link>
                   </li>
 

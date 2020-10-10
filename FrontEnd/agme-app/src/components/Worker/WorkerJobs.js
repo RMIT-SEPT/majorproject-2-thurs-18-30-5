@@ -13,7 +13,7 @@ export default class WorkerJobs extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/worker/" + this.props.location.state.user.id, { params: {bookingStatus: "PENDING"} })
+      axios.get("http://localhost:8080/api/booking/all/worker/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
         .then(res => {
           const bookings = res.data;
           this.setState({pendingBookings: bookings});
@@ -44,7 +44,7 @@ export default class WorkerJobs extends Component {
       };
 
       try {
-        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking);
+        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking, {headers: {Authorization: this.props.location.state.auth}});
       } catch (err) {
 
       }
@@ -69,7 +69,7 @@ export default class WorkerJobs extends Component {
       };
 
       try {
-        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking);
+        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking, {headers: {Authorization: this.props.location.state.auth}});
       } catch (err) {
 
       }
@@ -80,7 +80,7 @@ export default class WorkerJobs extends Component {
   render() {
     return (
       <div>
-        <WorkerHeader user={this.props.location.state} />
+        <WorkerHeader state={this.props.location.state} />
           <div className="cust-img">
             <div className="container customer-title">
               <div className="welcome-msg">Pending Jobs</div>
