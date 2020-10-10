@@ -1,5 +1,5 @@
 import React from "react";
-import LandingPage from '../jsLandingPage';
+import LandingPage from '../js/LandingPage';
 import {shallow} from "enzyme";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
