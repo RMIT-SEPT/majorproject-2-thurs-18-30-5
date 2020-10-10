@@ -14,7 +14,7 @@ export default class PastBooking extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { params: {bookingStatus: "COMPLETED"} })
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "COMPLETED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({completedBookings: bookings});
@@ -25,7 +25,7 @@ export default class PastBooking extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { params: {bookingStatus: "CANCELLED"} })
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "CANCELLED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({cancelledBookings: bookings});
@@ -38,7 +38,7 @@ export default class PastBooking extends Component {
   render() {
     return (
       <div>
-        <AdminHeader user={this.props.location.state} />
+        <AdminHeader state={this.props.location.state} />
           <div className="admin-img">
             <div className="container book-summary-page">
               <div className="book-title">Past Bookings</div>

@@ -13,7 +13,7 @@ export default class WorkerDashboard extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/worker/" + this.props.location.state.user.id, { params: {bookingStatus: "CONFIRMED"} })
+      axios.get("http://localhost:8080/api/booking/all/worker/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "CONFIRMED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({confirmedBookings: bookings});
@@ -24,7 +24,7 @@ export default class WorkerDashboard extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/worker/" + this.props.location.state.user.id, { params: {bookingStatus: "COMPLETED"} })
+      axios.get("http://localhost:8080/api/booking/all/worker/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "COMPLETED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({completedBookings: bookings});
@@ -54,7 +54,7 @@ export default class WorkerDashboard extends Component {
       };
 
       try {
-        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking);
+        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking, {headers: {Authorization: this.props.location.state.auth}});
       } catch (err) {
 
       }
@@ -65,7 +65,7 @@ export default class WorkerDashboard extends Component {
   render() {
     return (
       <div>
-        <WorkerHeader user={this.props.location.state} />
+        <WorkerHeader state={this.props.location.state} />
           <div className="cust-img">
             <div className="container customer-title">
               <div className="welcome-msg">G'day, {this.props.location.state.user.user.firstName}!</div>

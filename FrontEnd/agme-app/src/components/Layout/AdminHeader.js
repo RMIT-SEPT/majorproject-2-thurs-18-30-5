@@ -11,7 +11,7 @@ export default class CustomerHeader extends Component {
             <div className="container">
               <Link className="navbar-brand" to={{
                 pathname: '/admin-dashboard',
-                state: this.props.user
+                state: this.props.state
               }}>AGME</Link>
 							
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">

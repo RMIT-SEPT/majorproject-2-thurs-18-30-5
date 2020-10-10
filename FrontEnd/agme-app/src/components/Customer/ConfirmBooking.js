@@ -28,18 +28,18 @@ export default class ConfirmBooking extends Component {
     };
 
     try {
-      const res = await axios.post("http://localhost:8080/api/booking", booking);
+      await axios.post("http://localhost:8080/api/booking", booking, {headers: {Authorization: this.props.location.state.auth}});
     } catch (err) {
       window.alert("This booking has conflict with your other bookings; please try again.");
     }
-    this.props.history.push('/customer-dashboard', {user: this.props.location.state.user});
+    this.props.history.push('/customer-dashboard', {user: this.props.location.state.user, auth: this.props.location.state.auth});
   }
   render() {
     return (
         <div className="img-bg">
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <CustomerHeader user={this.props.location.state} />
+            <CustomerHeader state={this.props.location.state} />
 
             <form onSubmit={this.onSubmit}>
                 <h3>Booking details</h3>

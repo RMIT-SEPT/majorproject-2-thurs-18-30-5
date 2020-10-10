@@ -12,7 +12,7 @@ export default class WorkerProfile extends Component {
   render() {
     return (
       <div>
-        <WorkerHeader user={this.props.location.state} />
+        <WorkerHeader state={this.props.location.state} />
           <div className="cust-img">
             <div className="container profile">
               <form>

@@ -9,10 +9,10 @@ export default class BookingPage1 extends Component {
   state = {
     businesses: []
   }
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    axios.get("http://localhost:8080/api/business/all")
+    axios.get("http://localhost:8080/api/business/all", { headers: {Authorization: this.props.location.state.auth}})
       .then(res => {
         const businesses = res.data;
         this.setState({ businesses });
@@ -23,7 +23,7 @@ export default class BookingPage1 extends Component {
       <div className="img-bg">
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <CustomerHeader user={this.props.location.state} />
+            <CustomerHeader state={this.props.location.state} />
 
             <form className="service-form">
               <h3 className="service-h3">Choose a service</h3>
@@ -39,7 +39,8 @@ export default class BookingPage1 extends Component {
                           <Link to={{
                             pathname: '/bookingPage2',
                             state: {user: this.props.location.state.user,
-                                    service: business}
+                                    service: business,
+                                    auth: this.props.location.state.auth}
                           }}>
                             <button className="booking-btn service-btn" type="submit">{business.name}</button>
                           </Link>

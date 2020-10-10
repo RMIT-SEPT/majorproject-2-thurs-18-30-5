@@ -14,7 +14,7 @@ export default class UpcomingBooking extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { params: {bookingStatus: "PENDING"} })
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
         .then(res => {
           const bookings = res.data;
           this.setState({pendingBookings: bookings});
@@ -25,7 +25,7 @@ export default class UpcomingBooking extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { params: {bookingStatus: "CONFIRMED"} })
+      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "CONFIRMED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({confirmedBookings: bookings});
@@ -38,7 +38,7 @@ export default class UpcomingBooking extends Component {
   render() {
     return (
       <div>
-        <AdminHeader user={this.props.location.state} />
+        <AdminHeader state={this.props.location.state} />
           <div className="admin-img">
             <div className="container book-summary-page">
               <div className="book-title">Upcoming Bookings</div>

@@ -24,7 +24,7 @@ export default class BookingPage2 extends Component {
     var formattedEnd = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+(d.getMinutes().toString().length==2?d.getMinutes().toString():"0"+d.getMinutes().toString());
     this.state.endDate = formattedEnd;
     
-    axios.get("http://localhost:8080/api/worker/business/" + this.state.service.id.toString(), { params: { start: this.state.startDate, end: this.state.endDate, isAdmin: false } })
+    axios.get("http://localhost:8080/api/worker/business/" + this.state.service.id.toString(), { headers: {Authorization: this.props.location.state.auth}, params: { start: this.state.startDate, end: this.state.endDate, isAdmin: false } })
       .then(res => {
         const workers = res.data;
         this.setState({workers: workers});
@@ -35,7 +35,7 @@ export default class BookingPage2 extends Component {
       <div className="img-bg">
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <CustomerHeader user={this.props.location.state} />
+            <CustomerHeader state={this.props.location.state} />
 
             <form className="service-form">
               <h3>Choose a worker</h3>
@@ -55,7 +55,8 @@ export default class BookingPage2 extends Component {
                                         endDate: this.state.endDate, 
                                         service: this.state.service, 
                                         worker: worker, 
-                                        user:this.props.location.state.user}
+                                        user: this.props.location.state.user,
+                                        auth: this.props.location.state.auth}
                             }}>
                               <button className="booking-btn service-btn" type="submit">{worker.user.firstName}</button>
                             </Link>
@@ -74,7 +75,7 @@ export default class BookingPage2 extends Component {
                   Unfortunately there is no worker available at this time. Click 
                   <Link to={{
                     pathname: '/bookingPage2',
-                    state: {service: this.state.service, user:this.props.location.state.user}
+                    state: {service: this.state.service, user:this.props.location.state.user, auth: this.props.location.state.auth}
                   }}> here </Link>
                   to choose another time.
                   <br/><br/>
