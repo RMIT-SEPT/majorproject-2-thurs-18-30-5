@@ -110,8 +110,9 @@ workflows:
       - update-backend:
           requires:
             - build-and-push-backend
-          branches:
-            only: develop
+          filters:
+            branches:
+              only: develop
 
   build-frontend-qa:
     jobs:
