@@ -6,27 +6,27 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import SignUp from './components/General/Signup';
-import Login from './components/General/Login';
-import ForgotPassword from './components/General/ForgotPassword';
+import SignUp from './components/General/js/Signup';
+import Login from './components/General/js/Login';
+import ForgotPassword from './components/General/js/ForgotPassword';
 
-import CustomerDashboard from './components/Customer/CustomerDashboard';
-import CustomerProfile from './components/Customer/CustomerProfile';
-import ChooseService from './components/Customer/ChooseService';
-import ChooseTime from './components/Customer/ChooseTime';
-import ChooseWorker from './components/Customer/ChooseWorker';
-import ConfirmBooking from './components/Customer/ConfirmBooking';
+import CustomerDashboard from './components/Customer/js/CustomerDashboard';
+import CustomerProfile from './components/Customer/js/CustomerProfile';
+import ChooseService from './components/Customer/js/ChooseService';
+import ChooseTime from './components/Customer/js/ChooseTime';
+import ChooseWorker from './components/Customer/js/ChooseWorker';
+import ConfirmBooking from './components/Customer/js/ConfirmBooking';
 
-import AdminDashboard from './components/Admin/AdminDashboard';
-import AddWorker from './components/Admin/AddWorker';
-import Business from './components/Admin/Business';
-import UpcomingBooking from './components/Admin/UpcomingBooking';
-import PastBooking from './components/Admin/PastBooking';
-import WorkerPage from './components/Admin/WorkerPage';
+import AdminDashboard from './components/Admin/js/AdminDashboard';
+import AddWorker from './components/Admin/js/AddWorker';
+import Business from './components/Admin/js/Business';
+import UpcomingBooking from './components/Admin/js/UpcomingBooking';
+import PastBooking from './components/Admin/js/PastBooking';
+import WorkerPage from './components/Admin/js/WorkerPage';
 
-import WorkerDashboard from './components/Worker/WorkerDashboard';
-import WorkerProfile from './components/Worker/WorkerProfile';
-import WorkerJobs from './components/Worker/WorkerJobs';
+import WorkerDashboard from './components/Worker/js/WorkerDashboard';
+import WorkerProfile from './components/Worker/js/WorkerProfile';
+import WorkerJobs from './components/Worker/js/WorkerJobs';
 
 ReactDOM.render(
   <BrowserRouter>
