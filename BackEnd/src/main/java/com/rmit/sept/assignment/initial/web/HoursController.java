@@ -3,6 +3,7 @@ package com.rmit.sept.assignment.initial.web;
 import com.rmit.sept.assignment.initial.model.Booking;
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.Worker;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import com.rmit.sept.assignment.initial.service.HoursService;
 import com.rmit.sept.assignment.initial.service.WorkerService;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+import static com.rmit.sept.assignment.initial.security.SecurityConstant.*;
 /**
  * Hours Controller class allows access to update/retrieve/remove Hours entities
  * Hours are use to indicate when a Worker is working, taking a composite primary key value of WorkerId (FK) and DayOfWeek
@@ -31,6 +33,9 @@ public class HoursController {
 
     @Autowired
     private WorkerService workerService;
+
+    @Autowired
+    private AuthRequestService authService;
 
     @Autowired
     private FieldValidationService validationService;
@@ -95,19 +100,25 @@ public class HoursController {
      * @return newly created Hours entity if successful
      */
     @PostMapping(value = "/{workerId}")
-    public ResponseEntity<?> createNewHours(@PathVariable Long workerId, @Validated @RequestBody Hours hours, BindingResult result) {
+    public ResponseEntity<?> createNewHours(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                            @PathVariable Long workerId,
+                                            @Validated @RequestBody Hours hours,
+                                            BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null && workerId != null) {
             Hours hours1 = null;
             Worker w1 = workerService.findById(workerId);
-            if (w1 != null) {
-                Hours.HoursPK pk = hours.getId();
-                pk.setWorker(w1);
-                hours.setId(pk);
-                hours1 = hoursService.saveOrUpdateHours(hours);
+            if (authService.authWorkerRequest(token, w1)) {
+                if (w1 != null) {
+                    Hours.HoursPK pk = hours.getId();
+                    pk.setWorker(w1);
+                    hours.setId(pk);
+                    hours1 = hoursService.saveOrUpdateHours(hours);
+                }
+                HttpStatus status = (hours1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+                return new ResponseEntity<>(hours1, status);
             }
-            HttpStatus status = (hours1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-            return new ResponseEntity<>(hours1, status);
+            return new ResponseEntity<>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
         } else {
             return errors;
         }
@@ -120,11 +131,14 @@ public class HoursController {
      * @return OK if the id values were valid, otherwise BAD_REQUEST
      */
     @DeleteMapping(value = "/{workerId}", params = "dayOfWeek")
-    public ResponseEntity<?> deleteWorkerHours(@PathVariable Long workerId,
+    public ResponseEntity<?> deleteWorkerHours(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                               @PathVariable Long workerId,
                                                @RequestParam DayOfWeek dayOfWeek) {
         boolean deleteHours = false;
         if (workerId != null && dayOfWeek != null) {
-            deleteHours = hoursService.deleteHours(workerId, dayOfWeek);
+            if (authService.authWorkerRequest(token, workerId)) {
+                deleteHours = hoursService.deleteHours(workerId, dayOfWeek);
+            }
         }
         HttpStatus status = (deleteHours) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return new ResponseEntity<>("Hours deleted", status);

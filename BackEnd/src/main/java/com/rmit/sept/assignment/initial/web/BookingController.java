@@ -1,8 +1,10 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Booking;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.BookingService;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
+import com.rmit.sept.assignment.initial.service.WorkerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
+
+import static com.rmit.sept.assignment.initial.security.SecurityConstant.*;
 
 /**
  * Booking Controller class allows access to update retrieve and create Booking objects. Bookings are made between User
@@ -23,6 +27,12 @@ import java.util.Collection;
 public class BookingController {
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private WorkerService workerService;
+
+    @Autowired
+    private AuthRequestService authService;
 
     @Autowired
     private FieldValidationService validationService;
@@ -47,10 +57,16 @@ public class BookingController {
      * @return Booking entity if found otherwise null
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> getBooking(@PathVariable Long id) {
+    public ResponseEntity<?> getBooking(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                        @PathVariable Long id) {
         Booking booking = bookingService.findById(id);
-        HttpStatus status = booking != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(booking, status);
+        if (booking != null) {
+            if (authService.authBookingRequest(token, booking.getUser(), booking.getWorker())) {
+                return new ResponseEntity<Booking>(booking, HttpStatus.OK);
+            }
+            return new ResponseEntity<String>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<String>("Invalid booking id", HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -59,15 +75,19 @@ public class BookingController {
      * @return Collection of Bookings made for that Worker
      */
     @GetMapping("/all/worker/{id}")
-    public ResponseEntity<Collection<Booking>> getBookingsByWorker(@PathVariable Long id,
+    public ResponseEntity<Collection<Booking>> getBookingsByWorker(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                                                   @PathVariable Long id,
                                                                    @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
-        Collection<Booking> bookings;
-        if (bookingStatus == null)
-            bookings = bookingService.findByWorker(id);
-        else
-            bookings = bookingService.findByWorker(id, bookingStatus);
-        HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(bookings, status);
+        if (authService.authWorkerRequest(token, id)) {
+            Collection<Booking> bookings;
+            if (bookingStatus == null)
+                bookings = bookingService.findByWorker(id);
+            else
+                bookings = bookingService.findByWorker(id, bookingStatus);
+            HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(bookings, status);
+        }
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -76,15 +96,19 @@ public class BookingController {
      * @return Collection of Bookings for the Business
      */
     @GetMapping("/all/business/{id}")
-    public ResponseEntity<Collection<Booking>> getBookingsByBusiness(@PathVariable Long id,
+    public ResponseEntity<Collection<Booking>> getBookingsByBusiness(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                                                     @PathVariable Long id,
                                                                      @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
-        Collection<Booking> bookings;
-        if (bookingStatus == null)
-            bookings = bookingService.findByBusiness(id);
-        else
-            bookings = bookingService.findByBusiness(id, bookingStatus);
-        HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(bookings, status);
+        if (authService.authGetBusinessEntitiesRequest(token, id)){
+            Collection<Booking> bookings;
+            if (bookingStatus == null)
+                bookings = bookingService.findByBusiness(id);
+            else
+                bookings = bookingService.findByBusiness(id, bookingStatus);
+            HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(bookings, status);
+        }
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -94,15 +118,19 @@ public class BookingController {
      * @return Collection of Booking entities
      */
     @GetMapping("/all/user/{id}")
-    public ResponseEntity<Collection<Booking>> getBookingsByUser(@PathVariable Long id,
+    public ResponseEntity<Collection<Booking>> getBookingsByUser(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                                                 @PathVariable Long id,
                                                                  @RequestParam(required = false) Booking.BookingStatus bookingStatus) {
-        Collection<Booking> bookings;
-        if (bookingStatus == null)
-            bookings = bookingService.findByUser(id);
-        else
-            bookings = bookingService.findByUser(id, bookingStatus);
-        HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(bookings, status);
+        if (authService.authUserRequest(token, id)){
+            Collection<Booking> bookings;
+            if (bookingStatus == null)
+                bookings = bookingService.findByUser(id);
+            else
+                bookings = bookingService.findByUser(id, bookingStatus);
+            HttpStatus status = (bookings.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(bookings, status);
+        }
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -112,16 +140,19 @@ public class BookingController {
      * @return newly created Booking if successful, otherwise null
      */
     @PostMapping("")
-    public ResponseEntity<?> createBooking(@Validated @RequestBody Booking booking, BindingResult result) {
+    public ResponseEntity<?> createBooking(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                           @Validated @RequestBody Booking booking,
+                                           BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            Booking booking1 = bookingService.saveOrUpdateBooking(booking, true);
-            HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-            return new ResponseEntity<Booking>(booking1, status);
-        } else {
-            return errors;
+            if (authService.authBookingRequest(token, booking.getUser(), booking.getWorker())) {
+                Booking booking1 = bookingService.saveOrUpdateBooking(booking, true);
+                HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+                return new ResponseEntity<Booking>(booking1, status);
+            }
+            return new ResponseEntity<String>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
         }
-
+        return errors;
     }
 
     /**
@@ -132,18 +163,23 @@ public class BookingController {
      * @return Booking created if the process was successful, or null otherwise
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBooking(@Validated @RequestBody Booking booking, @PathVariable Long id, BindingResult result) {
+    public ResponseEntity<?> updateBooking(@RequestHeader(value = HEADER_NAME, required = false) String token,
+                                           @Validated @RequestBody Booking booking,
+                                           @PathVariable Long id, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            if (bookingService.findById(id) != null) {
-                booking.setId(id);  // TODO: why is this required? postman sending id as field is ignored somehow
-                Booking booking1 = bookingService.saveOrUpdateBooking(booking, false);
-                HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.OK;
-                return new ResponseEntity<Booking>(booking1, status);
+            Booking temp = bookingService.findById(id);
+            if (temp != null) {
+                if (authService.authBookingRequest(token, temp.getUser(), temp.getWorker())) {
+                    booking.setId(id);
+                    Booking booking1 = bookingService.saveOrUpdateBooking(booking, false);
+                    HttpStatus status = (booking1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.OK;
+                    return new ResponseEntity<Booking>(booking1, status);
+                }
+                return new ResponseEntity<String>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
             }
-            return new ResponseEntity<>("Invalid Booking ID", HttpStatus.NOT_FOUND);
-        } else {
-            return errors;
+            return new ResponseEntity<String>("Invalid Booking ID", HttpStatus.NOT_FOUND);
         }
+        return errors;
     }
 }

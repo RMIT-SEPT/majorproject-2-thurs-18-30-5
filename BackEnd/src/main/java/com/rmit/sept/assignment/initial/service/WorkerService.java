@@ -179,7 +179,7 @@ public class WorkerService {
                     temp.setStart(startDate);
                     temp.setEnd(endDate);
                     List<Booking> bookings = findById(workerId).getBookings().stream()
-                            .filter(b -> b.getStatus() == Booking.BookingStatus.PENDING).collect(Collectors.toList());
+                            .filter(b -> b.getStatus() == Booking.BookingStatus.PENDING || b.getStatus() == Booking.BookingStatus.CONFIRMED).collect(Collectors.toList());
                     bookings.add(temp);  // add proposed booking dates to check for an overlap with existing bookings
                     return !Utilities.findOverlap(bookings);
                 }

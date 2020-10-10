@@ -3,6 +3,9 @@ package com.rmit.sept.assignment.initial.service;
 import com.rmit.sept.assignment.initial.repositories.UserRepository;
 import com.rmit.sept.assignment.initial.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,7 @@ import java.util.Optional;
  * of requests.
  */
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder encoder;
     @Autowired
     private UserRepository userRepository;
@@ -107,4 +110,10 @@ public class UserService {
         return null;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByUsername(s);
+        if (!user.isPresent()) throw new UsernameNotFoundException("User not found");
+        return new User(user.get().getId(), user.get().getUsername(), user.get().getPassword());
+    }
 }
