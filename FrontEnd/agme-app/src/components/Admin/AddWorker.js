@@ -6,8 +6,8 @@ import axios from "axios";
 import './AddWorker.css'
 
 export default class AddWorker extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       "username": "",
@@ -47,13 +47,12 @@ export default class AddWorker extends Component {
               }
               else {
                 try {
-                  await axios.get("http://localhost:8080/api/worker/auth/username/" + this.props.location.state.user.user.username, { params: { password: this.state.adminPass, isAdmin: true } });
+                  await axios.get("http://localhost:8080/api/worker/auth/username/" + this.props.location.state.user.user.username, { headers: {Authorization: this.props.location.state.auth}, params: { password: this.state.adminPass, isAdmin: true } });
                   
                   try {
-                    await axios.post("http://localhost:8080/api/customer", newPerson);
-                    const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { params: { password: this.state.password } });
+                    await axios.post("http://localhost:8080/api/customer", newPerson, { headers: {Authorization: this.props.location.state.auth} });
+                    const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { headers: {Authorization: this.props.location.state.auth}, params: { password: this.state.password } });
 
-                    console.log(res.data);
                     const newWorker = {
                       id: res.data.id,
                       user_id: res.data.id,
@@ -62,8 +61,8 @@ export default class AddWorker extends Component {
                       }
                     };
 
-                    await axios.post("http://localhost:8080/api/worker", newWorker);
-                    this.props.history.push('/admin-dashboard', {user: this.props.location.state.user});
+                    await axios.post("http://localhost:8080/api/worker", newWorker, { headers: {Authorization: this.props.location.state.auth} });
+                    this.props.history.push('/admin-dashboard', {user: this.props.location.state.user, auth: this.props.location.state.auth});
 
                   } catch (err) {
                     window.alert("Username already exists; please try again.");      
@@ -93,7 +92,7 @@ export default class AddWorker extends Component {
   render() {
     return (
       <div>
-        <AdminHeader user={this.props.location.state} />
+        <AdminHeader state={this.props.location.state} />
           <div className="admin-img">
             <div className="container profile">
               <form onSubmit={this.onSubmit}>

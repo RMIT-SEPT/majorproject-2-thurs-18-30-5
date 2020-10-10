@@ -14,7 +14,7 @@ export default class AdminDashboard extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/worker/business/" + this.props.location.state.user.business.id, { params: { isAdmin: false } })
+      axios.get("http://localhost:8080/api/worker/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: { isAdmin: false } })
         .then(res => {
           const workers = res.data;
           this.setState({workers: workers});
@@ -25,7 +25,7 @@ export default class AdminDashboard extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/business/" + this.props.location.state.user.business.id)
+      axios.get("http://localhost:8080/api/business/" + this.props.location.state.user.business.id, {headers: {Authorization: this.props.location.state.auth}})
         .then(res => {
           const business = res.data;
           this.setState({business: business});
@@ -39,7 +39,7 @@ export default class AdminDashboard extends Component {
   render() {
     return (
       <div>
-        <AdminHeader user={this.props.location.state} />
+        <AdminHeader state={this.props.location.state} />
           <div className="admin-img">
             <div className="container admin-dashboard">
               <div className="admin-title">Admin Dashboard</div>
@@ -74,7 +74,8 @@ export default class AdminDashboard extends Component {
                                 pathname: '/worker-page',
                                 state: {
                                   user: this.props.location.state.user, 
-                                  worker: worker
+                                  worker: worker,
+                                  auth: this.props.location.state.auth
                                 }
                               }}>{worker.user.firstName}</Link>
                             </td>
@@ -97,7 +98,8 @@ export default class AdminDashboard extends Component {
                   pathname: '/add-worker',
                   state: {
                     user: this.props.location.state.user,
-                    business: this.state.business
+                    business: this.state.business,
+                    auth: this.props.location.state.auth
                   }
                 }}>Add New Worker</Link>
               </div>
@@ -106,7 +108,8 @@ export default class AdminDashboard extends Component {
                   pathname: '/business',
                   state: {
                     user: this.props.location.state.user,
-                    business: this.state.business
+                    business: this.state.business,
+                    auth: this.props.location.state.auth
                   }
                 }}>Edit Business</Link>
               </div>
