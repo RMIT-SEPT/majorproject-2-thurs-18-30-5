@@ -62,7 +62,7 @@ class Login extends Component {
               <br/>
 
               <div className="form-group">
-                <label>Username</label>
+                <label className="login-uname">Username</label>
                 <input 
                   type="text" 
                   className="form-control form-input" 
@@ -75,7 +75,7 @@ class Login extends Component {
               </div>
 
               <div className="form-group">
-                <label>Password</label>
+                <label className="login-pwd">Password</label>
                 <input 
                   type="password" 
                   className="form-control form-input"

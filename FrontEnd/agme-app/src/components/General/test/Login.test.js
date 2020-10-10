@@ -15,28 +15,22 @@ describe("<Login /> component Unit Test", () => {
         expect(login.text()).toEqual("Login");
     });
 
-    it("should render email or username label in <Login /> component", () => {
-        const email_username = wrapper.find(".email-username");
-        expect(email_username).toHaveLength(1);
-        expect(email_username.text()).toEqual("Username");
+    it("should render username label in <Login /> component", () => {
+        const username = wrapper.find(".login-uname");
+        expect(username).toHaveLength(1);
+        expect(username.text()).toEqual("Username");
     });
 
     it("should render password label in <Login /> component", () => {
-        const password = wrapper.find(".pwd");
-        expect(password).toHaveLength(1);
-        expect(password.text()).toEqual("Password");
+        const pwd = wrapper.find(".login-pwd");
+        expect(pwd).toHaveLength(1);
+        expect(pwd.text()).toEqual("Password");
     });
 
     it("should render submit button in <Login /> component", () => {
-        const submit = wrapper.find(".service-btn");
+        const submit = wrapper.find(".submit");
         expect(submit).toHaveLength(1);
         expect(submit.text()).toEqual("Submit");
-    });
-
-    it("should render forgot password button in <Login /> component", () => {
-        const fgt_pwd = wrapper.find(".forgot-pwd-option");
-        expect(fgt_pwd).toHaveLength(1);
-        expect(fgt_pwd.text()).toEqual("Forgot password?");
     });
 
 });
