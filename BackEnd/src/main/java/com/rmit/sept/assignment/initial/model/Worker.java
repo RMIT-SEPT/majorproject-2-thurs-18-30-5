@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,12 +48,13 @@ public class Worker {
     private Date updatedAt;
 
     public Worker() {
-
+        this.bookings = new ArrayList<>();
     }
 
     public Worker(User user) {
         this();
         setUser(user);
+        this.bookings = new ArrayList<>();
     }
 
     public User getUser() {
@@ -107,19 +109,6 @@ public class Worker {
     public List<Booking> getBookings() {
         return bookings;
     }
-//
-//    public List<Hours> getHours() {
-//        return hours;
-//    }
-//
-//    public Hours getHours(DayOfWeek dayOfWeek) {
-//        for (Hours hours : hours) {
-//            System.out.println("\n" + (hours.getId().getDayOfWeek().compareTo(dayOfWeek) == 0));
-//            if (hours.getId().getDayOfWeek().compareTo(dayOfWeek) == 0)
-//                return hours;
-//        }
-//        return null;
-//    }
 
     @Override
     public boolean equals(Object o) {
