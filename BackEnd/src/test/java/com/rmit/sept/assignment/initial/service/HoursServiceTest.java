@@ -172,4 +172,6 @@ class HoursServiceTest {
         Hours h3 = service.findById(h2.getId());
         assertNull(h3);  // double check that have been removed
     }
+
+//    findVailable
 }
