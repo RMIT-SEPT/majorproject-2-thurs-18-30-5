@@ -1,5 +1,6 @@
 package com.rmit.sept.assignment.initial.service;
 
+import com.rmit.sept.assignment.initial.model.Booking;
 import com.rmit.sept.assignment.initial.repositories.HoursRepository;
 import com.rmit.sept.assignment.initial.model.Hours;
 import com.rmit.sept.assignment.initial.model.User;
@@ -12,7 +13,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -173,5 +177,60 @@ class HoursServiceTest {
         assertNull(h3);  // double check that have been removed
     }
 
-//    findVailable
+    private void setupFindHoursByWorker(Worker worker, LocalTime start, LocalTime end, DayOfWeek skip) {
+        Hours temp;
+        doReturn(Optional.of(worker)).when(workerRepository).findById(worker.getId());
+        for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+            if (skip == null || skip.compareTo(dayOfWeek) != 0) {
+                temp = new Hours(dayOfWeek, worker);
+                temp.setStart(start);
+                temp.setEnd(end);
+                doReturn(Optional.of(temp)).when(repo).findById(temp.getId());
+            } else {
+                doReturn(Optional.empty()).when(repo).findById(new Hours.HoursPK(worker, dayOfWeek));
+            }
+        }
+    }
+
+    private List<Booking> setupBookings(Worker worker, User user, LocalDateTime startTime, LocalDateTime endTime) {
+        List<Booking> bookings = new ArrayList<>();
+        Booking temp = new Booking();
+        temp.setWorker(worker);
+        temp.setUser(user);
+        temp.setStatus(Booking.BookingStatus.CONFIRMED);
+        temp.setStart(startTime);
+        temp.setEnd(endTime);
+        bookings.add(temp);
+        return bookings;
+    }
+
+
+    @Test
+    @DisplayName("Test findAvailableByWorker Success")
+    void testFindAvailableByWorker() {
+        w1 = new Worker(new User(1L, "workeruser", "123Qwe!"));
+        u1 = new User(2L, "customer", "123Qwe!");
+        LocalTime start = LocalTime.parse("09:00");
+        LocalTime end = LocalTime.parse("17:00");
+        LocalDate sDate = LocalDate.of(2020, 1, 1);
+        setupFindHoursByWorker(w1, start, end, null);
+        List<Hours> hoursList = service.findAvailableByWorker(w1, sDate);
+        assertNotNull(hoursList);
+        assertTrue(hoursList.size() > 0);
+        assertEquals(hoursList.get(0).getStart(), start);
+        assertEquals(hoursList.get(0).getEnd(), end);
+    }
+
+    @Test
+    @DisplayName("Test findAvailableByWorker Unavailable")
+    void testFindAvailableByWorkerUnavailable() {
+        w1 = new Worker(new User(1L, "workeruser", "123Qwe!"));
+        u1 = new User(2L, "customer", "123Qwe!");
+        LocalTime start = LocalTime.parse("09:00");
+        LocalTime end = LocalTime.parse("17:00");
+        LocalDate sDate = LocalDate.of(2020, 1, 1);
+        setupFindHoursByWorker(w1, start, end, sDate.getDayOfWeek());
+        List<Hours> hoursList = service.findAvailableByWorker(w1, sDate);
+        assertNull(hoursList);
+    }
 }

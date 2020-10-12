@@ -88,7 +88,7 @@ public class BookingService {
      * @param status status to filter
      * @return Collection of Bookings with that status
      */
-    public Collection<Booking> findAll(Booking.BookingStatus status) {
+    public Collection<Booking> findAll(@NotNull Booking.BookingStatus status) {
         return bookingRepository.findAllByStatus(status);
     }
 
@@ -116,7 +116,7 @@ public class BookingService {
      * @param status BookingStatus of Booking (PENDING, CONFIRMED, COMPLETED, CANCELLED)
      * @return Collection of Bookings
      */
-    public Collection<Booking> findByWorker(@NotNull Long workerId, Booking.BookingStatus status) {
+    public Collection<Booking> findByWorker(@NotNull Long workerId, @NotNull Booking.BookingStatus status) {
         return bookingRepository.findAllByWorker_IdAndStatus(workerId, status);
     }
 
@@ -127,7 +127,9 @@ public class BookingService {
      * @param status2 BookingStatus of Booking (PENDING, CONFIRMED, COMPLETED, CANCELLED)
      * @return Collection of Bookings
      */
-    public Collection<Booking> findByWorker(@NotNull Long workerId, Booking.BookingStatus status1, Booking.BookingStatus status2) {
+    public Collection<Booking> findByWorker(@NotNull Long workerId,
+                                            @NotNull Booking.BookingStatus status1,
+                                            @NotNull Booking.BookingStatus status2) {
         return bookingRepository.findAllByWorker_IdAndStatusOrStatus(workerId, status1, status2);
     }
 
