@@ -49,8 +49,8 @@ public class User implements UserDetails {
 
     public User(Long id, String username, String password) {
         this.id = id;
-        this.setUsername(username);
-        this.setPassword(password);
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {

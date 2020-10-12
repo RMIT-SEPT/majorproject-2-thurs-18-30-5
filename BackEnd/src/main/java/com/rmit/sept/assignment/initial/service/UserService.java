@@ -34,20 +34,36 @@ public class UserService implements UserDetailsService {
      * @return User object, or null if not found (i.e. when updating via username)
      */
     public User saveOrUpdateUser(User user, boolean create) {
-        Long userId = user.getId();
-        if (userId == null) {  // if ID is null we should check for username
+        if (user == null) return null;
+        if (create) {
             String username = user.getUsername();
-            if (username != null) {  // append id to user parameter
+            if (username != null) {  // must provide a username value when creating a user
                 Optional<User> user1 = userRepository.findByUsername(username);
-                if (create && user1.isPresent()) return null;  // return null if duplicate username and creating a user
-                user1.ifPresent(value -> user.setId(value.getId()));
+                if (user1.isPresent()) return null;  // return null if duplicate username and creating a user
             } else {  // if we cannot find by username then the request was incorrect
+                return null;
+            }
+        } else {
+            Long userId = user.getId();
+            if (userId != null) {  // if ID is null we should check for username
+                String username = user.getUsername();
+                if (username != null) {
+                    Optional<User> user1 = userRepository.findByUsername(username);
+                    // return null if duplicate username and updating a user
+                    if (user1.isPresent() && !userId.equals(user1.get().getId())) return null;
+                    user1.ifPresent(value -> user.setId(value.getId()));
+                } else {  // if we cannot find by username or user id then the request was invalid
+                    return null;
+                }
+            } else {
                 return null;
             }
         }
         String password = user.getPassword();
         if (password != null) {
             user.setPassword(encoder.encode(user.getPassword()));
+        } else {
+            return null;
         }
         return userRepository.save(user);
     }
@@ -68,6 +84,7 @@ public class UserService implements UserDetailsService {
      * @return User object, or null if not found
      */
     public User findById(Long id) {
+        if (id == null) return null;
         Optional<User> customer = userRepository.findById(id);
         return customer.orElse(null);
     }
@@ -78,6 +95,7 @@ public class UserService implements UserDetailsService {
      * @return User object of null if not found
      */
     public User findByUsername(String username) {
+        if (username == null) return null;
         Optional<User> customer = userRepository.findByUsername(username);
         return customer.orElse(null);
     }
@@ -89,6 +107,7 @@ public class UserService implements UserDetailsService {
      * @return User object or null if not found
      */
     public User authenticateUser(String username, String password) {
+        if (username == null || password == null) return null;
         User user = findByUsername(username);
         if (user != null)
             if (encoder.matches(password, user.getPassword()))
@@ -103,6 +122,7 @@ public class UserService implements UserDetailsService {
      * @return User object or null if not found
      */
     public User authenticateUser(Long id, String password) {
+        if (id == null || password == null) return null;
         User user = findById(id);
         if (user != null)
             if (encoder.matches(password, user.getPassword()))
@@ -111,9 +131,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(s);
-        if (!user.isPresent()) throw new UsernameNotFoundException("User not found");
-        return new User(user.get().getId(), user.get().getUsername(), user.get().getPassword());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (username == null) return null;
+        User user = findByUsername(username);
+        if (user == null) throw new UsernameNotFoundException("User not found");
+        return new User(user.getId(), user.getUsername(), user.getPassword());
     }
 }
