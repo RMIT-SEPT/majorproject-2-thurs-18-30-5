@@ -169,8 +169,6 @@ public class WorkerService {
      * @return true if the worker is available, otherwise false
      */
     public boolean checkAvailability(Long workerId, LocalDateTime startDate, LocalDateTime endDate) {
-//        Date start = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
-//        Date end = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
         for (Hours hours : hoursRepository.findById_WorkerId(workerId)) {
             if (hours.getId().getDayOfWeek().compareTo(startDate.getDayOfWeek()) == 0) {
                 if ((startDate.toLocalTime().compareTo(hours.getStart()) >= 0) &&

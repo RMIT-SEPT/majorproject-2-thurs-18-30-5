@@ -29,7 +29,8 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Service method to update or create a user
+     * Service method to update or create a user - user token (password when calling update endpoint) is authenticated
+     * in UserController before calling this method.
      * @param user user data to update
      * @return User object, or null if not found (i.e. when updating via username)
      */
@@ -69,7 +70,7 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Returns a list of all workers
+     * Returns a list of all Users
      * @return a Collection of workers (ArrayList)
      */
     public Collection<User> findAll() {
@@ -79,38 +80,36 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Return a user based on their ID
+     * Return a user based on their ID value (primary key)
      * @param id Long id of user (generated value)
      * @return User object, or null if not found
      */
     public User findById(Long id) {
         if (id == null) return null;
-        Optional<User> customer = userRepository.findById(id);
-        return customer.orElse(null);
+        return userRepository.findById(id).orElse(null);
     }
 
     /**
-     * Return a user based on username
+     * Return a user based on username (unique field)
      * @param username: unique username of user
      * @return User object of null if not found
      */
     public User findByUsername(String username) {
         if (username == null) return null;
-        Optional<User> customer = userRepository.findByUsername(username);
-        return customer.orElse(null);
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     /**
-     * Authenticate a user - check username and password
+     * Authenticate a user - check username and password are valid
      * @param username: username of user to fetch
      * @param password: password to check
-     * @return User object or null if not found
+     * @return User object or null invalid credentials
      */
     public User authenticateUser(String username, String password) {
         if (username == null || password == null) return null;
         User user = findByUsername(username);
         if (user != null)
-            if (encoder.matches(password, user.getPassword()))
+            if (encoder.matches(password, user.getPassword()))  // compare encrypted and plaintext password
                 return user;
         return null;
     }
@@ -119,17 +118,23 @@ public class UserService implements UserDetailsService {
      * Authenticate a user - check ID and password
      * @param id: id of user to fetch
      * @param password: password to check
-     * @return User object or null if not found
+     * @return User object or null invalid credentials
      */
     public User authenticateUser(Long id, String password) {
         if (id == null || password == null) return null;
         User user = findById(id);
         if (user != null)
-            if (encoder.matches(password, user.getPassword()))
+            if (encoder.matches(password, user.getPassword()))  // compare encrypted and plaintext password
                 return user;
         return null;
     }
 
+    /**
+     * Overrides UserDetailsService method - loads a user by username, used in token authentication
+     * @param username: username to load
+     * @return User object with ID, username, and password
+     * @throws UsernameNotFoundException: occurs when username not found in DB
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (username == null) return null;
