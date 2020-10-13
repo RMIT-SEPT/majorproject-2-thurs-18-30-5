@@ -2,6 +2,7 @@ package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.WorkerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,6 +43,10 @@ public class WorkerControllerTest {
 
     @MockBean
     WorkerService workerService;
+
+    @MockBean
+    AuthRequestService authRequestService;
+
     /**
      * List of sample workers
      */
@@ -55,6 +61,9 @@ public class WorkerControllerTest {
         workers = new ArrayList<>();
         workers.add(worker1);
         workers.add(worker2);
+
+        when(authRequestService.authWorkerRequest(any(), (Worker) any())).thenReturn(true);
+        when(authRequestService.authWorkerRequest(any(), (Long) any())).thenReturn(true);
     }
 
     @Test

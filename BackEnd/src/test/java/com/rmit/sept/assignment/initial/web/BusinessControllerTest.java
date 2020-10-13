@@ -2,6 +2,7 @@ package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Business;
 import com.rmit.sept.assignment.initial.model.Hours;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.BusinessService;
 import com.rmit.sept.assignment.initial.service.HoursService;
 import com.rmit.sept.assignment.initial.model.User;
@@ -51,6 +52,9 @@ public class BusinessControllerTest {
     @MockBean
     BusinessService businessService;
 
+    @MockBean
+    AuthRequestService authRequestService;
+
     private List<Business> businesses, businessesByName;
 
     @BeforeEach
@@ -67,6 +71,10 @@ public class BusinessControllerTest {
 
         businessesByName = new ArrayList<Business>();
         businessesByName.add(b1);
+
+        when(authRequestService.authGetBusinessEntitiesRequest(any(), any())).thenReturn(true);
+        when(authRequestService.authUpdateBusinessRequest(any(), any())).thenReturn(true);
+        when(authRequestService.authCreateBusinessRequest(any())).thenReturn(true);
     }
 
     @Test

@@ -131,7 +131,7 @@ public class WorkerController {
             } else {
                 workers = workerService.findAllByBusiness(businessId, isAdmin);
             }
-            HttpStatus status = (workers.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            HttpStatus status = (workers == null) ? HttpStatus.BAD_REQUEST : (workers.size() > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
             return new ResponseEntity<>(workers, status);
 //        }
 //        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);

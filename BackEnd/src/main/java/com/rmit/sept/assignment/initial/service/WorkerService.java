@@ -42,10 +42,11 @@ public class WorkerService {
      * @return Worker object, or null if invalid (no id)
      */
     public Worker saveOrUpdateWorker(Worker worker) {
+        if (worker == null) return null;
         Long workerId = worker.getId();
         if (workerId != null) {  // workerId cannot be null
             Optional<Worker> worker1 = workerRepository.findById(workerId);
-            if (worker1.isPresent()) {  // UPDATE WORKER
+            if (worker1.isPresent()) {  // UPDATE WORKER i.e. worker with that ID already exists
                 worker.setUser(worker1.get().getUser());
                 return workerRepository.save(worker);
             }
@@ -66,6 +67,7 @@ public class WorkerService {
      * @return Worker object if password and admin are valid otherwise null
      */
     public Worker authenticateWorker(Long id, String password, boolean admin) {
+        if (id == null || password == null) return null;
         Worker worker;
         worker = findByIdAndAdmin(id, admin);
         if (worker != null && worker.getUser() != null) {
@@ -85,7 +87,9 @@ public class WorkerService {
      * @return Worker object or null if invalid
      */
     public Worker authenticateWorker(String username, String password, boolean admin) {
+        if (username == null || password == null) return null;
         Worker worker = findByUsername(username);
+        if (worker == null) return null;
         return authenticateWorker(worker.getId(), password, admin);
     }
 
@@ -105,8 +109,8 @@ public class WorkerService {
      * @return Worker object if found, otherwise null
      */
     public Worker findById(Long id) {
-        Optional<Worker> worker = workerRepository.findById(id);
-        return worker.orElse(null);
+        if (id == null) return null;
+        return workerRepository.findById(id).orElse(null);
     }
 
     /**
@@ -116,8 +120,8 @@ public class WorkerService {
      * @return Worker if found or null
      */
     public Worker findByIdAndAdmin(Long id, boolean admin) {
-        Optional<Worker> worker = workerRepository.findByIdAndIsAdmin(id, admin);
-        return worker.orElse(null);
+        if (id == null) return null;
+        return workerRepository.findByIdAndIsAdmin(id, admin).orElse(null);
     }
 
     /**
@@ -126,8 +130,8 @@ public class WorkerService {
      * @return Worker object or null if not found
      */
     public Worker findByUsername(String username) {
-        Optional<Worker> worker = workerRepository.findByUserUsername(username);
-        return worker.orElse(null);
+        if (username == null) return null;
+        return workerRepository.findByUserUsername(username).orElse(null);
     }
 
     /**
@@ -136,6 +140,7 @@ public class WorkerService {
      * @return Collection of Workers assigned to that Business
      */
     public List<Worker> findAllByBusiness(Long bid, Boolean isAdmin) {
+        if (bid == null) return null;
         if (isAdmin != null) {
             return new ArrayList<>(workerRepository.findAllByBusiness_IdAndIsAdmin(bid, isAdmin));
         }
@@ -151,6 +156,7 @@ public class WorkerService {
      * @return List of available Workers assigned to that Business
      */
     public List<Worker> findAllByBusiness(Long bid, LocalDateTime startDate, LocalDateTime endDate, Boolean isAdmin) {
+        if (bid == null || startDate == null || endDate == null || isAdmin == null) return null;
         List<Worker> workers = new ArrayList<>();
         for (Worker worker : findAllByBusiness(bid, isAdmin)) {
             if (checkAvailability(worker.getId(), startDate, endDate)) {
@@ -168,9 +174,7 @@ public class WorkerService {
      * @param endDate end Date-time value
      * @return true if the worker is available, otherwise false
      */
-    public boolean checkAvailability(Long workerId, LocalDateTime startDate, LocalDateTime endDate) {
-//        Date start = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
-//        Date end = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
+    private boolean checkAvailability(Long workerId, LocalDateTime startDate, LocalDateTime endDate) {
         for (Hours hours : hoursRepository.findById_WorkerId(workerId)) {
             if (hours.getId().getDayOfWeek().compareTo(startDate.getDayOfWeek()) == 0) {
                 if ((startDate.toLocalTime().compareTo(hours.getStart()) >= 0) &&
