@@ -45,7 +45,7 @@ export default class CustomerProfile extends Component {
       try {
         console.log(this.props.location.state.auth);
         console.log(newPerson);
-        await axios.put("http://localhost:8080/api/customer", newPerson, { headers: {Authorization: this.props.location.state.auth} });
+        await axios.put("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/customer", newPerson, { headers: {Authorization: this.props.location.state.auth} });
         this.props.history.push('/customer-profile', {user: newPerson, auth: this.props.location.state.auth});
       } catch (err) {
         window.alert("Incorrect password; please try again.");

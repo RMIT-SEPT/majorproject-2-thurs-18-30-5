@@ -14,7 +14,7 @@ export default class AdminDashboard extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/worker/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: { isAdmin: false } })
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/worker/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: { isAdmin: false } })
         .then(res => {
           const workers = res.data;
           this.setState({workers: workers});
@@ -25,7 +25,7 @@ export default class AdminDashboard extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/business/" + this.props.location.state.user.business.id, {headers: {Authorization: this.props.location.state.auth}})
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/business/" + this.props.location.state.user.business.id, {headers: {Authorization: this.props.location.state.auth}})
         .then(res => {
           const business = res.data;
           this.setState({business: business});

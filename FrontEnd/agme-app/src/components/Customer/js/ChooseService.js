@@ -12,7 +12,7 @@ export default class ChooseService extends Component {
   constructor(props) {
     super(props);
 
-    axios.get("http://localhost:8080/api/business/all", { headers: {Authorization: this.props.location.state.auth}})
+    axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/business/all", { headers: {Authorization: this.props.location.state.auth}})
       .then(res => {
         const businesses = res.data;
         this.setState({ businesses });

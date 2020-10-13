@@ -36,10 +36,10 @@ export default class Business extends Component {
       }
       
       try {
-        await axios.get("http://localhost:8080/api/worker/auth/username/" + this.props.location.state.user.user.username, { headers: {Authorization: this.props.location.state.auth}, params: { password: this.state.password, isAdmin: true } });
+        await axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/worker/auth/username/" + this.props.location.state.user.user.username, { headers: {Authorization: this.props.location.state.auth}, params: { password: this.state.password, isAdmin: true } });
         
         try {
-          await axios.put("http://localhost:8080/api/business/" + this.props.location.state.user.business.id, newBusiness, { headers: {Authorization: this.props.location.state.auth} });
+          await axios.put("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/business/" + this.props.location.state.user.business.id, newBusiness, { headers: {Authorization: this.props.location.state.auth} });
           this.props.history.push('/admin-dashboard', {user: this.props.location.state.user, auth: this.props.location.state.auth});
         } catch (err) {
           window.alert("Invalid info; please try again.");

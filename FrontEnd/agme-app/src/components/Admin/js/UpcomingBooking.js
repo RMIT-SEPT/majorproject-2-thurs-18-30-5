@@ -14,7 +14,7 @@ export default class UpcomingBooking extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
         .then(res => {
           const bookings = res.data;
           this.setState({pendingBookings: bookings});
@@ -25,7 +25,7 @@ export default class UpcomingBooking extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "CONFIRMED"} })
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/all/business/" + this.props.location.state.user.business.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "CONFIRMED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({confirmedBookings: bookings});

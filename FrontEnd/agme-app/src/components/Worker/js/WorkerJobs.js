@@ -13,7 +13,7 @@ export default class WorkerJobs extends Component {
     super(props);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/worker/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/all/worker/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
         .then(res => {
           const bookings = res.data;
           this.setState({pendingBookings: bookings});
@@ -44,7 +44,7 @@ export default class WorkerJobs extends Component {
       };
 
       try {
-        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking, {headers: {Authorization: this.props.location.state.auth}});
+        await axios.put("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/" + booking.id, changedBooking, {headers: {Authorization: this.props.location.state.auth}});
       } catch (err) {
 
       }
@@ -69,7 +69,7 @@ export default class WorkerJobs extends Component {
       };
 
       try {
-        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking, {headers: {Authorization: this.props.location.state.auth}});
+        await axios.put("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/" + booking.id, changedBooking, {headers: {Authorization: this.props.location.state.auth}});
       } catch (err) {
 
       }
