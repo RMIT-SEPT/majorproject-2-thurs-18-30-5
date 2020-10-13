@@ -1,6 +1,8 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.User;
+import com.rmit.sept.assignment.initial.model.Worker;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -43,6 +46,10 @@ public class UserControllerTest {
 
     @MockBean
     UserService userService;
+
+    @MockBean
+    AuthRequestService authRequestService;
+
     /**
      * List of sample users
      */
@@ -57,6 +64,9 @@ public class UserControllerTest {
         users = new ArrayList<>();
         users.add(user1);
         users.add(user2);
+
+        when(authRequestService.authUserRequest(any(), (User) any())).thenReturn(true);
+        when(authRequestService.authUserRequest(any(), (Long) any())).thenReturn(true);
     }
 
     @Test
