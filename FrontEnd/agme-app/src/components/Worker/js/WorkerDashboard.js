@@ -113,7 +113,7 @@ export default class WorkerDashboard extends Component {
               {
                 this.state.confirmedBookings.length == 0 &&
                 <div className="card no-booking-card upcoming-card">
-                  <div className="no-booking-msg">No confirmed bookings at the moment.</div>
+                  <div className="no-booking-msg conf-msg">No confirmed bookings at the moment.</div>
                 </div>
               }
               
@@ -154,7 +154,7 @@ export default class WorkerDashboard extends Component {
               {
                 this.state.completedBookings.length == 0 &&
                 <div className="card no-booking-card past-card">
-                  <div className="no-booking-msg">No completed bookings recorded.</div>
+                  <div className="no-booking-msg comp-msg">No completed bookings recorded.</div>
                 </div>
               }
               

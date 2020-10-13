@@ -65,7 +65,7 @@ export default class CustomerProfile extends Component {
                 <h1 className="profile-title">Profile</h1>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputusername" className="col-sm-2 col-form-label">Username</label>
+                  <label htmlFor="inputusername" className="col-sm-2 col-form-label cus-pro-uname">Username</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -77,7 +77,7 @@ export default class CustomerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputfname" className="col-sm-2 col-form-label">First name</label>
+                  <label htmlFor="inputfname" className="col-sm-2 col-form-label cus-pro-fname">First name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -91,7 +91,7 @@ export default class CustomerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputlname" className="col-sm-2 col-form-label">Last name</label>
+                  <label htmlFor="inputlname" className="col-sm-2 col-form-label cus-pro-lname">Last name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -105,7 +105,7 @@ export default class CustomerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputaddress" className="col-sm-2 col-form-label">Address</label>
+                  <label htmlFor="inputaddress" className="col-sm-2 col-form-label cus-pro-addr">Address</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -119,7 +119,7 @@ export default class CustomerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputpwd" className="col-sm-2 col-form-label cus-pwd-label">Password</label>
+                  <label htmlFor="inputpwd" className="col-sm-2 col-form-label cus-pwd-label cus-pro-pwd">Password</label>
                   <div className="col-sm-10">
                     <input 
                       type="password" 

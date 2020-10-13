@@ -94,7 +94,7 @@ export default class PastBooking extends Component {
               {
                 this.state.completedBookings.length == 0 && this.state.cancelledBookings.length == 0 &&
                 <div className="card admin-booking-card">
-                  <div className="no-booking-msg">No upcoming bookings at the moment.</div>
+                  <div className="no-booking-msg">No past bookings at the moment.</div>
                 </div>
               }
 

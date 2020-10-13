@@ -42,24 +42,24 @@ export default class ConfirmBooking extends Component {
             <CustomerHeader state={this.props.location.state} />
 
             <form onSubmit={this.onSubmit}>
-                <h3>Booking details</h3>
+                <h3 className="book-details-title">Booking details</h3>
                 <hr/>
                 <br/>
 
-                <div className="booking-label">Service</div>
-                <div className="booking-detail">{this.state.service.name}</div>
+                <div className="booking-label book-label-service">Service</div>
+                <div className="booking-detail service-detail">{this.state.service.name}</div>
                 <br/>
 
-                <div className="booking-label">Start date & time</div>
-                <div className="booking-detail">{this.state.startDate.toString()}</div>
+                <div className="booking-label book-label-start">Start date & time</div>
+                <div className="booking-detail start-detail">{this.state.startDate.toString()}</div>
                 <br/>
 
-                <div className="booking-label">End date & time</div>
-                <div className="booking-detail">{this.state.endDate.toString()}</div>
+                <div className="booking-label book-label-end">End date & time</div>
+                <div className="booking-detail end-detail">{this.state.endDate.toString()}</div>
                 <br/>
 
-                <div className="booking-label">Worker</div>
-                <div className="booking-detail">{this.state.worker.user.firstName}</div>
+                <div className="booking-label book-label-worker">Worker</div>
+                <div className="booking-detail worker-detail">{this.state.worker.user.firstName}</div>
                 <br/><br/>
 
                 <div>

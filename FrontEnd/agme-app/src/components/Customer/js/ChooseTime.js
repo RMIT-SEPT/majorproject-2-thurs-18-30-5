@@ -82,7 +82,7 @@ export default class ChooseTime extends Component {
                 <h3 className="date-h3">Choose date and time</h3>
                 <hr/>
                 <br/>
-                <div className="time-title">Start time</div>
+                <div className="time-title start-time-title">Start time</div>
                 <div>
                   <DatePicker className="datePicker"
                       selected={this.state.startDate}
@@ -96,7 +96,7 @@ export default class ChooseTime extends Component {
 
                 <br/><br/>
 
-                <div className="time-title">End time</div>
+                <div className="time-title end-time-title">End time</div>
                 <div>
                   <DatePicker className="datePicker"
                       selected={this.state.endDate}

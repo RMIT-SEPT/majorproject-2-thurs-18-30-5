@@ -38,7 +38,7 @@ export default class ChooseWorker extends Component {
             <CustomerHeader state={this.props.location.state} />
 
             <form className="service-form">
-              <h3>Choose a worker</h3>
+              <h3 className="choose-worker-title">Choose a worker</h3>
               <hr/>
 
               { 

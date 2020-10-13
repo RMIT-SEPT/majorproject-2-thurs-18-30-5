@@ -211,7 +211,7 @@ export default class AddWorker extends Component {
                 <div className="profile-title">Worker data</div>
 
                 <div className="form-group row field-row">
-                  <label for="inputusername" className="col-sm-2 col-form-label">Username</label>
+                  <label for="inputusername" className="col-sm-2 col-form-label work-uname">Username</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -223,7 +223,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputfname" className="col-sm-2 col-form-label">First name</label>
+                  <label for="inputfname" className="col-sm-2 col-form-label work-fname">First name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -237,7 +237,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputlname" className="col-sm-2 col-form-label">Last name</label>
+                  <label for="inputlname" className="col-sm-2 col-form-label work-lname">Last name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -251,7 +251,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputaddress" className="col-sm-2 col-form-label">Address</label>
+                  <label for="inputaddress" className="col-sm-2 col-form-label work-addr">Address</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 

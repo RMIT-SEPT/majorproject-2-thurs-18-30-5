@@ -99,7 +99,7 @@ export default class AddWorker extends Component {
                 <div className="profile-title">Add new worker</div>
 
                 <div className="form-group row field-row">
-                  <label for="inputusername" className="col-sm-2 col-form-label">Username</label>
+                  <label for="inputusername" className="col-sm-2 col-form-label add-uname">Username</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -115,7 +115,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputfirstname" className="col-sm-2 col-form-label">First name</label>
+                  <label for="inputfirstname" className="col-sm-2 col-form-label add-fname">First name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -131,7 +131,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputlastname" className="col-sm-2 col-form-label">Last name</label>
+                  <label for="inputlastname" className="col-sm-2 col-form-label add-lname">Last name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -147,7 +147,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputpassword" className="col-sm-2 col-form-label">Password</label>
+                  <label for="inputpassword" className="col-sm-2 col-form-label add-pwd">Password</label>
                   <div className="col-sm-10">
                     <input 
                       type="password" 
@@ -163,7 +163,7 @@ export default class AddWorker extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label for="inputpassword" className="col-sm-2 col-form-label">Confirm password</label>
+                  <label for="inputpassword" className="col-sm-2 col-form-label add-con-pwd">Confirm password</label>
                   <div className="col-sm-10">
                     <input 
                       type="password" 

@@ -19,7 +19,7 @@ export default class WorkerProfile extends Component {
                 <h1 className="profile-title">Profile</h1>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputusername" className="col-sm-2 col-form-label">Username</label>
+                  <label htmlFor="inputusername" className="col-sm-2 col-form-label work-pf-uname">Username</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -31,7 +31,7 @@ export default class WorkerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputbizname" className="col-sm-2 col-form-label">Business</label>
+                  <label htmlFor="inputbizname" className="col-sm-2 col-form-label work-pf-biz">Business</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -43,7 +43,7 @@ export default class WorkerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputfname" className="col-sm-2 col-form-label">First name</label>
+                  <label htmlFor="inputfname" className="col-sm-2 col-form-label work-pf-fname">First name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -55,7 +55,7 @@ export default class WorkerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputlname" className="col-sm-2 col-form-label">Last name</label>
+                  <label htmlFor="inputlname" className="col-sm-2 col-form-label work-pf-lname">Last name</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
@@ -67,7 +67,7 @@ export default class WorkerProfile extends Component {
                 </div>
 
                 <div className="form-group row field-row">
-                  <label htmlFor="inputaddress" className="col-sm-2 col-form-label">Address</label>
+                  <label htmlFor="inputaddress" className="col-sm-2 col-form-label work-pf-addr">Address</label>
                   <div className="col-sm-10">
                     <input 
                       type="text" 
