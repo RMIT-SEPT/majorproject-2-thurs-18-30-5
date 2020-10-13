@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -241,6 +243,18 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test saveOrUpdateUser Create Null Password")
+    void testCreateUserNullPassword() {
+        User u1 = new User(1L, "dondon94", "123Qwe!");
+        u1.setPassword(null);
+        doReturn(u1).when(repo).save(any());
+
+        User u2 = service.saveOrUpdateUser(u1, true);  // user has null ID
+
+        assertNull(u2);
+    }
+
+    @Test
     @DisplayName("Test saveOrUpdateUser Username in use")
     void testCreateUserDupeUsername() {
         User u1 = new User(1L, "dondon94", "123Qwe!");
@@ -297,8 +311,8 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Test saveOrUpdateUser Update Null")
-    void testUpdateUserNull() {
+    @DisplayName("Test saveOrUpdateUser Update Username Null")
+    void testUpdateUserUsernameNull() {
         User u1 = new User(1L, "dondon94", "123Qwe!");
         doReturn(u1).when(repo).save(any());
 
@@ -308,6 +322,23 @@ class UserServiceTest {
         assertEquals(u2, u1);
 
         u1.setUsername(null);
+
+        User c3 = service.saveOrUpdateUser(u1, false);  // user has a null id - should not update
+
+        assertNull(c3);
+    }
+
+    @Test
+    @DisplayName("Test saveOrUpdateUser Update Id Null")
+    void testUpdateUserIdNull() {
+        User u1 = new User(1L, "dondon94", "123Qwe!");
+        doReturn(u1).when(repo).save(any());
+
+        User u2 = service.saveOrUpdateUser(u1, true);
+
+        assertNotNull(u2);
+        assertEquals(u2, u1);
+
         u1.setId(null);
 
         User c3 = service.saveOrUpdateUser(u1, false);  // user has a null id - should not update
@@ -326,5 +357,31 @@ class UserServiceTest {
         User u3 = service.saveOrUpdateUser(u2, false);  // test updating with duplicate username
 
         assertNull(u3);
+    }
+
+    @Test
+    @DisplayName("Test loadUserByUsername Success")
+    void testLoadUserByUsername() {
+        User u1 = new User(1L, "dondon94", "123Qwe!");
+        doReturn(Optional.of(u1)).when(repo).findByUsername(u1.getUsername());
+        UserDetails user = service.loadUserByUsername(u1.getUsername());
+        assertNotNull(user);
+        assertEquals(u1.getUsername(), user.getUsername());
+    }
+
+    @Test
+    @DisplayName("Test loadUserByUsername Invalid")
+    void testLoadUserByUsernameMissing() {
+        User u1 = new User(1L, "dondon94", "123Qwe!");
+        doReturn(Optional.of(u1)).when(repo).findByUsername(u1.getUsername());
+        assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername("invalidusername"));
+    }
+
+    @Test
+    @DisplayName("Test loadUserByUsername Null")
+    void testLoadUserByUsernameNull() {
+        User u1 = new User(1L, "dondon94", "123Qwe!");
+        doReturn(Optional.of(u1)).when(repo).findByUsername(u1.getUsername());
+        assertNull(service.loadUserByUsername(null));
     }
 }

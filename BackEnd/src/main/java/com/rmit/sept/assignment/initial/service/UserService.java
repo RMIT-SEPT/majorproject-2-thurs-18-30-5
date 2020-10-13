@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
      */
     public User saveOrUpdateUser(User user, boolean create) {
         if (user == null) return null;
-        if (create) {
+        if (create) {  // creating a user
             String username = user.getUsername();
             if (username != null) {  // must provide a username value when creating a user
                 Optional<User> user1 = userRepository.findByUsername(username);
@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
             } else {  // if we cannot find by username then the request was incorrect
                 return null;
             }
-        } else {
+        } else {  // update user
             Long userId = user.getId();
             if (userId != null) {  // if ID is null we should check for username
                 String username = user.getUsername();
