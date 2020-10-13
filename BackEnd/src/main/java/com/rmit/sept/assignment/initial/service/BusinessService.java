@@ -49,6 +49,7 @@ public class BusinessService {
      * @return Business object, or null if not found
      */
     public Business findById(Long id) {
+        if (id == null) return null;
         return businessRepository.findById(id).orElse(null);
     }
 
@@ -58,6 +59,7 @@ public class BusinessService {
      * @return Collection of businesses
      */
     public Collection<Business> findByName(String name) {
+        if (name == null) return null;
         return businessRepository.findAllByNameContainsIgnoreCase(name);
     }
 
@@ -69,6 +71,7 @@ public class BusinessService {
      * @return List of businesses
      */
     public Collection<Business> findByName(String name, boolean exact) {
+        if (name == null) return null;
         if (exact)
             return businessRepository.findAllByNameIgnoreCase(name);
         else

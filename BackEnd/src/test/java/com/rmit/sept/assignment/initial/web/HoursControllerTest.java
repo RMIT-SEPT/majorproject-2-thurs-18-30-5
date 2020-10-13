@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Hours;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.HoursService;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
@@ -52,6 +53,9 @@ public class HoursControllerTest {
     @MockBean
     WorkerService workerService;
 
+    @MockBean
+    AuthRequestService authRequestService;
+
     private Worker worker;
     private List<Hours> hours;
 
@@ -71,6 +75,9 @@ public class HoursControllerTest {
         Hours h2 = new Hours();
         h2.setId(hoursPK2);
         hours.add(h2);
+
+        when(authRequestService.authWorkerRequest(any(), (Worker) any())).thenReturn(true);
+        when(authRequestService.authWorkerRequest(any(), (Long) any())).thenReturn(true);
     }
 
     @Test

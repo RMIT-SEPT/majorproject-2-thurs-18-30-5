@@ -159,7 +159,7 @@ class BookingServiceTest {
     }
 
     /**
-     * Simple method to update testing - moved to LocalDateTime, while tests were created with Date
+     * Helper method to update testing - Booking uses LocalDateTime, but tests were created when Booking class used Date
      * Source: https://www.logicbig.com/how-to/java-8-date-time-api/calender-to-localdatetime.html
      * @param calendar: calendar to update
      * @return LocalDateTime equivalent of calendar
