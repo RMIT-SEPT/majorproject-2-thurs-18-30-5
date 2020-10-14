@@ -161,10 +161,10 @@ workflows:
       - build-and-push-frontend:
           filters:
             branches:
-              only: develop
+              only: feature/frontend-cd
       - update-frontend:
           requires:
             - build-and-push-frontend
           filters:
             branches:
-              only: develop
+              only: feature/frontend-cd
