@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.mockito.Mockito.when;
 
@@ -35,7 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -137,6 +140,41 @@ public class HoursControllerTest {
     }
 
     @Test
+    @DisplayName("Test getWorkerAvailableHours success")
+    void testGetWorkerAvailableHoursBySuccess() throws Exception {
+        // Mocking service
+        when(workerService.findById(1L)).thenReturn(worker);
+        when(hoursService.findAvailableByWorker(worker, LocalDate.of(2020, 10, 15))).thenReturn(hours);
+
+        mockMvc.perform(get("/api/hours/available/1").param("date", "2020-10-15").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id.dayOfWeek", is(DayOfWeek.FRIDAY.toString())))
+                .andExpect(jsonPath("$[1].id.dayOfWeek", is(DayOfWeek.SATURDAY.toString())));
+    }
+
+    @Test
+    @DisplayName("Test getWorkerAvailableHours fail (null worker)")
+    void testGetWorkerAvailableHoursByFailNullWorker() throws Exception {
+        // Mocking service
+        when(workerService.findById(1L)).thenReturn(null);
+        when(hoursService.findAvailableByWorker(worker, LocalDate.of(2020, 10, 15))).thenReturn(hours);
+
+        mockMvc.perform(get("/api/hours/available/1").param("date", "2020-10-15").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Test getWorkerAvailableHours fail (null hours list)")
+    void testGetWorkerAvailableHoursByFailNullHoursList() throws Exception {
+        // Mocking service
+        when(workerService.findById(1L)).thenReturn(worker);
+        when(hoursService.findAvailableByWorker(worker, LocalDate.of(2020, 10, 15))).thenReturn(null);
+
+        mockMvc.perform(get("/api/hours/available/1").param("date", "2020-10-15").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @DisplayName("Test createNewHours success")
     void testCreateNewHoursSuccess() throws Exception {
         // Mocking service
@@ -213,4 +251,5 @@ public class HoursControllerTest {
         mockMvc.perform(delete("/api/hours/1").contentType(MediaType.APPLICATION_JSON))  // null/missing dayOfWeek
                 .andExpect(status().isBadRequest());
     }
+
 }
