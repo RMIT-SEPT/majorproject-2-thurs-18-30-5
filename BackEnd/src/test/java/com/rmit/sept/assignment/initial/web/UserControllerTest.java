@@ -141,4 +141,44 @@ public class UserControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
+
+    @Test
+    @DisplayName("Test updateUser success")
+    void testUpdateUserSuccess() throws Exception {
+        // Mocking service
+        when(userService.saveOrUpdateUser(ArgumentMatchers.any(User.class), ArgumentMatchers.anyBoolean())).thenReturn(users.get(0));
+
+        String inputJson = "{\n" +
+                "    \"id\": 1,\n" +
+                "    \"username\":\"ali123\",\n" +
+                "    \"password\":\"123Qwe!\"\n" +
+                "}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/customer")
+                .accept(MediaType.APPLICATION_JSON).content(inputJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+    }
+
+    @Test
+    @DisplayName("Test updateUser badRequest")
+    void testUpdateUserFail() throws Exception {
+        // Mocking service
+        when(userService.saveOrUpdateUser(null, true)).thenReturn(null);
+
+        String inputJson = "null";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/customer")
+                .accept(MediaType.APPLICATION_JSON).content(inputJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+    }
 }
