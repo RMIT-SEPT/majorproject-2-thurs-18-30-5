@@ -41,7 +41,7 @@ export default class AddWorker extends Component {
     try {
       var d = this.state.date;
       var formattedDate = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString());
-      axios.get("http://localhost:8080/api/hours/available/" + this.props.location.state.worker.user.id, { headers: {Authorization: this.props.location.state.auth}, params: { date: formattedDate } })
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/hours/available/" + this.props.location.state.worker.user.id, { headers: {Authorization: this.props.location.state.auth}, params: { date: formattedDate } })
         .then(res => {
           const hoursList = res.data;
           this.setState({hoursList: hoursList});
@@ -83,7 +83,7 @@ export default class AddWorker extends Component {
 
       
       try {
-        await axios.put("http://localhost:8080/api/customer", newPerson, { headers: {Authorization: this.props.location.state.auth} });
+        await axios.put("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/customer", newPerson, { headers: {Authorization: this.props.location.state.auth} });
         const worker = this.props.location.state.worker;
         worker.user = newPerson;
         this.props.history.push('/worker-page', {user: this.props.location.state.user, worker: worker, auth: this.props.location.state.auth});
@@ -171,7 +171,7 @@ export default class AddWorker extends Component {
 
       if (bad == false) {
         try {
-          await axios.delete("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, { headers: {Authorization: this.props.location.state.auth}, params: { dayOfWeek: days[this.state.startDate.getDay()] } });
+          await axios.delete("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/hours/" + this.props.location.state.worker.id, { headers: {Authorization: this.props.location.state.auth}, params: { dayOfWeek: days[this.state.startDate.getDay()] } });
         } catch (err) {
         
         }
@@ -191,7 +191,7 @@ export default class AddWorker extends Component {
               dayOfWeek: (this.state.date.getDay() + 6) % 7
             }
           };
-          await axios.post("http://localhost:8080/api/hours/" + this.props.location.state.worker.id, hours, { headers: {Authorization: this.props.location.state.auth} });
+          await axios.post("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/hours/" + this.props.location.state.worker.id, hours, { headers: {Authorization: this.props.location.state.auth} });
         } catch (err) {
 
         }

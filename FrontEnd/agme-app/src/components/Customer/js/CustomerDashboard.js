@@ -16,7 +16,7 @@ export default class CustomerDashboard extends Component {
     console.log(this.props.location.state);
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "PENDING"} })
         .then(res => {
           const bookings = res.data;
           this.setState({pendingBookings: bookings});
@@ -27,7 +27,7 @@ export default class CustomerDashboard extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "CONFIRMED"} })
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "CONFIRMED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({confirmedBookings: bookings});
@@ -38,7 +38,7 @@ export default class CustomerDashboard extends Component {
     }
 
     try {
-      axios.get("http://localhost:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "COMPLETED"} })
+      axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/all/user/" + this.props.location.state.user.id, { headers: {Authorization: this.props.location.state.auth}, params: {bookingStatus: "COMPLETED"} })
         .then(res => {
           const bookings = res.data;
           this.setState({completedBookings: bookings});
@@ -66,7 +66,7 @@ export default class CustomerDashboard extends Component {
       };
 
       try {
-        await axios.put("http://localhost:8080/api/booking/" + booking.id, changedBooking, { headers: {Authorization: this.props.location.state.auth} });
+        await axios.put("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking/" + booking.id, changedBooking, { headers: {Authorization: this.props.location.state.auth} });
       } catch (err) {
 
       }

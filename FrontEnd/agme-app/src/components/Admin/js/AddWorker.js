@@ -47,11 +47,11 @@ export default class AddWorker extends Component {
               }
               else {
                 try {
-                  await axios.get("http://localhost:8080/api/worker/auth/username/" + this.props.location.state.user.user.username, { headers: {Authorization: this.props.location.state.auth}, params: { password: this.state.adminPass, isAdmin: true } });
+                  await axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/worker/auth/username/" + this.props.location.state.user.user.username, { headers: {Authorization: this.props.location.state.auth}, params: { password: this.state.adminPass, isAdmin: true } });
                   
                   try {
-                    await axios.post("http://localhost:8080/api/customer", newPerson, { headers: {Authorization: this.props.location.state.auth} });
-                    const res = await axios.get("http://localhost:8080/api/customer/auth/" + this.state.username, { headers: {Authorization: this.props.location.state.auth}, params: { password: this.state.password } });
+                    await axios.post("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/customer", newPerson, { headers: {Authorization: this.props.location.state.auth} });
+                    const res = await axios.get("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/customer/auth/" + this.state.username, { headers: {Authorization: this.props.location.state.auth}, params: { password: this.state.password } });
 
                     const newWorker = {
                       id: res.data.id,
@@ -61,7 +61,7 @@ export default class AddWorker extends Component {
                       }
                     };
 
-                    await axios.post("http://localhost:8080/api/worker", newWorker, { headers: {Authorization: this.props.location.state.auth} });
+                    await axios.post("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/worker", newWorker, { headers: {Authorization: this.props.location.state.auth} });
                     this.props.history.push('/admin-dashboard', {user: this.props.location.state.user, auth: this.props.location.state.auth});
 
                   } catch (err) {

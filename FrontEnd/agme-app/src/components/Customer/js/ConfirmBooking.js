@@ -28,7 +28,7 @@ export default class ConfirmBooking extends Component {
     };
 
     try {
-      await axios.post("http://localhost:8080/api/booking", booking, {headers: {Authorization: this.props.location.state.auth}});
+      await axios.post("http://ec2-18-234-246-40.compute-1.amazonaws.com:8080/api/booking", booking, {headers: {Authorization: this.props.location.state.auth}});
     } catch (err) {
       window.alert("This booking has conflict with your other bookings; please try again.");
     }

@@ -76,7 +76,7 @@ jobs:
           command: |
               aws ecs update-service --cluster sept-backend-cluster --service update-backend --force-new-deployment
 
-  build-frontend:
+  build-and-push-frontend:
     docker:
       - image: circleci/node:12
 
@@ -85,20 +85,62 @@ jobs:
     steps:
       - checkout:
           path: ~/majorproject-2-thurs-18-30-5
-
+      
+      - setup_remote_docker
+      
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
 
-      - run: npm install
+      - run:
+          name: Install npm
+          command: npm install
+
+      - run:
+          name: Install dependencies for AWS
+          command: |
+            sudo apt-get update
+            sudo apt-get -y -qq install awscli
+            sudo apt-get install python3-pip
+            sudo pip3 install --upgrade awscli
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm test
+      - run: 
+          name: Run test 
+          command: npm run test
+
+      - run:
+          name: Build docker image
+          command: |
+            docker build -f Dockerfile -t agme-app .
+            docker tag agme-app:latest 358949391356.dkr.ecr.us-east-1.amazonaws.com/agme-app:latest
+
+      - run:
+          name: Push docker image
+          command: |
+            $(aws ecr get-login --region us-east-1 --no-include-email)
+            docker push 358949391356.dkr.ecr.us-east-1.amazonaws.com/agme-app:latest
+    
+  update-frontend:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - run:
+          name: Install dependencies for AWS
+          command: |
+            sudo apt-get update
+            sudo apt-get -y -qq install awscli
+            sudo apt-get install python3-pip
+            sudo pip3 install --upgrade awscli
+      - run:
+          name: Update the existing frontend service
+          command: |
+              aws ecs update-service --cluster agme-app-cluster --service agme-app-service --force-new-deployment
 
 workflows:
   build-backend-qa:
@@ -116,7 +158,13 @@ workflows:
 
   build-frontend-qa:
     jobs:
-      - build-frontend:
+      - build-and-push-frontend:
           filters:
             branches:
-              only: develop
+              only: feature/frontend-cd
+      - update-frontend:
+          requires:
+            - build-and-push-frontend
+          filters:
+            branches:
+              only: feature/frontend-cd
