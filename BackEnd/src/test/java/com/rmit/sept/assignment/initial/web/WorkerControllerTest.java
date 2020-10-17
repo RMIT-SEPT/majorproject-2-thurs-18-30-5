@@ -108,9 +108,13 @@ public class WorkerControllerTest {
     @DisplayName("Test AuthenticateWorker success")
     void testAuthenticateWorkerSuccess() throws Exception {
         // Mocking service
+        User temp = workers.get(0).getUser();
         when(workerService.authenticateWorker(1L, "123Qwe!", false)).thenReturn(workers.get(0));
-
-        mockMvc.perform(get("/api/worker/auth/id/1").param("password", "123Qwe!")
+        when(workerService.authenticateWorker("ali123", "123Qwe!", false)).thenReturn(workers.get(0));
+        // Mock the creation of the JWT Token
+        when(authRequestService.getJwtResponse(any(), any())).thenReturn(
+                new JwtResponse("TOKEN", temp.getId(), temp.getPassword()));
+        mockMvc.perform(get("/api/worker/auth/username/ali123").param("password", "123Qwe!")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id", is(1)));
@@ -121,7 +125,6 @@ public class WorkerControllerTest {
     void testAuthenticateWorkerFail() throws Exception {
         // Mocking service
         when(workerService.authenticateWorker(3L, "randomPass", false)).thenReturn(null);
-
         mockMvc.perform(get("/api/worker/auth/id/3").param("password", "randomPass")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
