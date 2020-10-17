@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.service;
 
 import com.rmit.sept.assignment.initial.model.Booking;
+import com.rmit.sept.assignment.initial.model.Business;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.repositories.BookingRepository;
@@ -158,6 +159,82 @@ class BookingServiceTest {
         Booking b2 = service.saveOrUpdateBooking(b1, true);
 
         assertNotNull(b2);
+    }
+
+    private void setupFindAll(Booking booking, Booking.BookingStatus status, Business business) {
+        List<Booking> temp = new ArrayList<>();
+        if (booking != null) {
+            temp.add(booking);
+            if (booking.getId() != null) {
+                doReturn(booking).when(repo).findById(booking.getId());
+
+            }
+            if (booking.getWorker() != null) {
+                doReturn(temp).when(repo).findAllByWorker_Id(booking.getWorker().getId());
+                if (status != null) {
+                    doReturn(temp).when(repo).findAllByWorker_IdAndStatus(booking.getWorker().getId(), status);
+                }
+            }
+            if (booking.getUser() != null) {
+                doReturn(temp).when(repo).findAllByUser_Id(booking.getUser().getId());
+                if (status != null) {
+                    doReturn(temp).when(repo).findAllByUser_IdAndStatus(booking.getUser().getId(), status);
+                }
+            }
+            if (business != null) {
+                doReturn(temp).when(repo).findAllByWorker_Business_Id(business.getId());
+                if (status != null) {
+                    doReturn(temp).when(repo).findAllByWorker_Business_IdAndStatus(business.getId(), status);
+                }
+            }
+        }
+        doReturn(temp).when(repo).findAll();
+        if (status != null) doReturn(temp).when(repo).findAllByStatus(status);
+    }
+
+    @Test
+    @DisplayName("Test findAll")
+    void testFindAll() {
+        setupFindAll(null, null, null);
+        assertEquals(0, service.findAll().size());
+        setupFindAll(new Booking(), null, null);
+        assertEquals(1, service.findAll().size());
+    }
+
+    @Test
+    @DisplayName("Test findAllByStatus")
+    void testFindALlByStatus() {
+        setupFindAll(new Booking(), Booking.BookingStatus.CONFIRMED, null);
+        assertEquals(1, service.findAll(Booking.BookingStatus.CONFIRMED).size());
+        assertEquals(0, service.findAll(Booking.BookingStatus.PENDING).size());
+    }
+
+    @Test
+    @DisplayName("Test findById Success")
+    void testFindByIdSuccess() {
+        Booking temp = new Booking();
+        temp.setId(1L);
+        setupFindAll(temp, null, null);
+        assertNotNull(service.findById(temp.getId()));
+        assertEquals(temp, service.findById(temp.getId()));
+    }
+
+    @Test
+    @DisplayName("Test findById Null")
+    void testFindByIdNull() {
+        Booking temp = new Booking();
+        temp.setId(1L);
+        setupFindAll(temp, null, null);
+        assertNull(service.findById(null));
+    }
+
+    @Test
+    @DisplayName("Test findById Not Found")
+    void testFindByIdNotFound() {
+        Booking temp = new Booking();
+        temp.setId(1L);
+        setupFindAll(temp, null, null);
+        assertNull(service.findById(2L));
     }
 
     /**
