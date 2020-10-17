@@ -77,7 +77,7 @@ public class HoursService {
             Hours.HoursPK hoursPK = new Hours.HoursPK(worker.get(), dayOfWeek);
             Optional<Hours> hours = hoursRepository.findById(hoursPK);
             if (hours.isPresent()) {
-                hoursRepository.delete(hours.get());
+                hoursRepository.deleteById(hours.get().getId());
                 return !hoursRepository.findById(hoursPK).isPresent();  // return true if hours have been removed
             }
         }
