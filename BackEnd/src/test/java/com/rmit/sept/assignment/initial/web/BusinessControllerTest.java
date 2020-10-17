@@ -130,4 +130,82 @@ public class BusinessControllerTest {
         mockMvc.perform(get("/api/business/name/RandomName").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @DisplayName("Test createNewBusiness success")
+    void testCreateNewBusinessSuccess() throws Exception {
+        // Mocking service
+        when(businessService.saveOrUpdateBusiness(any())).thenReturn(businesses.get(0));
+
+        String business = "{\n" +
+                "    \"id\": 2,\n" +
+                "    \"name\": \"business #1\",\n" +
+                "    \"description\": \"description for business #1\",\n" +
+                "    \"workers\": [],\n" +
+                "    \"createdAt\": \"2020-24-03 04:24\",\n" +
+                "    \"updatedAt\": \"2020-24-03 04:24\"\n" +
+                "}";
+
+        mockMvc.perform(post("/api/business").content(business).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("name", is("business #1")));
+    }
+
+    @Test
+    @DisplayName("Test createNewBusiness fail")
+    void testCreateNewBusinessFail() throws Exception {
+        // Mocking service
+        when(businessService.saveOrUpdateBusiness(any())).thenReturn(null);
+
+        String business = "{\n" +
+                "    \"id\": 2,\n" +
+                "    \"name\": \"business #1\",\n" +
+                "    \"description\": \"description for business #1\",\n" +
+                "    \"workers\": [],\n" +
+                "    \"createdAt\": \"2020-24-03 04:24\",\n" +
+                "    \"updatedAt\": \"2020-24-03 04:24\"\n" +
+                "}";
+
+        mockMvc.perform(post("/api/business").content(business).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Test updateBusiness success")
+    void testUpdateBusinessSuccess() throws Exception {
+        // Mocking service
+        when(businessService.saveOrUpdateBusiness(any())).thenReturn(businesses.get(0));
+
+        String business = "{\n" +
+                "    \"id\": 2,\n" +
+                "    \"name\": \"business #1\",\n" +
+                "    \"description\": \"description for business #1\",\n" +
+                "    \"workers\": [],\n" +
+                "    \"createdAt\": \"2020-24-03 04:24\",\n" +
+                "    \"updatedAt\": \"2020-24-03 04:24\"\n" +
+                "}";
+
+        mockMvc.perform(post("/api/business").content(business).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("name", is("business #1")));
+    }
+
+    @Test
+    @DisplayName("Test updateBusiness fail")
+    void testUpdateBusinessFail() throws Exception {
+        // Mocking service
+        when(businessService.saveOrUpdateBusiness(any())).thenReturn(null);
+
+        String business = "{\n" +
+                "    \"id\": 2,\n" +
+                "    \"name\": \"business #1\",\n" +
+                "    \"description\": \"description for business #1\",\n" +
+                "    \"workers\": [],\n" +
+                "    \"createdAt\": \"2020-24-03 04:24\",\n" +
+                "    \"updatedAt\": \"2020-24-03 04:24\"\n" +
+                "}";
+
+        mockMvc.perform(post("/api/business").content(business).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }

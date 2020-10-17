@@ -1,7 +1,7 @@
 import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import LandingPage from './components/General/LandingPage';
+import LandingPage from './components/General/js/LandingPage';
 import {Provider} from "react-redux";
 import store from './store';
 

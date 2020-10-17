@@ -130,7 +130,7 @@ public class BookingService {
     public Collection<Booking> findByWorker(@NotNull Long workerId,
                                             @NotNull Booking.BookingStatus status1,
                                             @NotNull Booking.BookingStatus status2) {
-        return bookingRepository.findAllByWorker_IdAndStatusOrStatus(workerId, status1, status2);
+        return bookingRepository.findAllByWorker_IdAndStatusOrWorker_IdAndStatus(workerId, status1, workerId, status2);
     }
 
     /**
@@ -159,8 +159,10 @@ public class BookingService {
      * @param status2 BookingStatus value (PENDING, CONFIRMED, COMPLETED, CANCELLED)
      * @return Collection of Booking entities
      */
-    public Collection<Booking> findByUser(@NotNull Long userId, @NotNull Booking.BookingStatus status1, Booking.BookingStatus status2) {
-        return bookingRepository.findAllByUser_IdAndStatusOrStatus(userId, status1, status2);
+    public Collection<Booking> findByUser(@NotNull Long userId,
+                                          @NotNull Booking.BookingStatus status1,
+                                          @NotNull Booking.BookingStatus status2) {
+        return bookingRepository.findAllByUser_IdAndStatusOrUser_IdAndStatus(userId, status1, userId, status2);
     }
 
     /**
