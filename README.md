@@ -19,3 +19,43 @@
 
 ## Project documentation
 [Wiki](https://github.com/RMIT-SEPT/majorproject-2-thurs-18-30-5/wiki) via `Wiki` tab
+
+
+## Backend
+### Build
+`mvn package` if testing the backend project
+  or 
+`docker build .` to test the dockerised backend project
+
+### Deploy
+In order to enable CICD, the project will need to be setup with CircleCI:
+- initalise project with CircleCI
+
+In order to deploy the backend AWS resources will need to be configured:
+- create a new RDS instance for the project
+  - for our project, given budget constraints, we used a free-tier MySQL RDS instance
+- create a new ECR for the backend project, as per course guides
+- create a new ECS Cluster for deployment of backend containers: LINK TO TUTORIAL
+- create a new ECS service to update EC2 instances: LINK TO TUTORIAL
+
+For the RDS Instance, ensure that the inbound security group rules allow for access from all addresses as follows:
+IMAGE
+
+For the backend EC2 instance, ensure that the inbound security group rules allow for access from all addresses as follows:
+IMAGE
+
+After these have been created, environment variables will needed to be added to the CircleCI project
+- AWS Access Key ID
+- AWS Account ID
+- AWS Default Region
+- AWS Resource Name Prefix: this is the name of the ECR instance
+- AWS Secret Access Key
+- AWS Session Token
+
+Once a developer commits or merges into master, the new container will be pushed to AWS and deployed to the EC2 instance.
+
+### Run
+To run the dockerised backend service locally, you can run `docker run -p 8080:8080 -t container_name`
+
+In order to access the deployed instance, simply navigate to the EC2 Instance panel and access the backend via the Ipv4 link
+IMAGE
