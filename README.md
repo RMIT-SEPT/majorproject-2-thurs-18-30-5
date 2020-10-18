@@ -21,13 +21,15 @@
 [Wiki](https://github.com/RMIT-SEPT/majorproject-2-thurs-18-30-5/wiki) via `Wiki` tab
 
 
-## Backend
-### Build
+## Instructions
+### Frontend
+### Backend
+#### Build
 `mvn package` if testing the backend project
   or 
 `docker build .` to test the dockerised backend project
 
-### Deploy
+#### Deploy
 In order to enable CICD, the project will need to be setup with CircleCI:
 - initalise project with CircleCI
 
@@ -54,7 +56,7 @@ After these have been created, environment variables will needed to be added to 
 
 Once a developer commits or merges into master, the new container will be pushed to AWS and deployed to the EC2 instance.
 
-### Run
+#### Run
 To run the dockerised backend service locally, you can run `docker run -p 8080:8080 -t container_name`
 
 In order to access the deployed instance, simply navigate to the EC2 Instance panel and access the backend via the IPv4 link
