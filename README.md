@@ -36,12 +36,14 @@ In order to enable CICD, the project will need to be setup with CircleCI:
 In order to deploy the backend AWS resources will need to be configured:
 - create a new RDS instance for the project
   - for our project, given budget constraints, we used a free-tier MySQL RDS instance
+  - take note of the endpoint and port number, updating application.properties and any references
+  ![EC2 Link](/docs/README_screenshots/rds.png)
 - create a new ECR for the backend project, as per course guides
 - create a new ECS Cluster for deployment of backend containers: [Guide](https://aws.amazon.com/premiumsupport/knowledge-center/ecs-tasks-pull-images-ecr-repository/)
 - create a new ECS service to update EC2 instances: LINK TO TUTORIAL
 
 For the RDS Instance, ensure that the inbound security group rules allow for access from all addresses as follows:
-IMAGE
+![EC2 Link](/docs/README_screenshots/rds_security.png)
 
 For the backend EC2 instance, ensure that the inbound security group rules allow for access from all addresses as follows:
 ![EC2 Security Inbount Rules](/docs/README_screenshots/ec2_security_group.png)
@@ -53,6 +55,7 @@ After these have been created, environment variables will needed to be added to 
 - AWS Resource Name Prefix: this is the name of the ECR instance
 - AWS Secret Access Key
 - AWS Session Token
+![Backend CircleCI Env Variables](/docs/README_screenshots/backend_ci_env.png)
 
 Once a developer commits or merges into master, the new container will be pushed to AWS and deployed to the EC2 instance.
 
