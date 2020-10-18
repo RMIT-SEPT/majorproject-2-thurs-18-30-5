@@ -148,6 +148,24 @@ class AuthRequestServiceTest {
     }
 
     @Test
+    @DisplayName("Test authWorkerRequest Null")
+    void testAuthWorkerRequestNull() {
+        Worker w1 = setupWorkerRequest(2L, "workeruser", 1L, false);
+        Worker w2 = setupWorkerRequest(1L, 1L, false);
+        assertFalse(service.authWorkerRequest(TOKEN, (Worker) null));
+        assertFalse(service.authWorkerRequest(TOKEN, (Long) null));
+    }
+
+    @Test
+    @DisplayName("Test authWorkerRequest Token Null")
+    void testAuthWorkerRequestTokenNull() {
+        Worker w1 = setupWorkerRequest(2L, "workeruser", 1L, false);
+        doReturn(null).when(authUtils).getUserNameFromJwtToken(any());
+        assertFalse(service.authWorkerRequest(TOKEN, w1));
+        assertFalse(service.authWorkerRequest(TOKEN, w1.getId()));
+    }
+
+    @Test
     @DisplayName("Test authCreateBusinessRequest Success")
     void testAuthCreateBusinessRequest() {
         // create an admin user
@@ -169,11 +187,22 @@ class AuthRequestServiceTest {
     @DisplayName("Test authCreateBusinessRequest Not Found")
     void testAuthCreateBusinessRequestNotFound() {
         // create an non-admin user
-        Worker w1 = setupWorkerRequest(1L, 1L, true);
+        Worker w1 = setupWorkerRequest(1L, 1L, false);
         // mock workerService returning null when searching by username
         doReturn(null).when(workerService).findByUsername(w1.getUser().getUsername());
         // validate that the user cannot create a new business as they are invalid
         assertFalse(service.authCreateBusinessRequest(TOKEN));
+    }
+
+    @Test
+    @DisplayName("Test authCreateBusinessRequest Null")
+    void testAuthCreateBusinessRequestNull() {
+        // create an non-admin user
+        Worker w1 = setupWorkerRequest(1L, 1L, true);
+        doReturn(w1).when(workerService).findByUsername(w1.getUser().getUsername());
+        // pass null token
+        doReturn(null).when(authUtils).getUserNameFromJwtToken(any());
+        assertFalse(service.authCreateBusinessRequest(null));
     }
 
     @Test
@@ -241,5 +270,14 @@ class AuthRequestServiceTest {
         Worker w1 = setupWorkerRequest(1L, 1L, false);
         // validate that they can get bookings pertaining to their business
         assertFalse(service.authGetBusinessEntitiesRequest(TOKEN, null));
+    }
+
+    @Test
+    @DisplayName("Test authBookingRequest Success")
+    void testAuthBookingRequest() {
+        Worker w1 = setupWorkerRequest(1L, 1L, false);
+        User u1 = setupUserRequest(2L);
+        assertTrue(service.authBookingRequest(TOKEN, u1, w1));
+        assertTrue(service.authBookingRequest(TOKEN, u1.getId(), w1.getId()));
     }
 }

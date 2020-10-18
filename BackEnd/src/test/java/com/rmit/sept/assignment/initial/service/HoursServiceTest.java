@@ -7,6 +7,7 @@ import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
 import com.rmit.sept.assignment.initial.repositories.WorkerRepository;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -42,6 +43,8 @@ class HoursServiceTest {
     private WorkerRepository workerRepository;
 
 
+    @MockBean
+    private Worker w2;
     private Hours h1 = null;
     private Worker w1 = null;
     private User u1 = null;
@@ -172,6 +175,28 @@ class HoursServiceTest {
         assertEquals(h1, h2);
 
         assertTrue(service.deleteHours(h2));  // test delete hours - service method calls findById to confirm removal
+
+        Hours h3 = service.findById(h2.getId());
+        assertNull(h3);  // double check that have been removed
+    }
+
+    @Test
+    @DisplayName("Test deleteHoursById Success")
+    void testDeleteHoursById() {
+        Hours.HoursPK hoursPK = new Hours.HoursPK(w1, DayOfWeek.SATURDAY);
+        h1 = new Hours();
+        h1.setStart("09:00");
+        h1.setEnd("17:00");
+        h1.setId(hoursPK);
+        doReturn(h1).when(repo).save(h1);
+        when(repo.findById(h1.getId())).thenReturn(Optional.of(h1)).thenReturn(Optional.empty());
+
+        Hours h2 = service.saveOrUpdateHours(h1);  // add hours to db
+
+        assertNotNull(h2);
+        assertEquals(h1, h2);
+
+        assertTrue(service.deleteHours(w1.getId(), DayOfWeek.SATURDAY));  // test delete hours - service method calls findById to confirm removal
 
         Hours h3 = service.findById(h2.getId());
         assertNull(h3);  // double check that have been removed
