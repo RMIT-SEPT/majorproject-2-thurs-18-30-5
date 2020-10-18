@@ -62,7 +62,7 @@ Once a developer commits or merges into master, the new container will be pushed
 ![Backend CircleCI Update](/docs/README_screenshots/backend_ci_update.png)
 
 #### Run
-To run the dockerised backend service locally, you can run `docker run -p 8080:8080 -t container_name`
+To run the dockerised backend service locally, you can run `docker run -p 8080:8080 -t container`
 
 In order to access the deployed instance, simply navigate to the EC2 Instance panel and access the backend via the IPv4 link
 ![EC2 Link](/docs/README_screenshots/ec2_link.png)
