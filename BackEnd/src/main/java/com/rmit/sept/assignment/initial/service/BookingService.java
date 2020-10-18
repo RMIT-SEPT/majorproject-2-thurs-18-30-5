@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.rmit.sept.assignment.initial.service.Utilities.findOverlap;
@@ -51,11 +52,13 @@ public class BookingService {
         if (!worker1.isPresent() || !user1.isPresent() || userIsWorker.isPresent()) {
             return null; // check if user/worker are invalid, or if the user is also a worker (not allowed - invalid)
         }
-        List<Booking> userBookings = new ArrayList<>(this.findByUser(userId, Booking.BookingStatus.PENDING));
-        List<Booking> workerBookings = new ArrayList<>(this.findByWorker(workerId, Booking.BookingStatus.PENDING));
-        Date start = booking.getStart();
-        Date end = booking.getEnd();
-        if (start == null || end == null || !end.after(start)) {
+        List<Booking> userBookings = new ArrayList<>(
+                this.findByUser(userId, Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED));
+        List<Booking> workerBookings = new ArrayList<>(
+                this.findByWorker(workerId, Booking.BookingStatus.PENDING, Booking.BookingStatus.CONFIRMED));
+        LocalDateTime start = booking.getStart();
+        LocalDateTime end = booking.getEnd();
+        if (start == null || end == null || !end.isAfter(start)) {
             return null;  // validate that the end and start values are logically correct
         } else {
             if (create) {  // append new booking and check for an overlap
@@ -81,6 +84,15 @@ public class BookingService {
     }
 
     /**
+     * Overloaded method to optionally filter all bookings by status
+     * @param status status to filter
+     * @return Collection of Bookings with that status
+     */
+    public Collection<Booking> findAll(@NotNull Booking.BookingStatus status) {
+        return bookingRepository.findAllByStatus(status);
+    }
+
+    /**
      * Return a Booking based on booking id
      * @param bookingId Booking id value
      * @return Booking object if found, otherwise null
@@ -101,11 +113,24 @@ public class BookingService {
     /**
      * Return Bookings based on Worker id and Booking status
      * @param workerId id of Worker
-     * @param status BookingStatus of Booking (PENDING, COMPLETED, CANCELLED)
+     * @param status BookingStatus of Booking (PENDING, CONFIRMED, COMPLETED, CANCELLED)
      * @return Collection of Bookings
      */
-    public Collection<Booking> findByWorker(@NotNull Long workerId, Booking.BookingStatus status) {
+    public Collection<Booking> findByWorker(@NotNull Long workerId, @NotNull Booking.BookingStatus status) {
         return bookingRepository.findAllByWorker_IdAndStatus(workerId, status);
+    }
+
+    /**
+     * Return Bookings based on Worker id and two Booking statuses
+     * @param workerId id of Worker
+     * @param status1 BookingStatus of Booking (PENDING, CONFIRMED, COMPLETED, CANCELLED)
+     * @param status2 BookingStatus of Booking (PENDING, CONFIRMED, COMPLETED, CANCELLED)
+     * @return Collection of Bookings
+     */
+    public Collection<Booking> findByWorker(@NotNull Long workerId,
+                                            @NotNull Booking.BookingStatus status1,
+                                            @NotNull Booking.BookingStatus status2) {
+        return bookingRepository.findAllByWorker_IdAndStatusOrWorker_IdAndStatus(workerId, status1, workerId, status2);
     }
 
     /**
@@ -120,11 +145,24 @@ public class BookingService {
     /**
      * Return Bookings based on User and BookingStatus
      * @param userId id of User
-     * @param status BookingsStatus value (PENDING, COMPLETED, CANCELLED)
+     * @param status BookingsStatus value (PENDING, CONFIRMED, COMPLETED, CANCELLED)
      * @return Collection of Booking entities
      */
     public Collection<Booking> findByUser(@NotNull Long userId, @NotNull Booking.BookingStatus status) {
         return bookingRepository.findAllByUser_IdAndStatus(userId, status);
+    }
+
+    /**
+     * Return Bookings based on User and two BookingStatuses
+     * @param userId id of User
+     * @param status1 BookingStatus value (PENDING, CONFIRMED, COMPLETED, CANCELLED)
+     * @param status2 BookingStatus value (PENDING, CONFIRMED, COMPLETED, CANCELLED)
+     * @return Collection of Booking entities
+     */
+    public Collection<Booking> findByUser(@NotNull Long userId,
+                                          @NotNull Booking.BookingStatus status1,
+                                          @NotNull Booking.BookingStatus status2) {
+        return bookingRepository.findAllByUser_IdAndStatusOrUser_IdAndStatus(userId, status1, userId, status2);
     }
 
     /**
@@ -134,6 +172,16 @@ public class BookingService {
      */
     public Collection<Booking> findByBusiness(@NotNull Long businessId) {
         return bookingRepository.findAllByWorker_Business_Id(businessId);
+    }
+
+    /**
+     * Overloaded method to filter Bookings for a Business by status
+     * @param businessId id of business to search for
+     * @param status status to filter by
+     * @return Collection of Bookings for business with that status value
+     */
+    public Collection<Booking> findByBusiness(@NotNull Long businessId, @NotNull Booking.BookingStatus status) {
+        return bookingRepository.findAllByWorker_Business_IdAndStatus(businessId, status);
     }
 
 

@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,15 @@ public class Hours {
     private LocalTime end;
 
     public Hours() {
+
+    }
+
+    public Hours(DayOfWeek dayOfWeek, Worker worker) {
+        this.id = new HoursPK(worker, dayOfWeek);
+    }
+
+    public Hours(HoursPK hoursPK) {
+        this.id = hoursPK;
     }
 
     public HoursPK getId() {
@@ -80,6 +90,7 @@ public class Hours {
     public static class HoursPK implements Serializable {
         @ManyToOne
         @JoinColumn(name = "worker_id")
+        @JsonIgnoreProperties({"user", "business", "bookings", "createdAt", "updatedAt", "admin"})
         private Worker worker;
         @Column(name = "day_of_week")
         private DayOfWeek dayOfWeek;

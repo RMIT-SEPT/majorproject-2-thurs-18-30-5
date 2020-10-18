@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Hours;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.HoursService;
 import com.rmit.sept.assignment.initial.model.User;
 import com.rmit.sept.assignment.initial.model.Worker;
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -51,6 +55,9 @@ public class HoursControllerTest {
 
     @MockBean
     WorkerService workerService;
+
+    @MockBean
+    AuthRequestService authRequestService;
 
     private Worker worker;
     private List<Hours> hours;
@@ -71,6 +78,9 @@ public class HoursControllerTest {
         Hours h2 = new Hours();
         h2.setId(hoursPK2);
         hours.add(h2);
+
+        when(authRequestService.authWorkerRequest(any(), (Worker) any())).thenReturn(true);
+        when(authRequestService.authWorkerRequest(any(), (Long) any())).thenReturn(true);
     }
 
     @Test
@@ -126,6 +136,41 @@ public class HoursControllerTest {
         when(hoursService.findById(worker, DayOfWeek.FRIDAY)).thenReturn(null);
 
         mockMvc.perform(get("/api/hours/1").param("dayOfWeek", "FRIDAY").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Test getWorkerAvailableHours success")
+    void testGetWorkerAvailableHoursBySuccess() throws Exception {
+        // Mocking service
+        when(workerService.findById(1L)).thenReturn(worker);
+        when(hoursService.findAvailableByWorker(worker, LocalDate.of(2020, 10, 15))).thenReturn(hours);
+
+        mockMvc.perform(get("/api/hours/available/1").param("date", "2020-10-15").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id.dayOfWeek", is(DayOfWeek.FRIDAY.toString())))
+                .andExpect(jsonPath("$[1].id.dayOfWeek", is(DayOfWeek.SATURDAY.toString())));
+    }
+
+    @Test
+    @DisplayName("Test getWorkerAvailableHours fail (null worker)")
+    void testGetWorkerAvailableHoursByFailNullWorker() throws Exception {
+        // Mocking service
+        when(workerService.findById(1L)).thenReturn(null);
+        when(hoursService.findAvailableByWorker(worker, LocalDate.of(2020, 10, 15))).thenReturn(hours);
+
+        mockMvc.perform(get("/api/hours/available/1").param("date", "2020-10-15").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Test getWorkerAvailableHours fail (null hours list)")
+    void testGetWorkerAvailableHoursByFailNullHoursList() throws Exception {
+        // Mocking service
+        when(workerService.findById(1L)).thenReturn(worker);
+        when(hoursService.findAvailableByWorker(worker, LocalDate.of(2020, 10, 15))).thenReturn(null);
+
+        mockMvc.perform(get("/api/hours/available/1").param("date", "2020-10-15").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -206,4 +251,5 @@ public class HoursControllerTest {
         mockMvc.perform(delete("/api/hours/1").contentType(MediaType.APPLICATION_JSON))  // null/missing dayOfWeek
                 .andExpect(status().isBadRequest());
     }
+
 }

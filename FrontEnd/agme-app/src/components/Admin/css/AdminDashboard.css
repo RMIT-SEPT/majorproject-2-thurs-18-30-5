@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.admin-img {
+  width: 100%;
+  height: 100vh;
+  background-image: radial-gradient(rgba(239, 251, 255, 0.6), transparent),
+  url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-036.jpg);
+  background-position: center top;
+  background-size:cover;
+  overflow: auto;
+}
+
+.admin-dashboard {
+  position: relative;
+  top: 120px;
+}
+
+.admin-title {
+  float: left;
+  font-style: normal;
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #000000b4;
+  width: 100%;
+}
+
+.admin-functions {
+  position: relative;
+  top: 210px;
+}
+
+.biz-info {
+  position: absolute;
+  top: 0px;
+  width: 470px;
+  height: 450px;
+
+  border-radius: 30px 30px 30px 30px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+  transition: 0.3s;
+  background-color: #ffffff11;
+  border-color: transparent;
+}
+
+.biz-info:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+  background-color: #ffffff30;
+}
+
+.biz-name {
+  position: relative;
+  top: 30px;
+  left: 40px;
+  width: 390px;
+
+  color: #000000b4;
+  font-style: normal;
+  font-size: 26px;
+  line-height: 24px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.biz-desc {
+  position: relative;
+  top: 50px;
+  left: 40px;
+  
+  width: 390px;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 31px;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  text-align: justify;
+}
+
+.biz-desc-msg {
+  position: relative;
+  top: 50px;
+  left: 40px;
+  text-align: left;
+}
+
+.func-add-worker {
+  position: absolute;
+  top: 0px;
+  left: 910px;
+}
+
+.func-add-business {
+  position: absolute;
+  top: 70px;
+  left: 910px;
+}
+
+.func-upcoming {
+  position: absolute;
+  top: 140px;
+  left: 910px;
+}
+
+.func-past {
+  position: absolute;
+  top: 210px;
+  left: 910px;
+}
+
+.func-btn {
+  float: left;
+  color: #2b00ec;
+  transition: all 0.5s;
+  position: relative;
+
+  width: 13em;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 30px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.func-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(109, 123, 255, 0.2);
+  transition: all 0.3s;
+  border-radius: 16px;
+}
+
+.func-btn:hover::before {
+  opacity: 0;
+  transform: scale(0.5,0.5);
+}
+
+.func-btn:hover {
+  color: #737cff;
+  transition: all 0.3s;
+  letter-spacing: 0.2px;
+}
+
+.func-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border: 1px solid #737cff;
+  border-radius: 16px;
+  transform: scale(1.2,1.2);
+}
+
+.func-btn:hover::after {
+  opacity: 1;
+  transform: scale(1,1);
+}
+
+.func-btn:active {
+  color: #6600ec;
+  border: transparent;
+  border-radius: 16px;
+  transition: linear;
+}
+
+.worker-table {
+  background-color: #ffffff33;
+  border-radius: 15px 15px 15px 15px;
+ 
+  table-layout: fixed;
+  position: absolute;
+  float: left;
+
+  font-style: normal;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+}
+
+.worker-table tr td:last-child {
+  max-width: 5px;
+}
+
+.worker-table-title {
+  position: sticky;
+  top: 0;
+  background-color: rgb(209, 233, 255);
+  border-radius: 15px 15px 15px 15px; 
+  text-indent: 2em;
+
+  color: #000000b4;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.worker-table-item {
+  text-indent: 2em;
+}
+
+.worker-link {
+  color: #00000088;
+}
+
+.worker-link:hover {
+  font-style: italic;
+  color: #0000004b;
+  text-decoration: none;
+}
+
+.worker-table-scroll { 
+  overflow-x: hidden; 
+  overflow-y: auto;
+
+  height: 450px;
+  left: 590px;
+  position: absolute;
+  top: 0px;
+  width: 25%; 
+}
+
+.worker-card {
+  position: absolute;
+  left: 590px;
+  top: 0px;
+  height: 450px;
+  width: 25%; 
+}

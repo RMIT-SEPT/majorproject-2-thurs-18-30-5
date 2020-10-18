@@ -1,6 +1,7 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.Business;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.BusinessService;
 import com.rmit.sept.assignment.initial.service.FieldValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
+
+import static com.rmit.sept.assignment.initial.security.SecurityConstant.*;
 
 /**
  * Business Controller class allows access to retrieve create and update Business Entities. Businesses can have multiple
@@ -21,6 +24,9 @@ import java.util.Collection;
 public class BusinessController {
     @Autowired
     private BusinessService businessService;
+
+    @Autowired
+    private AuthRequestService authService;
 
     @Autowired
     private FieldValidationService validationService;
@@ -72,15 +78,19 @@ public class BusinessController {
      * @return new Business entity if successful otherwise a corresponding FieldError
      */
     @PostMapping("")
-    public ResponseEntity<?> createNewBusiness(@Validated @RequestBody Business business, BindingResult result) {
+    public ResponseEntity<?> createNewBusiness(@Validated @RequestBody Business business,
+                                               @RequestHeader(value = HEADER_NAME, required = false) String token,
+                                               BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            Business business1 = businessService.saveOrUpdateBusiness(business);
-            HttpStatus status = (business1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-            return new ResponseEntity<Business>(business, status);
-        } else {
-            return errors;
+            if (authService.authCreateBusinessRequest(token)) {
+                Business business1 = businessService.saveOrUpdateBusiness(business);
+                HttpStatus status = (business1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+                return new ResponseEntity<Business>(business, status);
+            }
+            return new ResponseEntity<String>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
         }
+        return errors;
     }
 
     /**
@@ -90,18 +100,22 @@ public class BusinessController {
      * @param result field errors/validation based on Business entity
      * @return newly updated Business or null if errors
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateBusiness(@Validated @RequestBody Business business, Long businessId, BindingResult result) {
+    @PutMapping("/{businessId}")
+    public ResponseEntity<?> updateBusiness(@Validated @RequestBody Business business,
+                                            @RequestHeader(value = HEADER_NAME, required = false) String token,
+                                            @PathVariable Long businessId, BindingResult result) {
         ResponseEntity<?> errors = validationService.mapFieldErrors(result);
         if (errors == null) {
-            if (getBusiness(businessId) != null) {
-                Business business1 = businessService.saveOrUpdateBusiness(business);
-                HttpStatus status = (business1 == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-                return new ResponseEntity<Business>(business, status);
+            if (authService.authUpdateBusinessRequest(token, businessId)) {
+                if (businessService.findById(businessId) != null) {
+                    business.setId(businessId);
+                    HttpStatus status = (businessService.saveOrUpdateBusiness(business) == null) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
+                    return new ResponseEntity<Business>(business, status);
+                }
+                return new ResponseEntity<>("Invalid Business ID", HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>("Invalid Business ID", HttpStatus.NOT_FOUND);
-        } else {
-            return errors;
+            return new ResponseEntity<String>("Unauthorised to perform request", HttpStatus.UNAUTHORIZED);
         }
+        return errors;
     }
 }

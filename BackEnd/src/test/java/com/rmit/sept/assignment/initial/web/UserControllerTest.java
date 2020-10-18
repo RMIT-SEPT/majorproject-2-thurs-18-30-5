@@ -1,6 +1,8 @@
 package com.rmit.sept.assignment.initial.web;
 
 import com.rmit.sept.assignment.initial.model.User;
+import com.rmit.sept.assignment.initial.model.Worker;
+import com.rmit.sept.assignment.initial.service.AuthRequestService;
 import com.rmit.sept.assignment.initial.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -43,6 +46,10 @@ public class UserControllerTest {
 
     @MockBean
     UserService userService;
+
+    @MockBean
+    AuthRequestService authRequestService;
+
     /**
      * List of sample users
      */
@@ -57,6 +64,9 @@ public class UserControllerTest {
         users = new ArrayList<>();
         users.add(user1);
         users.add(user2);
+
+        when(authRequestService.authUserRequest(any(), (User) any())).thenReturn(true);
+        when(authRequestService.authUserRequest(any(), (Long) any())).thenReturn(true);
     }
 
     @Test
@@ -117,6 +127,46 @@ public class UserControllerTest {
     @Test
     @DisplayName("Test createNewUser badRequest")
     void testCreateNewUserFail() throws Exception {
+        // Mocking service
+        when(userService.saveOrUpdateUser(null, true)).thenReturn(null);
+
+        String inputJson = "null";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/customer")
+                .accept(MediaType.APPLICATION_JSON).content(inputJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+    }
+
+    @Test
+    @DisplayName("Test updateUser success")
+    void testUpdateUserSuccess() throws Exception {
+        // Mocking service
+        when(userService.saveOrUpdateUser(ArgumentMatchers.any(User.class), ArgumentMatchers.anyBoolean())).thenReturn(users.get(0));
+
+        String inputJson = "{\n" +
+                "    \"id\": 1,\n" +
+                "    \"username\":\"ali123\",\n" +
+                "    \"password\":\"123Qwe!\"\n" +
+                "}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/customer")
+                .accept(MediaType.APPLICATION_JSON).content(inputJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+    }
+
+    @Test
+    @DisplayName("Test updateUser badRequest")
+    void testUpdateUserFail() throws Exception {
         // Mocking service
         when(userService.saveOrUpdateUser(null, true)).thenReturn(null);
 

@@ -5,7 +5,7 @@ orbs:
   node: circleci/node@4.0.0
 
 jobs:
-  build_and_deploy:
+  build-and-push-backend:
     working_directory: ~/majorproject-2-thurs-18-30-5/BackEnd
     docker:
       - image: circleci/openjdk:8-jdk
@@ -60,7 +60,23 @@ jobs:
             eval $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
             docker push $FULL_IMAGE_NAME
 
-  build-frontend:
+  update-backend:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - run:
+          name: Install dependencies for AWS
+          command: |
+            sudo apt-get update
+            sudo apt-get -y -qq install awscli
+            sudo apt-get install python3-pip
+            sudo pip3 install --upgrade awscli
+      - run:
+          name: Update the existing backend service
+          command: |
+              aws ecs update-service --cluster sept-backend-cluster --service update-backend --force-new-deployment
+
+  build-and-push-frontend:
     docker:
       - image: circleci/node:12
 
@@ -69,32 +85,86 @@ jobs:
     steps:
       - checkout:
           path: ~/majorproject-2-thurs-18-30-5
-
+      
+      - setup_remote_docker
+      
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
 
-      - run: npm install
+      - run:
+          name: Install npm
+          command: npm install
+
+      - run:
+          name: Install dependencies for AWS
+          command: |
+            sudo apt-get update
+            sudo apt-get -y -qq install awscli
+            sudo apt-get install python3-pip
+            sudo pip3 install --upgrade awscli
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm test
+      - run: 
+          name: Run test 
+          command: npm run test
+
+      - run:
+          name: Build docker image
+          command: |
+            docker build -f Dockerfile -t agme-app .
+            docker tag agme-app:latest 358949391356.dkr.ecr.us-east-1.amazonaws.com/agme-app:latest
+
+      - run:
+          name: Push docker image
+          command: |
+            $(aws ecr get-login --region us-east-1 --no-include-email)
+            docker push 358949391356.dkr.ecr.us-east-1.amazonaws.com/agme-app:latest
+    
+  update-frontend:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - run:
+          name: Install dependencies for AWS
+          command: |
+            sudo apt-get update
+            sudo apt-get -y -qq install awscli
+            sudo apt-get install python3-pip
+            sudo pip3 install --upgrade awscli
+      - run:
+          name: Update the existing frontend service
+          command: |
+              aws ecs update-service --cluster agme-app-cluster --service agme-app-service --force-new-deployment
 
 workflows:
-  build-deploy-qa:
+  build-backend-qa:
     jobs:
-      - build_and_deploy:
+      - build-and-push-backend:
           filters:
             branches:
-              only: develop
+              only: master
+      - update-backend:
+          requires:
+            - build-and-push-backend
+          filters:
+            branches:
+              only: master
 
   build-frontend-qa:
     jobs:
-      - build-frontend:
+      - build-and-push-frontend:
           filters:
             branches:
-              only: develop
+              only: master
+      - update-frontend:
+          requires:
+            - build-and-push-frontend
+          filters:
+            branches:
+              only: master

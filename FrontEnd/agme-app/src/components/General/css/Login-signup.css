@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+body {
+  background: #ffffff !important;
+  min-height: 100vh;
+  display: flex;
+  font-weight: 400;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.img-bg {
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(to left, transparent, rgba(136, 62, 155, 0.267)),
+  url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-036.jpg);
+  background-position: center top;
+  background-size: cover;
+  overflow: auto;
+}
+
+h3, label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+body, html, .App, #root, .auth-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.navbar-light {
+  background-color:transparent;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+}
+
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: left;
+}
+
+.auth-inner {
+  width: 450px;
+  margin: auto;
+  background: #ffffff71;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 15px;
+  transition: all .3s;
+
+  position: relative;
+  top: 10px;
+}
+
+.forgot-pwd {
+  text-align: center;
+  position: relative;
+  top: 25px;
+}
+
+.forgot-pwd-option {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: -0.3px;
+  color: #3700fc91;
+}
+
+.forgot-pwd-option:hover {
+  font-style: italic;
+  color: #3700fc6e;
+}
+
+.form-input {
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgba(255, 255, 255, 0.788);
+  border-style: none;
+  border-radius: 18px;
+  letter-spacing: -0.3px;
+  text-indent: 10px;
+}
+
+.form-input:hover {
+  border: 2px solid rgb(156, 199, 255);
+}
+
+.form-input::placeholder {
+  font-weight: 300;
+  font-size: 14px;
+  padding: 1px;
+  color: #b3b3b3;
+}
+
+.auth-wrapper {
+  border-color: #c090ff;
+  box-shadow: none;
+}
+
+.auth-wrapper h3 {
+  text-align: center;
+  margin: 0;
+  line-height: 1;
+  padding-bottom: 20px;
+}
+
+.custom-control-label {
+  font-weight: 400;
+}
+
+.submit-button {
+  text-align: center;
+  position: relative;
+  top: 15px;
+}
+
+.submit {
+  color: #3700fc;
+  transition: all 0.3s;
+  position: relative;
+  padding: 10px 24px;
+  width: 10em;
+  letter-spacing: -0.5px;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.submit span {
+  transition: all 0.3s;
+}
+
+.submit::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-top-color: #0084ff;
+  border-bottom-color: #0084ff;
+  transform: scale(0.1, 1);
+}
+
+.submit:hover span {
+  letter-spacing: 2px;
+}
+
+.submit:hover {
+  color: #0084ff;
+  letter-spacing: 0.5px;
+}
+
+.submit:hover::before {
+  opacity: 1; 
+  transform: scale(1, 1); 
+}
+
+.submit::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+  background-color: rgba(4, 0, 231, 0.1);
+}
+
+.submit:hover::after {
+  opacity: 0; 
+  transform: scale(0.1, 1);
+}
+
+.submit:active {
+  color: #3700fc;
+}
