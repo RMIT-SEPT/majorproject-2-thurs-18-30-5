@@ -35,14 +35,14 @@ In order to deploy the backend AWS resources will need to be configured:
 - create a new RDS instance for the project
   - for our project, given budget constraints, we used a free-tier MySQL RDS instance
 - create a new ECR for the backend project, as per course guides
-- create a new ECS Cluster for deployment of backend containers: LINK TO TUTORIAL
+- create a new ECS Cluster for deployment of backend containers: [Guide](https://aws.amazon.com/premiumsupport/knowledge-center/ecs-tasks-pull-images-ecr-repository/)
 - create a new ECS service to update EC2 instances: LINK TO TUTORIAL
 
 For the RDS Instance, ensure that the inbound security group rules allow for access from all addresses as follows:
 IMAGE
 
 For the backend EC2 instance, ensure that the inbound security group rules allow for access from all addresses as follows:
-IMAGE
+![EC2 Security Inbount Rules](/docs/README_screenshots/ec2_security_group.png)
 
 After these have been created, environment variables will needed to be added to the CircleCI project
 - AWS Access Key ID
@@ -57,5 +57,5 @@ Once a developer commits or merges into master, the new container will be pushed
 ### Run
 To run the dockerised backend service locally, you can run `docker run -p 8080:8080 -t container_name`
 
-In order to access the deployed instance, simply navigate to the EC2 Instance panel and access the backend via the Ipv4 link
-IMAGE
+In order to access the deployed instance, simply navigate to the EC2 Instance panel and access the backend via the IPv4 link
+![EC2 Link](/docs/README_screenshots/ec2_link.png)
