@@ -22,7 +22,43 @@
 
 
 ## Instructions
+
+
 ### Frontend
+#### Build
+`npm run test` if testing the frontend project
+  or 
+`docker build .` to test the dockerised backend project
+
+#### Deploy
+In order to enable CICD, the project will need to be setup with CircleCI:
+- initalise project with CircleCI
+
+In order to deploy the frontend AWS resources will need to be configured ([Guide](https://www.bogotobogo.com/DevOps/DevOps-ECS-ECR.php)):
+- creata a new ECR for the frontend project
+- create a task definition
+- create a new ECS Cluster for deployment of frontend containers
+- create a new ECS Service to update EC2 instances
+
+For the frontend EC2 instance, ensure that the inbound security group rules allow for access from all addresses as follows:
+![EC2 FE Security Inbound Rules](docs/README_screenshots/ec2_fe_security_group.png)
+
+After these have been created, environment variables will needed to be added to the CircleCI project
+- AWS Access Key ID
+- AWS Secret Access Key
+- AWS Session Token
+![Frontend CircleCI Env Variables](/docs/README_screenshots/frontend_ci_env.png)
+
+Once a developer commits or merges into master, the new container will be pushed to AWS and deployed to the EC2 instance.
+![Frontend CircleCI Push](/docs/README_screenshots/frontend_ci_build.png)
+![Frontend CircleCI Update](/docs/README_screenshots/frontend_ci_update.png)
+
+#### Run
+To run the dockerised frontend web app locally, you can run `docker run -it --rm -p 1337:8080 agme-app`
+
+In order to access the deployed instance, simply navigate to the EC2 Instance panel and access the frontend via the IPv4 link
+![EC2 Link](/docs/README_screenshots/fe_ec2_link.png)
+
 ### Backend
 #### Build
 `mvn package` if testing the backend project
