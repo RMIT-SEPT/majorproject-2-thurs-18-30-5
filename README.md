@@ -28,7 +28,7 @@
 #### Build
 `npm run test` if testing the frontend project
   or 
-`docker build .` to test the dockerised backend project
+`docker build -f Dockerfile -t agme-app:prod .` to test the dockerised frontend project
 
 #### Deploy
 In order to enable CICD, the project will need to be setup with CircleCI:
@@ -54,7 +54,7 @@ Once a developer commits or merges into master, the new container will be pushed
 ![Frontend CircleCI Update](/docs/README_screenshots/frontend_ci_update.png)
 
 #### Run
-To run the dockerised frontend web app locally, you can run `docker run -it --rm -p 1337:8080 agme-app`
+To run the dockerised frontend web app locally, you can run `docker run -it --rm -p 1337:8080 agme-app:prod`
 
 In order to access the deployed instance, simply navigate to the EC2 Instance panel and access the frontend via the IPv4 link
 ![EC2 Link](/docs/README_screenshots/fe_ec2_link.png)
