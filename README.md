@@ -58,6 +58,8 @@ After these have been created, environment variables will needed to be added to 
 ![Backend CircleCI Env Variables](/docs/README_screenshots/backend_ci_env.png)
 
 Once a developer commits or merges into master, the new container will be pushed to AWS and deployed to the EC2 instance.
+![Backend CircleCI Push](/docs/README_screenshots/backend_ci_build.png)
+![Backend CircleCI Update](/docs/README_screenshots/backend_ci_update.png)
 
 #### Run
 To run the dockerised backend service locally, you can run `docker run -p 8080:8080 -t container_name`
