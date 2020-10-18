@@ -148,23 +148,23 @@ workflows:
       - build-and-push-backend:
           filters:
             branches:
-              only: feature/backend-cd
+              only: master
       - update-backend:
           requires:
             - build-and-push-backend
           filters:
             branches:
-              only: feature/backend-cd
+              only: master
 
   build-frontend-qa:
     jobs:
       - build-and-push-frontend:
           filters:
             branches:
-              only: feature/frontend-cd
+              only: master
       - update-frontend:
           requires:
             - build-and-push-frontend
           filters:
             branches:
-              only: feature/frontend-cd
+              only: master
