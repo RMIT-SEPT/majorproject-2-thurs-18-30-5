@@ -32,7 +32,7 @@
 
 #### Deploy
 In order to enable CICD, the project will need to be setup with CircleCI:
-- initalise project with CircleCI
+- initialise project with CircleCI
 
 In order to deploy the frontend AWS resources will need to be configured ([Guide](https://www.bogotobogo.com/DevOps/DevOps-ECS-ECR.php)):
 - creata a new ECR for the frontend project
@@ -67,7 +67,7 @@ In order to access the deployed instance, simply navigate to the EC2 Instance pa
 
 #### Deploy
 In order to enable CICD, the project will need to be setup with CircleCI:
-- initalise project with CircleCI
+- initialise project with CircleCI
 
 In order to deploy the backend AWS resources will need to be configured:
 - create a new RDS instance for the project
