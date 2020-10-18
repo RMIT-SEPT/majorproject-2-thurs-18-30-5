@@ -123,7 +123,6 @@ public class WorkerControllerTest {
     void testAuthenticateWorkerFail() throws Exception {
         // Mocking service
         when(workerService.authenticateWorker(3L, "randomPass", false)).thenReturn(null);
-
         mockMvc.perform(get("/api/worker/auth/id/3").param("password", "randomPass")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
