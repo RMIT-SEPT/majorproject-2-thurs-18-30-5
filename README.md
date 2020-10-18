@@ -55,6 +55,7 @@ After these have been created, environment variables will needed to be added to 
 - AWS Resource Name Prefix: this is the name of the ECR instance
 - AWS Secret Access Key
 - AWS Session Token
+![Backend CircleCI Env Variables](/docs/README_screenshots/backend_ci_env.png)
 
 Once a developer commits or merges into master, the new container will be pushed to AWS and deployed to the EC2 instance.
 
